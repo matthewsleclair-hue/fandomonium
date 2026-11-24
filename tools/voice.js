@@ -38,8 +38,8 @@ function config() {
   const file = path.join(DIR, 'voice.json');
   const saved = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {};
   const cfg = {
-    // George, the voice in ElevenLabs' own examples. Pick your own with --voices.
-    voice: process.env.ELEVENLABS_VOICE_ID || saved.voice || 'JBFqnCBsd6RMkjVDRZzb',
+    // Max's voice, picked from the ElevenLabs voice library. List yours with --voices.
+    voice: process.env.ELEVENLABS_VOICE_ID || saved.voice || 'ujcXHLWtGPYXnqBoMBgg',
     model: process.env.ELEVENLABS_MODEL || saved.model || 'eleven_multilingual_v2',
     // Lower stability and some style make for a livelier, snarkier read.
     settings: saved.settings || { stability: 0.35, similarity_boost: 0.8, style: 0.4, use_speaker_boost: true },
@@ -111,14 +111,21 @@ async function main() {
   try {
     await Promise.all([worker(), worker()]);
   } finally {
-    // Save whatever was recorded, so a run cut short by the quota can pick up where it stopped.
+    // Save whatever was recorded, so a run cut short (say, by the quota) picks up where it stopped.
     const have = Object.fromEntries(Object.entries(want).filter(([, f]) => fs.existsSync(path.join(DIR, f))));
-    fs.writeFileSync(path.join(DIR, 'manifest.json'), JSON.stringify(have, null, 1) + '\n');
+    const complete = Object.keys(have).length === all.length;
+    const manifestFile = path.join(DIR, 'manifest.json');
+    const old = fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, 'utf8')) : {};
+    // Until every line is re-recorded, lines still waiting keep their old clip rather than going silent.
+    const map = complete ? have : Object.fromEntries(all.map((t) => [t, have[t] || old[t]]).filter(([, f]) => f && fs.existsSync(path.join(DIR, f))));
+    fs.writeFileSync(manifestFile, JSON.stringify(map, null, 1) + '\n');
     fs.writeFileSync(file, JSON.stringify(cfg, null, 1) + '\n');
-    // Clips for lines that were removed or recorded with an older voice.
-    const keep = new Set(Object.values(want));
-    for (const f of fs.readdirSync(DIR)) if (f.endsWith('.mp3') && !keep.has(f)) fs.unlinkSync(path.join(DIR, f));
-    console.log(`${Object.keys(have).length} of ${all.length} lines have a clip.`);
+    // Once complete, drop clips for removed lines or an older voice.
+    if (complete) {
+      const keep = new Set(Object.values(want));
+      for (const f of fs.readdirSync(DIR)) if (f.endsWith('.mp3') && !keep.has(f)) fs.unlinkSync(path.join(DIR, f));
+    }
+    console.log(`${Object.keys(have).length} of ${all.length} lines recorded with this voice${complete ? '' : '; run again to finish'}.`);
   }
 }
 
