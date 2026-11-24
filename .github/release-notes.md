@@ -1,13 +1,9 @@
 Movie, TV and anime trivia for 2 to 4 teams around one screen: 741 questions across 14 fandoms, with phones as controllers.
 
-**New in 1.3: meet Max**
-- **Max, your host.** A snarky game show host who opens every round and roasts wrong, slow and timed-out answers, with jokes for each fandom. He talks, too, with a voice made in ElevenLabs, and works offline.
-- **Screw your neighbour.** Once per game, scramble a rival's question or slash their timer to 6 seconds. Tap the bomb on your ticket, or use your phone.
-- **The Final Gauntlet.** The show now ends with 8 quick Dis-or-Dat calls (Jedi or Sith? Pixar or DreamWorks?) at double points, with every team answering at once.
-- **A title screen** with How to play, and setup split into four screens: Teams, Fandoms, Difficulty and House rules.
-- Screen shake on wrong answers, and a jingle when each round starts.
-
-Every extra can be switched off under House rules.
+**New in 1.4: Max talks**
+- **Max has a voice.** Every one of his 111 lines is now spoken out loud, recorded in ElevenLabs' Callum voice. It's built into the app, so it works offline.
+- **A "Max's voice" switch** under House rules. Turn it off to keep Max on screen but silent.
+- The curtains wait for Max to finish his line before they open, and his name badge pulses while he talks. The mute button silences him too.
 
 **Download `Fandomonium.exe` below**, then double-click it to play. Nothing to install.
 

@@ -2,9 +2,15 @@ name: Windows build
 
 # Publish a release on GitHub (Releases > Draft a new release, tag like v1.1.0)
 # and this builds Fandomonium.exe on Windows and attaches it to that release.
+# If a release ever ends up without its .exe, run this by hand (Actions > Windows build > Run workflow) with its tag.
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to build and attach the .exe to (for example v1.4.0)
+        required: true
 
 permissions:
   contents: write
@@ -14,6 +20,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -24,7 +32,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
         run: |
           gh release upload "$TAG" release/Fandomonium.exe --clobber
           if [ -z "$(gh release view "$TAG" --json body -q .body)" ]; then

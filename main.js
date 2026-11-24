@@ -63,6 +63,12 @@ function createWindow() {
         await win.webContents.capturePage().then((img) =>
           require('fs').writeFileSync(process.env.FS_SMOKE, img.toPNG())
         );
+        // FS_SMOKE_AUDIO=<clip file> also checks that a voice clip loads from inside the packaged app.
+        if (process.env.FS_SMOKE_AUDIO) {
+          info.audio = await win.webContents.executeJavaScript(
+            `new Promise((r)=>{const a=new Audio('voice/${process.env.FS_SMOKE_AUDIO}');a.oncanplaythrough=()=>r('ok '+a.duration.toFixed(1)+'s');a.onerror=()=>r('error '+(a.error&&a.error.code));setTimeout(()=>r('timeout'),6000);})`
+          );
+        }
         console.log('SMOKE', JSON.stringify({ ...info, errs }));
         app.quit();
       }, 3500);
