@@ -70,7 +70,7 @@ npm run site     # build the website into site/
 | `main.js` | The Electron window for the Windows app |
 | `build-web.js`, `build-site.js` | Inline the fonts and questions, assemble the site |
 
-Pushing to `main` rebuilds and deploys the website. Pushing a tag like `v1.1.0` builds `Fandomonium.exe` on Windows and attaches it to a GitHub release.
+Pushing to `main` rebuilds and deploys the website. Publishing a release on GitHub (Releases, then Draft a new release, with a tag like `v1.1.0`) builds `Fandomonium.exe` on Windows and attaches it to that release.
 
 ## Notes
 
