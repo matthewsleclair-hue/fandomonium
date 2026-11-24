@@ -1,0 +1,58 @@
+name: Max's voice
+
+# Records Max the host's lines with ElevenLabs and commits the clips.
+# Needs a repository secret named ELEVENLABS_API_KEY (Settings > Secrets and variables > Actions).
+# Runs by hand (Actions > Max's voice > Run workflow), and by itself whenever src/show.js changes.
+on:
+  workflow_dispatch:
+    inputs:
+      voice_id:
+        description: ElevenLabs voice ID (leave empty to keep the current voice)
+        required: false
+        default: ''
+  push:
+    branches: [main]
+    paths: ['src/show.js']
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: voice
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Record missing lines
+        id: rec
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE_ID: ${{ inputs.voice_id }}
+        run: |
+          if [ -z "$ELEVENLABS_API_KEY" ]; then
+            echo "::warning::No ELEVENLABS_API_KEY secret yet, so Max stays silent. Add it under Settings > Secrets and variables > Actions."
+            exit 0
+          fi
+          node tools/voice.js
+      # Commit even after a partial run (for example when the quota runs out), so nothing recorded is lost.
+      - name: Commit the clips and redeploy the website
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add -A src/voice
+          if git diff --cached --quiet; then echo "No new clips."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Record Max's lines"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          gh workflow run pages.yml --ref main

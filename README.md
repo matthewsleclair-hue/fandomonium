@@ -66,6 +66,28 @@ The show ends with the **Final Gauntlet**, a Dis-or-Dat round at double points. 
 
 ![The Final Gauntlet](docs/screenshots/gauntlet.webp)
 
+## Max's voice
+
+Max can say his lines out loud with an [ElevenLabs](https://elevenlabs.io) voice. Each line is recorded once and saved in `src/voice/`, so the game itself never calls ElevenLabs and the voice works offline. All 111 lines come to about 4,700 characters. Until the clips exist, Max just stays silent and the **Max's voice** switch doesn't appear.
+
+To record them on GitHub (nothing to install):
+
+1. In ElevenLabs, create an API key with text-to-speech access.
+2. In this repo, go to **Settings > Secrets and variables > Actions > New repository secret**. Name it `ELEVENLABS_API_KEY` and paste the key.
+3. Go to **Actions > Max's voice > Run workflow**. Leave the voice ID empty for the default voice, or paste the ID of any voice from your ElevenLabs voice library.
+
+The workflow records any lines that don't have a clip yet, commits them, and redeploys the website. After that, it runs by itself whenever `src/show.js` changes, so new lines get a voice and changed ones get re-recorded. Changing the voice ID records every line again in the new voice. The Windows app gets the voice in the next release.
+
+To record on your own computer instead:
+
+```
+ELEVENLABS_API_KEY=your-key node tools/voice.js --voices   # list your voices
+ELEVENLABS_API_KEY=your-key ELEVENLABS_VOICE_ID=voice-id node tools/voice.js
+node tools/voice.js --check                                # what's left to record
+```
+
+Lines that mention a team name or a number are written as `["shown text", "spoken text"]` in `src/show.js`, so the recording works for any team.
+
 ## Controls
 
 | Key | What it does |
@@ -124,6 +146,7 @@ To test phones without the internet, run a local relay with `node test/broker.js
 | `src/bank.js` | Every question |
 | `src/cats.js` | The fandom list: names, colours, icons, groups |
 | `src/show.js` | Max the host's lines and the Final Gauntlet sets |
+| `src/voice/` | Max's recorded lines, made by `tools/voice.js` |
 | `src/join.html` | The phone controller |
 | `src/net.js` | The realtime relay connection shared by the TV and phones |
 | `site-src/index.html` | The website's landing page |

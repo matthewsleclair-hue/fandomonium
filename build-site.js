@@ -26,6 +26,7 @@ fs.mkdirSync(R('site/play'), { recursive: true });
 fs.writeFileSync(R('site/play/index.html'), fs.readFileSync(R('web/index.html'), 'utf8').replace('<title>Fandomonium</title>', '<title>Fandomonium</title>\n<link rel="icon" href="../icon.png">'));
 fs.mkdirSync(R('site/join'), { recursive: true });
 fs.copyFileSync(R('web/join.html'), R('site/join/index.html'));
+fs.cpSync(R('web/voice'), R('site/play/voice'), { recursive: true });
 copy('icon.png', 'site/icon.png');
 copy('node_modules/@fontsource/bungee/files/bungee-latin-400-normal.woff2', 'site/fonts/bungee.woff2');
 copy('node_modules/@fontsource-variable/rubik/files/rubik-latin-wght-normal.woff2', 'site/fonts/rubik.woff2');

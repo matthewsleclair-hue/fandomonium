@@ -332,6 +332,8 @@ h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--mut)}
 .mxc b{background:var(--but);color:var(--v1);text-shadow:none}
 .end .mx{order:0;display:block;max-width:52ch;text-align:center}
 .end .mx b{display:inline-block;margin-right:8px;vertical-align:2px}
+.maxtalk .mx b,.maxtalk .mxc b{animation:talk .42s ease-in-out infinite alternate}
+@keyframes talk{from{transform:translateY(-1px) scale(1)}to{transform:translateY(-1px) scale(1.14)}}
 .frame.shake{animation:jolt .45s cubic-bezier(.36,.07,.19,.97)}
 @keyframes jolt{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(4px,-1px)}30%,50%,70%{transform:translate(-8px,2px) rotate(-.5deg)}40%,60%{transform:translate(8px,-2px) rotate(.5deg)}}
 .dod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) minmax(0,1fr);gap:14px;margin:0 0 18px}
@@ -398,6 +400,7 @@ h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--mut)}
 /*BANK*/
 /*CATS*/
 /*SHOW*/
+/*VOICE*/
 const ICON=Object.assign({check:'<path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',crown:'<path d="M3 18 2 7l5.5 4L12 4l4.5 7L22 7l-1 11z" fill="currentColor"/>'},FICON);
 const TROPHY='<svg class="trophy" viewBox="0 0 120 120" aria-hidden="true"><path d="M30 14h60v20c0 22-12 38-30 40-18-2-30-18-30-40z" fill="#ffc81f"/><path d="M60 74c-18-2-30-18-30-40V14h14v22c0 20 7 33 16 38z" fill="#ffe27a"/><path d="M30 22H14c0 18 8 28 20 30M90 22h16c0 18-8 28-20 30" fill="none" stroke="#e0a516" stroke-width="7" stroke-linecap="round"/><rect x="52" y="72" width="16" height="16" fill="#e0a516"/><rect x="36" y="88" width="48" height="12" rx="3" fill="#7a0d1e"/><rect x="30" y="100" width="60" height="10" rx="3" fill="#4c0711"/><path d="m60 30 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z" fill="#fff6cf"/></svg>';
 const SND_ON='<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Sound on</span>';
@@ -466,11 +469,23 @@ function sndBtn(){const b=$("#sndB");b.innerHTML=muted?SND_OFF:SND_ON;b.setAttri
 
 /* ---------- host ---------- */
 const QL={};
-function line(arr,mem,vars){if(!S.host||!arr||!arr.length)return "";let n=rand(arr.length);if(arr.length>1&&QL[mem]===n)n=(n+1)%arr.length;QL[mem]=n;return arr[n].replace(/\{(\w)\}/g,(m,k)=>vars&&vars[k]!=null?vars[k]:"");}
+const VK=new Map();// shown line -> the spoken line it was recorded as
+function line(arr,mem,vars){if(!S.host||!arr||!arr.length)return "";let n=rand(arr.length);if(arr.length>1&&QL[mem]===n)n=(n+1)%arr.length;QL[mem]=n;
+ const e=arr[n],shown=(Array.isArray(e)?e[0]:e).replace(/\{(\w)\}/g,(m,k)=>vars&&vars[k]!=null?vars[k]:"");VK.set(shown,Array.isArray(e)?e[1]:e);return shown;}
+// Max's recorded voice: one clip per line, made by tools/voice.js. Missing clips just stay silent.
+let voiceEl=null;
+function hush(){if(voiceEl){try{voiceEl.pause();}catch(e){}voiceEl=null;}document.body.classList.remove("maxtalk");}
+function speak(text){if(!text)return null;const f=VOICE[VK.get(text)];if(!f||muted||!S.voice)return null;hush();
+ try{const a=new Audio("voice/"+f);voiceEl=a;const off=()=>{if(voiceEl===a){voiceEl=null;document.body.classList.remove("maxtalk");}};
+  a.addEventListener("playing",()=>{if(voiceEl===a)document.body.classList.add("maxtalk");});a.addEventListener("ended",off);a.addEventListener("error",off);
+  const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{off();a.dispatchEvent(new Event("error"));});return a;}catch(e){return null;}}
+// Wait at least base ms, and until Max finishes his line if he's saying one (12 s at most).
+function hold(seq,a,base,fn){seq.t=setTimeout(fn,a?12000:base);if(!a)return;const t0=performance.now();
+ const go=()=>{clearTimeout(seq.t);seq.t=setTimeout(fn,Math.max(250,base-(performance.now()-t0)));};a.addEventListener("ended",go,{once:true});a.addEventListener("error",go,{once:true});}
 const quip=(key,vars)=>line(HOST[key],key,vars);
 // Wrong answers sometimes get a roast about that fandom instead of the general ones.
 const roast=(cat,vars,key)=>HOST.fan[cat]&&Math.random()<.45?line(HOST.fan[cat],"f"+cat,vars):quip(key||"wrong",vars);
-const mxh=l=>l?`<div class="mx"><b>Max</b><span>${esc(l)}</span></div>`:"";
+const mxh=l=>{if(!l)return "";speak(l);return `<div class="mx"><b>Max</b><span>${esc(l)}</span></div>`;};
 function shake(){if(reduced())return;const f=$("#frame");f.classList.remove("shake");void f.offsetWidth;f.classList.add("shake");}
 $("#frame").addEventListener("animationend",e=>{if(e.animationName==="jolt")e.currentTarget.classList.remove("shake");});
 
@@ -486,7 +501,7 @@ const later=(fn,ms)=>{timers.push(setTimeout(fn,ms));};
 const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
 
 /* ---------- state ---------- */
-const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5,diff:"2",phones:false,steals:true,host:true,sab:true,catsV:2},store.get("fs-set",{}));
+const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5,diff:"2",phones:false,steals:true,host:true,sab:true,voice:true,catsV:2},store.get("fs-set",{}));
 if(set.catsV!==2){Object.keys(CATS).forEach(k=>{if(!["hp","mcu","sw","dis","lotr"].includes(k)&&!set.cats.includes(k))set.cats.push(k);});set.catsV=2;}
 set.cats=set.cats.filter(k=>CATS[k]);if(set.steals===undefined)set.steals=true;
 let S={screen:"setup",cats:set.cats};
@@ -539,18 +554,18 @@ function curtains(lines,done){const c=$("#curt"),tx=$("#ctext"),was=c.classList.
  const step=()=>{if(cseq!==seq)return;clearTimeout(seq.t);
   if(seq.i>=lines.length){cseq=null;if(done)done();requestAnimationFrame(()=>requestAnimationFrame(()=>{if(!cseq){c.classList.remove("shut");sfx.curtain();}}));return;}
   const [a,b,col,h]=lines[seq.i++];tx.innerHTML=`<div><div class="ln"${col?` style="color:${col}"`:""}>${esc(a)}${b?`<small>${esc(b)}</small>`:""}</div>${h?`<p class="mxc"><b>Max</b><span>${esc(h)}</span></p>`:""}</div>`;
-  seq.t=setTimeout(step,(seq.i===1&&!was?1700:1300)+(h?1100:0));};
+  hold(seq,h?speak(h):null,(seq.i===1&&!was?1700:1300)+(h?1100:0),step);};
  seq.skip=step;
  if(was&&!lines.length)step();else if(was)step();else seq.t=setTimeout(step,0);}
 function banner(l,done){const b=$("#banner"),[a,s,col,h]=l,seq={};bseq=seq;
  b.innerHTML=`<div><div class="ln" style="color:${col}">${esc(a)}${s?`<small>${esc(s)}</small>`:""}</div>${h?`<p class="mxc"><b>Max</b><span>${esc(h)}</span></p>`:""}</div>`;b.className="banner";b.hidden=false;sfx.whoosh();
  const fin=()=>{if(bseq!==seq)return;bseq=null;clearTimeout(seq.t);b.classList.add("out");done();setTimeout(()=>{if(!bseq)b.hidden=true;},380);};
- seq.skip=fin;seq.t=setTimeout(fin,1350+(h?1000:0));}
+ seq.skip=fin;hold(seq,h?speak(h):null,1350+(h?1000:0),fin);}
 $("#curt").addEventListener("click",()=>{if(cseq)cseq.skip();});
 $("#banner").addEventListener("click",()=>{if(bseq)bseq.skip();});
 
 /* ---------- setup ---------- */
-function reset(screen){stopClock();clearTimers();cur=null;cseq=null;bseq=null;$("#banner").hidden=true;$("#modal").hidden=true;S={screen,cats:set.cats,host:!!set.host};hist=[];$("#buzzers").hidden=true;ticketsUpd();}
+function reset(screen){stopClock();clearTimers();hush();cur=null;cseq=null;bseq=null;$("#banner").hidden=true;$("#modal").hidden=true;S={screen,cats:set.cats,host:!!set.host,voice:!!set.voice};hist=[];$("#buzzers").hidden=true;ticketsUpd();}
 const FANS=()=>Object.entries(CATS).map(([k,c],i)=>`<span style="--c:${c.c};--d:${i}" title="${esc(c.n)}">${ico(c.i)}</span>`).join("");
 function intro(){reset("intro");const nq=POOL.turn.length+POOL.all.length,nf=Object.keys(CATS).length,h=quip("first");
  setScreen(`<div class="intro">
@@ -585,7 +600,7 @@ function setup(step){const from=S.screen==="setup"?sStep:-1;reset("setup");sStep
 function drawSetup(){const has=id=>document.getElementById(id);
  if(has("tl")){$("#tl").innerHTML=set.teams.map((n,i)=>`<div class="trow" style="--c:${COLORS[i]}"><input id="tn${i}" data-i="${i}" value="${esc(n)}" maxlength="22" aria-label="Team ${i+1} name"><span class="key" title="Buzz key">${KEYS[i]}</span>${set.teams.length>2?`<button class="x" data-a="rm" data-v="${i}" aria-label="Remove team ${i+1}">×</button>`:""}</div>`).join("");
   $("#addT").hidden=set.teams.length>=4;}
- if(has("rules"))$("#rules").innerHTML=[["ph",set.phones,"Play with phones","Everyone joins from their phone’s browser with a room code. Needs internet."],["st",set.steals,"Steals","A missed question goes up for grabs. First to buzz steals it for half points."],["sabT",set.sab,"Screw your neighbour","Once per game, scramble a rival’s question or slash their timer."],["hostT",set.host,"Snarky host","Max introduces each round and roasts your answers."]]
+ if(has("rules"))$("#rules").innerHTML=[["ph",set.phones,"Play with phones","Everyone joins from their phone’s browser with a room code. Needs internet."],["st",set.steals,"Steals","A missed question goes up for grabs. First to buzz steals it for half points."],["sabT",set.sab,"Screw your neighbour","Once per game, scramble a rival’s question or slash their timer."],["hostT",set.host,"Snarky host","Max introduces each round and roasts your answers."]].concat(Object.keys(VOICE).length?[["voiceT",set.voice&&set.host,"Max’s voice","Max says his lines out loud. Needs Snarky host and sound on."]]:[])
   .map(([a,on,b,sm])=>`<button class="switch" data-a="${a}" aria-pressed="${!!on}"><span class="track"></span><span><b>${b}</b><small>${sm}</small></span></button>`).join("");
  if(has("cl")){$("#cl").innerHTML=[...new Set(Object.values(CATS).map(c=>c.g))].map(g=>`<p class="grp">${esc(g)}</p><div class="cats">${Object.entries(CATS).filter(([,c])=>c.g===g).map(([k,c])=>`<button class="cat" style="--c:${c.c}" data-a="cat" data-v="${k}" aria-pressed="${set.cats.includes(k)}"><span class="ic">${ico(c.i)}</span>${esc(c.n)}<span class="ck">${ico("check")}</span></button>`).join("")}</div>`).join("");
   $("#fcount").textContent=`${set.cats.length} of ${Object.keys(CATS).length} picked`;}
@@ -682,7 +697,7 @@ function sabotage(i,kind){const c=cur;if(!sabOpen(i))return;S.sab[i]=false;c.sab
  else{c.scr=true;c.sq=scrambleText(c.q.q);if(c.ch)c.sch=c.ch.map(scrambleText);if(c.items)c.sitems=c.items.map(scrambleText);paintQ(c);}
  const h=quip("sab",{o:by.name,t:vic.name}),tag=document.createElement("div");tag.className="sabtag";tag.style.setProperty("--c",by.color);
  tag.innerHTML=`<b>${kind==="rush"?"Timer slashed":"Scrambled"} by ${esc(by.name)}!</b>${h?`<span>${esc(h)}</span>`:""}`;
- const qh=$("#screen .qh");if(qh)qh.after(tag);
+ const qh=$("#screen .qh");if(qh)qh.after(tag);speak(h);
  sfx.sab();flash(by.color);shake();ticketsUpd();sync();}
 function sabAsk(i){if(!sabOpen(i))return;pauseClock();const m=$("#modal");m.hidden=false;m.dataset.kind="sab";
  m.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mh"><h2 id="mh">Screw your neighbour</h2><p style="margin:0">${esc(S.teams[i].name)} messes with ${esc(S.teams[cur.team].name)}. One use per game.</p><div><button class="next" data-a="sabK" data-v="${i}:scr">Scramble it</button><button class="next" data-a="sabK" data-v="${i}:rush">Slash the timer</button></div><div><button class="ghost" data-a="quitN">Never mind</button></div></div>`;
@@ -943,7 +958,7 @@ const ACT={
  diff:v=>{set.diff=String(v);saveSet();drawSetup();},
  ph:()=>{set.phones=!set.phones;saveSet();drawSetup();},
  go:()=>{if(!set.cats.length){toast("Pick at least one fandom");setup(1);return;}unlock();
-  S={screen:set.phones?"lobby":"play",teams:set.teams.map((n,i)=>({name:String(n).trim()||"Team "+(i+1),color:COLORS[i],score:0,shown:0})),rounds:set.rounds,round:0,step:0,cats:set.cats.slice(),diff:String(set.diff),steals:!!set.steals,host:!!set.host,sabOn:!!set.sab,sab:set.teams.map(()=>true)};hist=[];cur=null;
+  S={screen:set.phones?"lobby":"play",teams:set.teams.map((n,i)=>({name:String(n).trim()||"Team "+(i+1),color:COLORS[i],score:0,shown:0})),rounds:set.rounds,round:0,step:0,cats:set.cats.slice(),diff:String(set.diff),steals:!!set.steals,host:!!set.host,voice:!!set.voice,sabOn:!!set.sab,sab:set.teams.map(()=>true)};hist=[];cur=null;
   if(set.phones)lobby();else{phonesStop();ticketsBuild();play();}},
  lobbyGo:()=>{if(S.screen!=="lobby")return;S.screen="play";Object.values(PH.players).forEach(p=>{if(!validTeam(p.team))p.team=emptiest();});ticketsBuild();play();},
  retry:()=>{PH.status="off";phonesStart();},
@@ -965,6 +980,7 @@ const ACT={
  st:()=>{set.steals=!set.steals;saveSet();drawSetup();},
  sabT:()=>{set.sab=!set.sab;saveSet();drawSetup();},
  hostT:()=>{set.host=!set.host;saveSet();drawSetup();},
+ voiceT:()=>{if(!set.host){set.host=true;set.voice=true;}else set.voice=!set.voice;saveSet();drawSetup();},
  sab:v=>sabAsk(+v),
  sabK:v=>{const [i,k]=String(v).split(":");$("#modal").hidden=true;resumeClock();sabotage(+i,k==="rush"?"rush":"scr");},
  gstart:()=>gStart(),
@@ -976,7 +992,7 @@ const ACT={
  yes:()=>{if(cur&&cur.phase==="judge")apFinish(cur.buzzed);},
  no:()=>{if(cur&&cur.phase==="judge")apFinish(null,`Not it, ${S.teams[cur.buzzed].name}. `);},
  undo:()=>{const h=hist.pop();if(!h)return;S.teams[h.i].score-=h.pts;ticketsUpd();kickScores();popup(h.i,(h.pts>0?"−":"+")+Math.abs(h.pts),h.pts>0);toast(h.pts>0?`Took back ${h.pts} from ${S.teams[h.i].name}`:`Gave ${-h.pts} back to ${S.teams[h.i].name}`);sync();},
- snd:()=>{muted=!muted;store.set("fs-muted",muted);sndBtn();if(!muted){unlock();sfx.blip();}},
+ snd:()=>{muted=!muted;store.set("fs-muted",muted);sndBtn();if(muted)hush();else{unlock();sfx.blip();}},
  fs:()=>{try{if(document.fullscreenElement)document.exitFullscreen();else{const p=document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(()=>toast("Full screen isn’t available here"));else if(!p)toast("Full screen isn’t available here");}}catch(e){toast("Full screen isn’t available here");}},
  quit:()=>quitAsk(),
  quitY:()=>{$("#modal").hidden=true;$("#curt").classList.remove("shut");phonesStop();intro();},
