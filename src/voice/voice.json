@@ -1,0 +1,10 @@
+{
+ "voice": "JBFqnCBsd6RMkjVDRZzb",
+ "model": "eleven_multilingual_v2",
+ "settings": {
+  "stability": 0.35,
+  "similarity_boost": 0.8,
+  "style": 0.4,
+  "use_speaker_boost": true
+ }
+}
