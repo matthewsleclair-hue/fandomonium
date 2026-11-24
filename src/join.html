@@ -129,10 +129,14 @@ async function join(){const rc=$("#rc"),nm=$("#nm");
  if(typeof mqtt==="undefined"){form("Couldn’t load the game. Check your connection and reload.");return;}
  for(const u of urls()){const c=await NET.connectOne(u);if(!c)continue;if(await hasHost(c)){attach(c);return;}try{c.end(true);}catch(e){}}
  form(navigator.onLine===false?"You’re offline. Connect to Wi-Fi or data and try again.":`Couldn’t find room ${P.room}. Check the code on the TV.`);}
-function hasHost(c){return new Promise(res=>{const top=T("hello");let done=false,t=0;
- const h=(tp,b)=>{if(tp!==top)return;const s=b.toString();NET.log("hello",s.slice(0,80));if(!s)return;try{const m=JSON.parse(s);if(Date.now()-m.ts<180000)fin(true);}catch(e){}};
+// The room exists if the TV's retained hello arrives, or if the TV answers a direct probe
+// (some relays don't replay retained messages reliably).
+function hasHost(c){return new Promise(res=>{const top=T("hello"),mine=T("p/"+P.pid);let done=false,t=0;
+ const h=(tp,b)=>{if(tp===mine){NET.log("probe answered");fin(true);return;}if(tp!==top)return;const s=b.toString();NET.log("hello",s.slice(0,80));if(!s)return;try{const m=JSON.parse(s);if(Date.now()-m.ts<180000)fin(true);}catch(e){}};
  const fin=v=>{if(done)return;done=true;clearTimeout(t);c.removeListener("message",h);res(v);};
- c.on("message",h);c.subscribe(top,{qos:1});t=setTimeout(()=>{NET.log("no hello");fin(false);},4500);});}
+ c.on("message",h);
+ c.subscribe([top,mine],{qos:1},()=>{try{c.publish(T("h"),JSON.stringify({pid:P.pid,t:"probe"}),{qos:1});}catch(e){}});
+ t=setTimeout(()=>{NET.log("no answer");fin(false);},5000);});}
 function attach(c){P.c=c;$("#roomline").hidden=false;$("#roomcode").textContent=P.room;dot("up");
  c.on("message",(tp,b)=>{const s=b.toString();
   if(tp===T("hello")){if(!s)ended();return;}

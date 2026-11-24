@@ -615,6 +615,7 @@ function onPhone(m){if(!m||!m.pid)return;NET.log("from phone",m.t);const pid=Str
  p.seen=Date.now();const c=cur,mine=c&&c.team===p.team;
  switch(m.t){
   case "ping":sendView(pid,!!m.need);break;
+  case "probe":sendView(pid,true);break;
   case "team":{const t=Number(m.team);if(S.screen==="lobby"&&validTeam(t)){p.team=t;lobbyUpd();sync();}break;}
   case "start":if(pid===PH.vip&&S.screen==="lobby")ACT.lobbyGo();break;
   case "cat":if(c&&c.phase==="cat"&&mine)chooseCat(String(m.k));break;
