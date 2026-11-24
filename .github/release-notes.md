@@ -1,11 +1,13 @@
-Movie, TV and anime trivia for 2 to 4 teams around one screen: 741 questions across 14 fandoms, phones as controllers, difficulty levels and steals.
+Movie, TV and anime trivia for 2 to 4 teams around one screen: 741 questions across 14 fandoms, with phones as controllers.
 
-**New in 1.3**
+**New in 1.3: meet Max**
+- **Max, your host.** A snarky game show host who opens every round and roasts wrong, slow and timed-out answers, with jokes for each fandom. He talks, too, with a voice made in ElevenLabs, and works offline.
+- **Screw your neighbour.** Once per game, scramble a rival's question or slash their timer to 6 seconds. Tap the bomb on your ticket, or use your phone.
+- **The Final Gauntlet.** The show now ends with 8 quick Dis-or-Dat calls (Jedi or Sith? Pixar or DreamWorks?) at double points, with every team answering at once.
 - **A title screen** with How to play, and setup split into four screens: Teams, Fandoms, Difficulty and House rules.
-- **Max, your snarky host**, who introduces each round and roasts wrong, slow and timed-out answers.
-- **Screw your neighbour**: once per game, scramble a rival's question or slash their timer to 6 seconds.
-- **The Final Gauntlet**: 8 quick Dis-or-Dat calls at double points, everyone answering at once.
-- Screen shake on wrong answers and a jingle when each round starts.
+- Screen shake on wrong answers, and a jingle when each round starts.
+
+Every extra can be switched off under House rules.
 
 **Download `Fandomonium.exe` below**, then double-click it to play. Nothing to install.
 
