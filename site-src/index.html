@@ -101,6 +101,15 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 .strip img{border-radius:6px}
 .strip figcaption{padding:12px 4px 0;color:#f3dcc4;font-size:16px}
 .strip figcaption b{color:#fff}
+.phgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,64px);align-items:center;margin-bottom:clamp(36px,5vw,64px)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.steps li{padding:14px 18px;border-radius:14px;background:rgba(255,248,236,.07);border:1px solid rgba(255,210,63,.2);color:#f3dcc4}
+.steps b{display:block;color:#fff;font-size:18px}
+.phones{display:flex;justify-content:center;align-items:flex-end;gap:clamp(8px,1.6vw,20px)}
+.phone{flex:0 1 220px;padding:9px;border-radius:30px;background:#0e0103;box-shadow:0 24px 50px rgba(0,0,0,.55),inset 0 0 0 2px #3a2320}
+.phone img{border-radius:22px}
+.phone:nth-child(2){transform:translateY(-26px)}
+.lobbyshot{max-width:1000px}
 .fans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
 .fan{display:flex;align-items:center;gap:14px;padding:16px 22px 16px 24px;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,0) 60%),var(--c);color:#fff;border-radius:8px;-webkit-mask:var(--notch);mask:var(--notch)}
 .fan svg{width:30px;height:30px;flex:none}
@@ -129,7 +138,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 .foot .cta{margin-bottom:28px}
 .small{max-width:70ch;margin:0 auto;font-size:14px;color:#e9cdb7;line-height:1.55}
 .small a{color:var(--but)}
-@media(max-width:900px){.posters{grid-template-columns:repeat(2,minmax(0,1fr))}.tv,.make{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:900px){.posters{grid-template-columns:repeat(2,minmax(0,1fr))}.tv,.make,.phgrid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:760px){.links a:not(.navplay):not(.gh){display:none}}
 @media(max-width:600px){.posters{grid-template-columns:minmax(0,1fr)}.shot{padding:12px;border-radius:20px}.btn{width:100%}.logo span{display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lights g{animation:none!important}}
@@ -139,7 +148,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 <header class="nav">
   <a class="logo" href="#top"><img src="icon.png" alt="" width="36" height="36"><span>Fandomonium</span></a>
   <nav class="links" aria-label="Sections">
-    <a href="#rounds">Rounds</a><a href="#tour">Tour</a><a href="#fandoms">Fandoms</a><a href="#tv">On the TV</a><a href="#make">Add questions</a>
+    <a href="#phones">Phones</a><a href="#rounds">Rounds</a><a href="#tour">Tour</a><a href="#fandoms">Fandoms</a><a href="#tv">On the TV</a><a href="#make">Add questions</a>
     <a class="gh" href="https://github.com/matthewsleclair-hue/fandomonium">GitHub</a>
     <a class="navplay" href="play/">Play</a>
   </nav>
@@ -149,7 +158,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 <section class="hero band velvet" id="top">
   <div class="sign"><svg class="lights" aria-hidden="true"></svg>
     <h1>Fandomonium</h1>
-    <p>Movie trivia for 2 to 4 teams around one screen. {{TOTAL}} questions across Harry Potter, Marvel, Star Wars, Disney &amp; Pixar and Lord of the Rings.</p>
+    <p>Movie trivia for 2 to 4 teams around one screen, with your phones as controllers. {{TOTAL}} questions across Harry Potter, Marvel, Star Wars, Disney &amp; Pixar and Lord of the Rings, from easy to superfan.</p>
   </div>
   <div class="cta">
     <a class="btn play" href="play/">Play in your browser<small>Nothing to install</small></a>
@@ -158,10 +167,31 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
   <div class="shot"><svg class="lights" aria-hidden="true"></svg><img src="img/answered.webp" width="1600" height="1000" alt="Fandomonium game screen: a Harry Potter question answered correctly for 200 points, with four team score tickets along the top."></div>
 </section>
 
+<section class="band dark" id="phones">
+  <div class="wrap phgrid">
+    <div>
+      <h2>Your phone is the controller</h2>
+      <p class="lede">Like a party game console, minus the console. Nobody installs anything: phones join in the browser, over Wi-Fi or mobile data.</p>
+      <ul class="steps">
+        <li><b>Turn on Play with phones.</b> The TV shows a QR code and a four-letter room code.</li>
+        <li><b>Scan to join.</b> Type your name and pick your team. Several people can share a team.</li>
+        <li><b>Pick, answer, buzz.</b> On your team’s turn, choose the fandom and answer on your phone. In All play, slam the buzzer and type scramble answers in.</li>
+        <li><b>The first to join is the VIP.</b> They start rounds and move things along from the couch.</li>
+      </ul>
+    </div>
+    <div class="phones" aria-label="Phone screens: picking a fandom, answering a question, and the buzzer" role="img">
+      <div class="phone"><img src="img/phone-cat.webp" width="780" height="1688" alt=""></div>
+      <div class="phone"><img src="img/phone-question.webp" width="780" height="1688" alt=""></div>
+      <div class="phone"><img src="img/phone-buzz.webp" width="780" height="1688" alt=""></div>
+    </div>
+  </div>
+  <div class="wrap"><div class="shot lobbyshot"><svg class="lights" aria-hidden="true"></svg><img src="img/lobby.webp" width="1600" height="1000" loading="lazy" alt="The TV lobby: a QR code, the room code FKAC, and players listed under their teams."></div></div>
+</section>
+
 <section class="band ivory" id="rounds">
   <div class="wrap">
     <h2>Six kinds of round</h2>
-    <p class="lede">Every round, each team gets a question of its own on the clock. Then comes All play: a puzzle reveals itself bit by bit, its value drops from 500 to 100, and the first team to buzz gets a shot.</p>
+    <p class="lede">Choose Easy, Medium, Hard, or Mixed, which gets harder every round. Every round, each team gets a question of its own on the clock. Then comes All play: a puzzle reveals itself bit by bit, its value drops from 500 to 100, and the first team to buzz gets a shot.</p>
     <div class="posters">
       <article class="poster"><header><h3>Trivia</h3><span class="tag">Team turn, 200 points, 20 seconds</span></header>
         <div class="art"><div class="m-ch"><span class="ok"><b>A</b>Fluffy</span><span><b>B</b>Fang</span><span><b>C</b>Norbert</span><span><b>D</b>Buckbeak</span></div></div>
@@ -192,6 +222,8 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
     <div class="strip" id="strip" tabindex="0" aria-label="Screenshots">
       <figure><img src="img/setup.webp" width="1600" height="1000" alt="Setup screen with four team tickets, five fandoms and a length picker."><figcaption><b>Set up.</b> Up to four teams, each with its own colour and buzz key.</figcaption></figure>
       <figure><img src="img/curtain.webp" width="1600" height="1000" alt="Velvet curtains closed with Round 1 of 3 in marquee letters."><figcaption><b>Curtains.</b> Each round opens with the curtains parting.</figcaption></figure>
+      <figure><img src="img/lobby.webp" width="1600" height="1000" loading="lazy" alt="Lobby with a QR code and room code for phones."><figcaption><b>Phones join.</b> Scan the QR code or type the room code.</figcaption></figure>
+      <figure><img src="img/tv-cat.webp" width="1600" height="1000" loading="lazy" alt="A team picking its fandom on their phone."><figcaption><b>Pick a fandom.</b> The team chooses from three on their phones.</figcaption></figure>
       <figure><img src="img/question.webp" width="1600" height="1000" loading="lazy" alt="A team's trivia question with a countdown timer and four answers."><figcaption><b>Your turn.</b> One question per team, on the clock.</figcaption></figure>
       <figure><img src="img/scramble.webp" width="1600" height="1000" loading="lazy" alt="All play scramble: letter tiles half sorted, with buzzers for each team below."><figcaption><b>All play.</b> Tiles slide home while the points drain away.</figcaption></figure>
       <figure><img src="img/buzz.webp" width="1600" height="1000" loading="lazy" alt="Who am I? round with three clues shown and a team picking from four answers after buzzing in."><figcaption><b>Buzz in.</b> Pick wrong and your team is locked out of that puzzle.</figcaption></figure>
@@ -203,7 +235,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 <section class="band velvet" id="fandoms">
   <div class="wrap">
     <h2>Five fandoms, {{TOTAL}} questions</h2>
-    <p class="lede">Turn any of them off before you start. Questions you’ve already seen are skipped until you’ve been through them all.</p>
+    <p class="lede">Every question is rated Easy, Medium or Hard, including {{HARD}} for superfans. Turn any fandom off before you start. Questions you’ve already seen are skipped until you’ve been through them all.</p>
     <div class="fans">
       <div class="fan" style="--c:#946600"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2 5 13.5h5.5L9.5 22 19 10h-5.8z" fill="currentColor"/></svg><div><b>Harry Potter</b><span>{{N_hp}} questions</span></div></div>
       <div class="fan" style="--c:#c0182b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" fill="currentColor"/></svg><div><b>Marvel</b><span>{{N_mcu}} questions</span></div></div>
@@ -224,8 +256,9 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
     </div>
     <div>
       <h2>Made for the TV</h2>
-      <p class="lede">Hook a laptop or PC up to the TV and crowd around one keyboard. The buzz keys sit at the four corners, so nobody fights over the same spot. On a touchscreen, tap the big buzzers instead.</p>
+      <p class="lede">Hook a laptop or PC up to the TV. Play with phones, or crowd around one keyboard: the buzz keys sit at the four corners, so nobody fights over the same spot. On a touchscreen, tap the big buzzers instead.</p>
       <ul class="tips">
+        <li><kbd>QR code</kbd>Phones join from the lobby screen</li>
         <li><kbd>F11</kbd>Full screen in the Windows app (or use the Full screen button)</li>
         <li><kbd>Q P Z M</kbd>Buzz in for teams 1 to 4</li>
         <li><kbd>1–4</kbd>Pick an answer, or tap it</li>
@@ -238,17 +271,17 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 <section class="band dark" id="make">
   <div class="wrap">
     <h2>Add your own questions</h2>
-    <p class="lede">Every question lives in one file, <code>src/bank.js</code>. Add a line, rebuild, and it’s in the game. Put the right answer first; the game shuffles the choices.</p>
+    <p class="lede">Every question lives in one file, <code>src/bank.js</code>. Add a line, push, and it’s in the game. Start with the difficulty from 1 to 3, put the right answer first, and the game shuffles the choices.</p>
     <div class="make">
       <div class="code"><header><span>src/bank.js</span><button type="button" data-copy="c1">Copy</button></header>
 <pre id="c1">hp:{
   mc:[
-    [<span class="s">"What’s the name of Harry’s owl?"</span>,
+    [<span class="s">1</span>, <span class="s">"What’s the name of Harry’s owl?"</span>,
      <span class="s">"Hedwig"</span>, <span class="s">"Errol"</span>, <span class="s">"Pigwidgeon"</span>, <span class="s">"Hermes"</span>],
-    <span class="c">// question, right answer, three wrong ones</span>
+    <span class="c">// difficulty, question, right answer, three wrong ones</span>
   ],
-  scr:[[<span class="s">"HOGWARTS"</span>, <span class="s">"Place"</span>]],
-  who:[[<span class="s">"Dobby"</span>, [<span class="s">"clue 1"</span>, <span class="s">"clue 2"</span>, <span class="s">"clue 3"</span>, <span class="s">"clue 4"</span>],
+  scr:[[<span class="s">2</span>, <span class="s">"HOGWARTS"</span>, <span class="s">"Place"</span>]],
+  who:[[<span class="s">3</span>, <span class="s">"Dobby"</span>, [<span class="s">"clue 1"</span>, <span class="s">"clue 2"</span>, <span class="s">"clue 3"</span>, <span class="s">"clue 4"</span>],
         [<span class="s">"Kreacher"</span>, <span class="s">"Winky"</span>, <span class="s">"Griphook"</span>]],
 }</pre></div>
       <div class="code"><header><span>Build it yourself (needs Node.js)</span><button type="button" data-copy="c2">Copy</button></header>

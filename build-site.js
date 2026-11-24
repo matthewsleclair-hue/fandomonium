@@ -14,14 +14,18 @@ vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(R('src/bank.js'), 'utf8') + '\nthis.BANK = BANK;', ctx);
 const counts = {};
 let total = 0;
+let hard = 0;
 for (const [key, b] of Object.entries(ctx.BANK)) {
   counts[key] = ['mc', 'odd', 'seq', 'scr', 'who', 'emo'].reduce((s, t) => s + (b[t] || []).length, 0);
+  for (const t of ['mc', 'odd', 'seq', 'scr', 'who', 'emo']) for (const q of b[t] || []) if (q[0] === 3) hard++;
   total += counts[key];
 }
 
 fs.rmSync(R('site'), { recursive: true, force: true });
 fs.mkdirSync(R('site/play'), { recursive: true });
 fs.writeFileSync(R('site/play/index.html'), fs.readFileSync(R('web/index.html'), 'utf8').replace('<title>Fandomonium</title>', '<title>Fandomonium</title>\n<link rel="icon" href="../icon.png">'));
+fs.mkdirSync(R('site/join'), { recursive: true });
+fs.copyFileSync(R('web/join.html'), R('site/join/index.html'));
 copy('icon.png', 'site/icon.png');
 copy('node_modules/@fontsource/bungee/files/bungee-latin-400-normal.woff2', 'site/fonts/bungee.woff2');
 copy('node_modules/@fontsource-variable/rubik/files/rubik-latin-wght-normal.woff2', 'site/fonts/rubik.woff2');
@@ -29,6 +33,7 @@ for (const f of fs.readdirSync(R('docs/screenshots'))) copy(`docs/screenshots/${
 
 let html = fs.readFileSync(R('site-src/index.html'), 'utf8').replaceAll('{{TOTAL}}', String(total));
 for (const [k, n] of Object.entries(counts)) html = html.replaceAll(`{{N_${k}}}`, String(n));
+html = html.replaceAll('{{HARD}}', String(hard));
 const left = html.match(/\{\{[A-Za-z_]+\}\}/);
 if (left) throw new Error('unfilled placeholder ' + left[0]);
 fs.writeFileSync(R('site/index.html'), html);

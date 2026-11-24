@@ -218,7 +218,42 @@ h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--mut)}
 .mcard div{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .toast{position:fixed;left:50%;bottom:24px;z-index:60;transform:translateX(-50%);background:var(--ink);color:var(--iv);padding:11px 20px;border-radius:999px;font-weight:600;box-shadow:0 8px 20px rgba(0,0,0,.4);max-width:calc(100% - 32px);text-align:center;animation:enter .3s both}
 #cf{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:45}
-@media(max-width:720px){.cols{grid-template-columns:minmax(0,1fr)}}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:26px}
+.opts .cats{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.seg4 button{flex:1 1 40%}
+.switch{display:flex;align-items:center;gap:14px;width:100%;min-height:66px;margin-top:14px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink);text-align:left;box-shadow:0 3px 0 var(--line)}
+.switch b{display:block;font-size:16px}
+.switch small{display:block;color:var(--mut);font-size:13px;line-height:1.35}
+.track{position:relative;flex:none;width:52px;height:30px;border-radius:99px;background:#d8c8ad;transition:background-color .2s}
+.track::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.25);transition:transform .2s}
+.switch[aria-pressed=true]{border-color:var(--ok);box-shadow:0 3px 0 #8fd0ad}
+.switch[aria-pressed=true] .track{background:var(--ok)}
+.switch[aria-pressed=true] .track::after{transform:translateX(22px)}
+.lobby{display:grid;gap:20px}
+.joinbox{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;padding:20px;border-radius:20px;background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.qr{width:clamp(160px,24vh,260px);aspect-ratio:1;display:grid;place-items:center;border-radius:14px;background:#fff;padding:10px;border:2px solid var(--line)}
+.qr svg{display:block;width:100%;height:100%}
+.jurl{font-weight:700;color:var(--ink);overflow-wrap:anywhere}
+.rcode{display:flex;gap:10px;margin:14px 0 4px;min-height:clamp(64px,8.5vh,92px)}
+.rcode span{width:clamp(54px,7vh,78px);height:clamp(64px,8.5vh,92px);display:grid;place-items:center;border-radius:12px;background-color:var(--ink);background-image:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,0) 55%);color:var(--but);font-family:var(--disp);font-size:clamp(34px,5vh,52px);box-shadow:0 5px 0 #000;animation:deal .45s both}
+.pst{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:10px 0 0;font-size:15px;color:var(--mut)}
+.pst i{width:11px;height:11px;border-radius:50%;background:#c9b48f;flex:none}
+.pst.up i{background:var(--ok);box-shadow:0 0 0 4px rgba(18,133,79,.18)}
+.pst.fail i{background:var(--no)}
+.pst.connecting i{animation:pulse .6s ease-in-out infinite alternate}
+.lteams{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.lteam{border-radius:14px;overflow:hidden;border:2px solid var(--line);background:#fff}
+.lteam h4{display:flex;justify-content:space-between;gap:10px;margin:0;padding:10px 14px;background:linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,0) 60%),var(--c);color:var(--ink);font-size:17px}
+.lteam h4 span:last-child{font-family:var(--disp);font-weight:400}
+.lteam ul{list-style:none;margin:0;padding:10px 12px;display:flex;flex-wrap:wrap;gap:6px;min-height:54px}
+.lteam li{padding:5px 12px;border-radius:999px;background:var(--iv2);font-weight:600;font-size:15px;animation:countpop .45s cubic-bezier(.2,1.4,.4,1) both}
+.lteam li.vip::before{content:"★ ";color:#b98a00}
+.lteam li.none{background:none;color:#ab948c;font-weight:500;padding:5px 2px;animation:none}
+.catpick{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.catpick .cat{min-height:clamp(84px,13vh,140px);justify-content:center;font-size:clamp(18px,.9vw + 1.2vh,28px);animation:deal .45s both;animation-delay:calc(var(--d)*80ms + 100ms)}
+.catpick .cat .ic{width:clamp(40px,6vh,60px);height:clamp(40px,6vh,60px)}
+.catpick .cat .ic svg{width:60%;height:60%}
+@media(max-width:720px){.cols{grid-template-columns:minmax(0,1fr)}.joinbox{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}.rcode{justify-content:center}}
 @media(max-width:640px){.ch{grid-template-columns:minmax(0,1fr)}.ch button{min-height:54px}}
 @media(max-width:600px){.tb span{display:none}.tb{padding:0 12px}.tk{flex-basis:40%;padding:6px 14px 6px 16px}.tk .sc{font-size:21px}.frame{padding:14px;border-radius:20px}.pts{font-size:25px}.brand{font-size:16px}.sign{padding:26px 16px 22px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01s!important}}
@@ -245,6 +280,9 @@ h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--mut)}
 <div class="curtains shut" id="curt" aria-hidden="true"><div class="cl"></div><div class="cr"></div><div class="valance"></div><div class="ctext" id="ctext"><div class="ln">Fandomonium<small>Movie trivia for game night</small></div></div></div>
 <div class="modal" id="modal" hidden></div>
 <canvas id="cf" hidden></canvas>
+<script>/*MQTT*/</script>
+<script>/*QR*/</script>
+<script>/*NET*/</script>
 <script>
 {
 /*BANK*/
@@ -270,25 +308,25 @@ const reduced=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* ---------- pools ---------- */
 const POOL={turn:[],all:[]};
 for(const c in BANK){const b=BANK[c];
- b.mc.forEach((x,i)=>POOL.turn.push({id:c+"m"+i,cat:c,kind:"mc",q:x[0],a:x[1],w:x.slice(2)}));
- b.odd.forEach((x,i)=>POOL.turn.push({id:c+"o"+i,cat:c,kind:"odd",q:x[0],a:x[1],w:x.slice(2)}));
- b.seq.forEach((x,i)=>POOL.turn.push({id:c+"s"+i,cat:c,kind:"seq",q:x[0],items:x[1]}));
- b.scr.forEach((x,i)=>POOL.all.push({id:c+"r"+i,cat:c,kind:"scr",a:x[0],hint:x[1]}));
- b.who.forEach((x,i)=>POOL.all.push({id:c+"w"+i,cat:c,kind:"who",a:x[0],clues:x[1],w:x[2]}));
- b.emo.forEach((x,i)=>POOL.all.push({id:c+"e"+i,cat:c,kind:"emo",a:x[0],e:x[1].split(" "),w:x[2]}));
+ b.mc.forEach((x,i)=>POOL.turn.push({id:c+"m"+i,cat:c,d:x[0],kind:"mc",q:x[1],a:x[2],w:x.slice(3)}));
+ b.odd.forEach((x,i)=>POOL.turn.push({id:c+"o"+i,cat:c,d:x[0],kind:"odd",q:x[1],a:x[2],w:x.slice(3)}));
+ b.seq.forEach((x,i)=>POOL.turn.push({id:c+"s"+i,cat:c,d:x[0],kind:"seq",q:x[1],items:x[2]}));
+ b.scr.forEach((x,i)=>POOL.all.push({id:c+"r"+i,cat:c,d:x[0],kind:"scr",a:x[1],hint:x[2]}));
+ b.who.forEach((x,i)=>POOL.all.push({id:c+"w"+i,cat:c,d:x[0],kind:"who",a:x[1],clues:x[2],w:x[3]}));
+ b.emo.forEach((x,i)=>POOL.all.push({id:c+"e"+i,cat:c,d:x[0],kind:"emo",a:x[1],e:x[2].split(" "),w:x[3]}));
 }
-const used=new Set(store.get("fs-used",[]));
-function draw(group,kind){
- let cand=POOL[group].filter(q=>S.cats.includes(q.cat)&&(!kind||q.kind===kind));
- if(!cand.length) cand=POOL[group].filter(q=>S.cats.includes(q.cat));
- let fresh=cand.filter(q=>!used.has(q.id));
- if(!fresh.length){cand.forEach(q=>used.delete(q.id));fresh=cand;}
- const cs=[...new Set(fresh.map(q=>q.cat))];
- let pick=cs.filter(c=>c!==S.lastCat); if(!pick.length) pick=cs;
- const c=pick[rand(pick.length)],f2=fresh.filter(q=>q.cat===c),q=f2[rand(f2.length)];
- used.add(q.id);S.lastCat=c;store.set("fs-used",[...used]);
- return q;
-}
+const used=new Set(store.get("fs-used2",[]));
+const DLAB={1:"Easy",2:"Medium",3:"Hard"};
+function curDiff(){const d=String(S.diff||"2");if(d==="mix")return Math.min(3,1+Math.floor(S.round*3/Math.max(1,S.rounds)));return +d||2;}
+// Fresh questions at the chosen difficulty first, then the nearest other level, before any repeats.
+function draw(group,kind,cat){
+ const base=POOL[group].filter(q=>S.cats.includes(q.cat)&&(!cat||q.cat===cat));
+ let pool=base.filter(q=>!kind||q.kind===kind);if(!pool.length)pool=base;
+ const d=curDiff(),order=d===1?[1,2,3]:d===2?[2,1,3]:[3,2,1];
+ for(const x of order){const f=pool.filter(q=>q.d===x&&!used.has(q.id));if(f.length)return pickQ(f);}
+ const x=order.find(v=>pool.some(q=>q.d===v)),all=pool.filter(q=>q.d===x);all.forEach(q=>used.delete(q.id));return pickQ(all);}
+function pickQ(list){const cs=[...new Set(list.map(q=>q.cat))];let p=cs.filter(c=>c!==S.lastCat);if(!p.length)p=cs;
+ const c=p[rand(p.length)],f=list.filter(q=>q.cat===c),q=f[rand(f.length)];used.add(q.id);S.lastCat=c;store.set("fs-used2",[...used]);return q;}
 
 /* ---------- sound ---------- */
 let ac=null,noise=null,muted=store.get("fs-muted",false);
@@ -321,7 +359,7 @@ const later=(fn,ms)=>{timers.push(setTimeout(fn,ms));};
 const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
 
 /* ---------- state ---------- */
-const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5},store.get("fs-set",{}));
+const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5,diff:"2",phones:false},store.get("fs-set",{}));
 let S={screen:"setup",cats:set.cats};
 let cur=null,hist=[],cseq=null,bseq=null,lastLow=null,lastSec=null;
 const saveSet=()=>store.set("fs-set",set);
@@ -351,7 +389,7 @@ function ticketsBuild(){const t=$("#tickets");
 function ticketsUpd(){const t=$("#tickets");if(S.screen!=="play"){t.hidden=true;tools();return;}t.hidden=false;
  const up=cur&&cur.team!=null?cur.team:null,top=Math.max(...S.teams.map(x=>x.score));
  S.teams.forEach((tm,i)=>{const el=$("#tk"+i);if(!el)return;el.classList.toggle("on",up===i);el.classList.toggle("dim",up!=null&&up!==i);
-  $("#tks"+i).textContent=up===i?"Up now":"Buzz key "+KEYS[i];el.querySelector("b>span").hidden=!(top>0&&tm.score===top);});
+  const n=teamPhones(i);$("#tks"+i).textContent=(up===i?"Up now":"Buzz key "+KEYS[i])+(n?`, ${n} phone${n>1?"s":""}`:"");el.querySelector("b>span").hidden=!(top>0&&tm.score===top);});
  tools();}
 let scoreRaf=0;
 function scoreLoop(){let busy=false;S.teams.forEach((t,i)=>{if(t.shown!==t.score){const d=t.score-t.shown,s=Math.sign(d)*Math.max(1,Math.ceil(Math.abs(d)*.1));t.shown=Math.abs(s)>=Math.abs(d)?t.score:t.shown+s;const el=$("#sc"+i);if(el)el.textContent=t.shown;busy=true;}});scoreRaf=busy?requestAnimationFrame(scoreLoop):0;}
@@ -363,7 +401,7 @@ function toast(msg){const d=document.createElement("div");d.className="toast";d.
 function qhead(q,label,pts,m){const c=CATS[q.cat];return `<div class="qh"><span class="chip" style="--c:${c.c}">${ico(c.i)}${esc(c.n)}</span><span class="kind">${esc(label)}</span><span class="pts"><span id="pv">${pts}</span><small>pts${m>1?", double":""}</small></span></div>`;}
 function setBar(f,secs){const i=$("#bi");if(!i)return;i.style.transform=`scaleX(${Math.max(0,f).toFixed(4)})`;const low=f<.25;if(low!==lastLow){$("#bar").classList.toggle("low",low);lastLow=low;}
  if(secs!=null){const s=Math.max(0,Math.ceil(secs));if(s!==lastSec){const e=$("#secs");if(e)e.textContent=s;lastSec=s;}}}
-function showRes(html,win){const r=$("#res");r.hidden=false;r.className="res"+(win?" win":"");r.innerHTML=`<p>${html}</p><button class="next" data-a="next" data-primary>${isLast()?"Final scores":"Next"}</button>`;r.querySelector(".next").focus({preventScroll:true});r.scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});}
+function showRes(html,win){const r=$("#res");r.hidden=false;r.className="res"+(win?" win":"");r.innerHTML=`<p>${html}</p><button class="next" data-a="next" data-primary>${isLast()?"Final scores":"Next"}</button>`;r.querySelector(".next").focus({preventScroll:true});r.scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});sync();}
 
 /* ---------- curtains and banner ---------- */
 function curtains(lines,done){const c=$("#curt"),tx=$("#ctext"),was=c.classList.contains("shut"),seq={i:0,t:0};cseq=seq;
@@ -385,34 +423,43 @@ $("#banner").addEventListener("click",()=>{if(bseq)bseq.skip();});
 function setup(){stopClock();clearTimers();cur=null;cseq=null;bseq=null;$("#banner").hidden=true;S={screen:"setup",cats:set.cats};hist=[];$("#buzzers").hidden=true;ticketsUpd();
  setScreen(`<div class="setup">
  <div class="sign"><svg class="lights" aria-hidden="true"></svg><h1>Fandomonium</h1><p>Movie trivia for 2 to 4 teams around one screen: trivia, put-it-in-order, letter scrambles, Who am I? and emoji puzzles.</p></div>
- <div class="cols">
-  <div><h3>Teams</h3><div id="tl"></div><button class="add" id="addT" data-a="addT">Add a team</button>
+ <div class="opts">
+  <div><h3>Teams</h3><div id="tl"></div><button class="add" id="addT" data-a="addT">Add a team</button><div id="phs"></div></div>
+  <div><h3>Fandoms</h3><div class="cats" id="cl"></div></div>
+  <div><h3>Difficulty</h3><div class="seg seg4" id="dif"></div><h3 style="margin-top:20px">Length</h3><div class="seg" id="len"></div>
    <details class="how"><summary>How to play</summary><ul>
     <li>Each round, every team gets its own question. Answer before time runs out: 200 points, or 300 for put-it-in-order.</li>
     <li>Then comes All play. A puzzle reveals itself bit by bit and its value drops from 500 to 100, so buzz early.</li>
-    <li>Buzz with your team’s key or tap your buzzer. A wrong pick locks your team out of that puzzle.</li>
-    <li>The last round is worth double. Undo score fixes a mis-tap. F11 or Full screen for the TV.</li></ul></details></div>
-  <div><h3>Fandoms</h3><div class="cats" id="cl"></div><h3 style="margin-top:22px">Length</h3><div class="seg" id="len"></div></div>
+    <li>Buzz with your team’s key, tap your buzzer, or use your phone. A wrong answer locks your team out of that puzzle.</li>
+    <li>With phones on, each team picks its fandom before its question. The last round is worth double.</li></ul></details></div>
  </div>
  <button class="go" data-a="go" data-primary>Start the show</button></div>`);
  drawSetup();}
 function drawSetup(){
  $("#tl").innerHTML=set.teams.map((n,i)=>`<div class="trow" style="--c:${COLORS[i]}"><input id="tn${i}" data-i="${i}" value="${esc(n)}" maxlength="22" aria-label="Team ${i+1} name"><span class="key" title="Buzz key">${KEYS[i]}</span>${set.teams.length>2?`<button class="x" data-a="rm" data-v="${i}" aria-label="Remove team ${i+1}">×</button>`:""}</div>`).join("");
  $("#addT").hidden=set.teams.length>=4;
+ $("#phs").innerHTML=`<button class="switch" data-a="ph" aria-pressed="${!!set.phones}"><span class="track"></span><span><b>Play with phones</b><small>Everyone joins from their phone’s browser with a room code. Needs internet.</small></span></button>`;
  $("#cl").innerHTML=Object.entries(CATS).map(([k,c])=>`<button class="cat" style="--c:${c.c}" data-a="cat" data-v="${k}" aria-pressed="${set.cats.includes(k)}"><span class="ic">${ico(c.i)}</span>${esc(c.n)}<span class="ck">${ico("check")}</span></button>`).join("");
+ $("#dif").innerHTML=[["1","Easy","Casual fans"],["2","Medium","Seen them all"],["3","Hard","Superfans"],["mix","Mixed","Gets harder"]].map(([v,l,s])=>`<button data-a="diff" data-v="${v}" aria-pressed="${String(set.diff)===v}">${l}<small>${s}</small></button>`).join("");
  $("#len").innerHTML=[[3,"Quick"],[5,"Standard"],[8,"Marathon"]].map(([n,l])=>`<button data-a="len" data-v="${n}" aria-pressed="${set.rounds===n}">${l}<small>${n} rounds</small></button>`).join("");}
 
 /* ---------- flow ---------- */
-function play(){cur=null;stopClock();$("#buzzers").hidden=true;ticketsUpd();
+function play(){cur=null;stopClock();$("#buzzers").hidden=true;ticketsUpd();sync();
  const s=S.step,T=S.teams,lines=[];
  if(s===0)lines.push(mult()>1?["Final round","Everything is worth double"]:["Round "+(S.round+1)+" of "+S.rounds]);
- if(s<T.length){const l=[T[s].name+", you’re up","Answer before the timer runs out",T[s].color];if(lines.length){lines.push(l);curtains(lines,()=>myTurn(s));}else banner(l,()=>myTurn(s));}
+ if(s<T.length){const l=[T[s].name+", you’re up",PH.c&&teamPhones(s)&&S.cats.length>1?"Pick a fandom on your phone":"Answer before the timer runs out",T[s].color];if(lines.length){lines.push(l);curtains(lines,()=>turnStart(s));}else banner(l,()=>turnStart(s));}
  else{lines.push(["All play!","Everyone can buzz in"]);curtains(lines,allPlay);}}
 function next(){if(S.screen!=="play")return;S.step++;if(S.step>S.teams.length){S.step=0;S.round++;}
  if(S.round>=S.rounds){stopClock();$("#buzzers").hidden=true;curtains([["And the winner is…"]],end);}else play();}
 
 /* ---------- my turn ---------- */
-function myTurn(i){const q=draw("turn"),m=mult(),seq=q.kind==="seq";
+function turnStart(i){if(PH.c&&teamPhones(i)&&S.cats.length>1)catPick(i);else myTurn(i,null);}
+function catPick(i){const opts=shuffle(S.cats).slice(0,3),c={team:i,phase:"cat",opts,done:false,dur:12};cur=c;ticketsUpd();
+ setScreen(`<div class="qh"><span class="kind">${esc(S.teams[i].name)} picks the fandom</span></div><div class="barw"><div class="bar" id="bar"><i id="bi"></i></div><span class="secs" id="secs">${c.dur}</span></div><h2 class="q">Pick a fandom on your phone</h2><div class="catpick">${opts.map((k,n)=>`<button class="cat" style="--c:${CATS[k].c};--d:${n}" data-a="pickcat" data-v="${k}"><span class="ic">${ico(CATS[k].i)}</span>${esc(CATS[k].n)}</button>`).join("")}</div>`);
+ sync();
+ startClock(c.dur,el=>setBar(1-el/c.dur,c.dur-el),()=>{if(cur===c&&c.phase==="cat")chooseCat(opts[rand(opts.length)]);});}
+function chooseCat(k){const c=cur;if(!c||c.phase!=="cat"||!c.opts.includes(k))return;c.phase="picked";stopClock();sfx.blip();myTurn(c.team,k);}
+function myTurn(i,cat){const q=draw("turn",null,cat),m=mult(),seq=q.kind==="seq";
  const c={team:i,q,pts:(seq?300:200)*m,done:false,dur:seq?35:20,sec:99};cur=c;
  ticketsUpd();
  let body;
@@ -420,15 +467,21 @@ function myTurn(i){const q=draw("turn"),m=mult(),seq=q.kind==="seq";
   body=`<h2 class="q">${esc(q.q)}</h2><p class="tip">Tap them from first to last. Tap one again to take it back.</p><div class="ch one seq">${it.map((t,k)=>`<button data-a="seqp" data-v="${k}" style="--d:${k}"><span class="k"></span><span>${esc(t)}</span></button>`).join("")}</div>`;}
  else{c.ch=shuffle([q.a,...q.w]);
   body=`<h2 class="q">${esc(q.q)}</h2><div class="ch">${c.ch.map((t,k)=>`<button data-a="pick" data-v="${k}" style="--d:${k}"><span class="k">${"ABCD"[k]}</span><span>${esc(t)}</span></button>`).join("")}</div>`;}
- setScreen(qhead(q,(seq?"Put it in order":q.kind==="odd"?"Odd one out":"Trivia")+" for "+S.teams[i].name,c.pts,m)+`<div class="barw"><div class="bar" id="bar"><i id="bi"></i></div><span class="secs" id="secs">${c.dur}</span></div>`+body+`<div class="res" id="res" role="status" hidden></div>`);
+ setScreen(qhead(q,DLAB[q.d]+" "+(seq?"put it in order":q.kind==="odd"?"odd one out":"trivia")+" for "+S.teams[i].name,c.pts,m)+`<div class="barw"><div class="bar" id="bar"><i id="bi"></i></div><span class="secs" id="secs">${c.dur}</span></div>`+body+`<div class="res" id="res" role="status" hidden></div>`);
+ sync();
  later(()=>{if(cur!==c||c.done)return;startClock(c.dur,el=>{const left=c.dur-el;setBar(left/c.dur,left);const s=Math.ceil(left);if(s<=5&&s<c.sec&&s>0)sfx.tick();c.sec=s;},()=>turnEnd(seq?false:null));},650);}
-function turnEnd(v){const c=cur;if(!c||c.done)return;c.done=true;stopClock();const q=c.q,name=esc(S.teams[c.team].name);let ok,msg;
+function turnEnd(v){const c=cur;if(!c||c.done||(!c.ch&&!c.items))return;c.done=true;stopClock();const q=c.q,nm=S.teams[c.team].name,name=esc(nm);let ok,msg,plain;
  if(q.kind==="seq"){ok=v===true;const box=$(".seq");
   $$(".seq button").map(b=>{const k=+b.dataset.v,r=q.items.indexOf(c.items[k]);b.disabled=true;b.style.animation="none";b.querySelector(".k").textContent=r+1;b.classList.remove("picked");b.classList.add(c.order[r]===k?"good":"bad");return [r,b];}).sort((a,b)=>a[0]-b[0]).forEach(([,b])=>box.appendChild(b));
-  msg=ok?`<b>+${c.pts}</b> for ${name}. Perfect order!`:(c.order.length<c.items.length?"Time’s up! ":"Not quite. ")+"Here’s the right order.";}
+  const pre=c.order.length<c.items.length?"Time’s up! ":"Not quite. ";
+  msg=ok?`<b>+${c.pts}</b> for ${name}. Perfect order!`:pre+"Here’s the right order.";
+  plain=ok?`+${c.pts} for ${nm}. Perfect order!`:pre+"The right order is on the screen.";}
  else{ok=v!=null&&c.ch[v]===q.a;
   $$(".ch button").forEach((b,k)=>{b.disabled=true;if(c.ch[k]===q.a)b.classList.add("good");else if(k===v)b.classList.add("bad");});
-  msg=ok?`<b>+${c.pts}</b> for ${name}!`:(v==null?"Time’s up! ":"Not quite. ")+`It’s <b>${esc(q.a)}</b>.`;}
+  const pre=v==null?"Time’s up! ":"Not quite. ";
+  msg=ok?`<b>+${c.pts}</b> for ${name}!`:pre+`It’s <b>${esc(q.a)}</b>.`;
+  plain=ok?`+${c.pts} for ${nm}!`:pre+`It’s ${q.a}.`;}
+ c.result={team:c.team,ok,text:plain};
  if(ok){award(c.team,c.pts);sfx.good();}else sfx.bad();
  showRes(msg,ok);}
 
@@ -437,13 +490,14 @@ const KINDS=["who","scr","emo"];
 function allPlay(){const kind=KINDS[S.round%3],q=draw("all",kind),m=mult();
  cur={team:null,q,max:500*m,min:100*m,val:500*m,locked:new Set(),struck:new Set(),phase:"ready",k:0};
  if(q.kind!=="scr")cur.opts=shuffle([q.a,...q.w]);
- const label={scr:"Scramble",who:"Who am I?",emo:"Emoji movie"}[q.kind];
- const how={scr:"Letters slide into place one by one. Buzz as soon as you can read it, then shout it out.",who:"Clues appear one at a time, hardest first. Buzz in, then pick who it is.",emo:"Emojis appear one at a time. Buzz in, then pick the movie."}[q.kind];
+ const label={scr:"scramble",who:"Who am I?",emo:"emoji movie"}[q.kind];
+ const how={scr:"Letters slide into place one by one. Buzz as soon as you can read it, then say it or type it on your phone.",who:"Clues appear one at a time, hardest first. Buzz in, then pick who it is.",emo:"Emojis appear one at a time. Buzz in, then pick the movie."}[q.kind];
  ticketsUpd();buzzers();
- setScreen(qhead(q,"All play: "+label,cur.max,m)+`<div class="barw"><div class="bar" id="bar"><i id="bi"></i></div></div><div id="ap"></div><div id="bzp"><div class="ready"><p>${how}</p><button class="next" data-a="apgo" data-primary>Start</button><div class="kchips">${S.teams.map((t,i)=>`<span class="kchip" style="--c:${t.color}"><b>${KEYS[i]}</b>${esc(t.name)}</span>`).join("")}</div></div></div><div class="res" id="res" role="status" hidden></div>`);
+ setScreen(qhead(q,"All play: "+DLAB[q.d].toLowerCase()+" "+label,cur.max,m)+`<div class="barw"><div class="bar" id="bar"><i id="bi"></i></div></div><div id="ap"></div><div id="bzp"><div class="ready"><p>${how}</p><button class="next" data-a="apgo" data-primary>Start</button><div class="kchips">${S.teams.map((t,i)=>`<span class="kchip" style="--c:${t.color}"><b>${KEYS[i]}</b>${esc(t.name)}</span>`).join("")}</div></div></div><div class="res" id="res" role="status" hidden></div>`);
  if(q.kind==="scr")scrInit();
  apBuild();
- $("#bzp .next").focus({preventScroll:true});}
+ $("#bzp .next").focus({preventScroll:true});
+ sync();}
 function apBuild(){const q=cur.q,box=$("#ap");
  if(q.kind==="scr"){scrRender();return;}
  if(q.kind==="who")box.innerHTML=`<ol class="clues">${q.clues.map((c,i)=>`<li class="hid" id="cl${i}"><span class="k">${i+1}</span><span>Clue ${i+1}</span></li>`).join("")}</ol>`;
@@ -451,12 +505,12 @@ function apBuild(){const q=cur.q,box=$("#ap");
 function apShow(k){const q=cur.q,i=k-1;
  if(q.kind==="who"){const li=$("#cl"+i);if(li){li.className="new";li.innerHTML=`<span class="k">${k}</span><span>${esc(q.clues[i])}</span>`;}}
  else{const s=$("#em"+i);if(s){s.className="new";s.textContent=q.e[i];}}}
-function apGo(){if(!cur||cur.phase!=="ready")return;cur.phase="count";let n=3;
+function apGo(){if(!cur||cur.phase!=="ready")return;cur.phase="count";sync();let n=3;
  const step=()=>{if(!cur||cur.phase!=="count")return;
   if(n===0){cur.phase="live";buzzUpd();$("#bzp").innerHTML="";
    const q=cur.q;if(q.kind==="scr"){cur.cover=false;$$(".tile").forEach(t=>{t.textContent=t.dataset.ch;t.classList.remove("cov");});scrPos();}else{cur.k=1;apShow(1);}
    const dur=q.kind==="scr"?24:q.kind==="who"?26:q.e.length*3.5+8;
-   startClock(dur,apTick,()=>apFinish(null,"Time’s up! "));return;}
+   startClock(dur,apTick,()=>apFinish(null,"Time’s up! "));sync();return;}
   $("#bzp").innerHTML=`<div class="count">${n}</div>`;sfx.blip();n--;later(step,700);};
  step();}
 function apTick(el,p){const c=cur;if(!c)return;const v=Math.round((c.max-(c.max-c.min)*p)/10)*10;if(v!==c.val){c.val=v;const e=$("#pv");if(e)e.textContent=v;}setBar(1-p);
@@ -479,32 +533,43 @@ function apRevealAll(){const q=cur.q;if(q.kind==="scr"){if(cur.cover){cur.cover=
  else{const n=q.kind==="who"?4:q.e.length;while(cur.k<n){cur.k++;apShow(cur.k);}}}
 function buzzers(){const f=$("#buzzers");f.hidden=false;f.innerHTML=S.teams.map((t,i)=>`<button class="bzr" id="bz${i}" data-a="bz" data-v="${i}" style="--c:${t.color}" aria-label="Buzz for ${esc(t.name)}, key ${KEYS[i]}" disabled><span class="cap">${KEYS[i]}</span><span class="nm">${esc(t.name)}</span></button>`).join("");}
 function buzzUpd(){S.teams.forEach((t,i)=>{const b=$("#bz"+i);if(!b)return;b.classList.toggle("lock",!!cur&&!!cur.locked&&cur.locked.has(i));b.disabled=!cur||cur.phase!=="live"||cur.locked.has(i);});}
-function buzz(i){const c=cur;if(!c||c.phase!=="live"||c.locked.has(i)||i>=S.teams.length)return;
- c.phase="buzz";c.buzzed=i;pauseClock();sfx.buzz();buzzUpd();flash(S.teams[i].color);const b=$("#bz"+i);if(b){b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),300);}
+function buzz(i,phone){const c=cur;if(!c||c.phase!=="live"||c.locked.has(i)||i>=S.teams.length)return;
+ c.phase="buzz";c.buzzed=i;c.viaPhone=!!phone;c.bzId=(c.bzId||0)+1;c.bzT=Date.now()+25000;pauseClock();sfx.buzz();buzzUpd();flash(S.teams[i].color);const b=$("#bz"+i);if(b){b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),300);}
  const tm=S.teams[i],scr=c.q.kind==="scr";
- const inner=scr?`<div class="judge"><button class="reveal" data-a="reveal" data-primary>Show the answer</button></div>`
+ const inner=scr?`<div class="judge"><button class="reveal" data-a="reveal"${phone?"":" data-primary"}>Show the answer</button></div>`
   :`<div class="ch">${c.opts.map((t,k)=>`<button data-a="apick" data-v="${k}" style="--d:${k}"${c.struck.has(k)?' disabled class="gone"':""}><span class="k">${"ABCD"[k]}</span><span>${esc(t)}</span></button>`).join("")}</div>`;
- $("#bzp").innerHTML=`<div class="bz" style="--c:${tm.color}"><h4>${esc(tm.name)} buzzed in for ${c.val}!</h4><p>${scr?"Shout your answer, then check it.":"Pick your answer."}</p>${inner}</div>`;
- $("#bzp .bz").scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});}
-function apPick(k){const c=cur;if(!c||c.phase!=="buzz")return;const i=c.buzzed;
- if(c.opts[k]===c.q.a){apFinish(i);return;}
- c.struck.add(k);c.locked.add(i);sfx.bad();
- if(c.locked.size>=S.teams.length||c.struck.size>=c.opts.length-1){apFinish(null,c.locked.size>=S.teams.length?"Everyone’s locked out! ":"Out of guesses! ");return;}
- c.phase="live";buzzUpd();$("#bzp").innerHTML=`<p class="miss">Wrong! ${esc(S.teams[i].name)} is locked out. Everyone else, keep watching.</p>`;resumeClock();}
+ const sub=phone?(scr?"Typing their answer on their phone…":"Picking on their phone. You can tap for them here too."):(scr?"Shout your answer, then check it.":"Pick your answer.");
+ $("#bzp").innerHTML=`<div class="bz" style="--c:${tm.color}"><h4>${esc(tm.name)} buzzed in for ${c.val}!</h4><p>${sub}</p>${inner}</div>`;
+ $("#bzp .bz").scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});
+ sync();
+ if(phone){const id=c.bzId;later(()=>{if(cur===c&&c.phase==="buzz"&&c.bzId===id)wrongBuzz(`Time’s up, ${tm.name}. Locked out!`);},25000);}}
+function wrongBuzz(msg){const c=cur,i=c.buzzed;c.locked.add(i);sfx.bad();
+ if(c.locked.size>=S.teams.length||(c.opts&&c.struck.size>=c.opts.length-1)){apFinish(null,c.locked.size>=S.teams.length?"Everyone’s locked out! ":"Out of guesses! ");return;}
+ c.phase="live";c.viaPhone=false;buzzUpd();$("#bzp").innerHTML=`<p class="miss">${esc(msg)} Everyone else, keep watching.</p>`;resumeClock();sync();}
+function apPick(k){const c=cur;if(!c||c.phase!=="buzz"||!c.opts||c.struck.has(k))return;
+ if(c.opts[k]===c.q.a){apFinish(c.buzzed);return;}
+ c.struck.add(k);wrongBuzz(`Wrong! ${S.teams[c.buzzed].name} is locked out.`);}
+const normA=s=>String(s).toUpperCase().replace(/[^A-Z]/g,"");
+function lev(a,b){let p=Array.from({length:b.length+1},(_,j)=>j);for(let i=1;i<=a.length;i++){const q=[i];for(let j=1;j<=b.length;j++)q[j]=Math.min(p[j]+1,q[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=q;}return p[b.length];}
+function closeEnough(t,a){t=normA(t);a=normA(a);if(!t)return false;return t===a||lev(t,a)<=(a.length>=9?2:1);}
+function scrTyped(text){const c=cur;if(!c||c.phase!=="buzz"||c.q.kind!=="scr")return;
+ if(closeEnough(text,c.q.a)){apFinish(c.buzzed);return;}
+ wrongBuzz(`${S.teams[c.buzzed].name} guessed “${String(text).trim().slice(0,40)||"nothing"}”. Locked out!`);}
 function scrReveal(){const c=cur;if(!c||c.phase!=="buzz")return;c.phase="judge";apRevealAll();
- $("#bzp").innerHTML=`<div class="bz" style="--c:${S.teams[c.buzzed].color}"><h4>Did ${esc(S.teams[c.buzzed].name)} say ${esc(c.q.a)}?</h4><p>Close counts for spelling, not for a different name.</p><div class="judge"><button class="yes" data-a="yes">Yes, +${c.val}</button><button class="no" data-a="no">No</button></div></div>`;}
+ $("#bzp").innerHTML=`<div class="bz" style="--c:${S.teams[c.buzzed].color}"><h4>Did ${esc(S.teams[c.buzzed].name)} say ${esc(c.q.a)}?</h4><p>Close counts for spelling, not for a different name.</p><div class="judge"><button class="yes" data-a="yes">Yes, +${c.val}</button><button class="no" data-a="no">No</button></div></div>`;sync();}
 function apFinish(winner,pre){const c=cur;if(!c||c.phase==="done")return;stopClock();c.phase="done";buzzUpd();apRevealAll();$("#bzp").innerHTML="";
- if(winner!=null){award(winner,c.val);sfx.good();showRes(`<b>+${c.val}</b> for ${esc(S.teams[winner].name)}! It’s <b>${esc(c.q.a)}</b>.`,true);}
- else{sfx.bad();showRes(`${esc(pre||"")}Nobody scores this one. It was <b>${esc(c.q.a)}</b>.`,false);}}
+ if(winner!=null){const nm=S.teams[winner].name;c.result={team:winner,ok:true,text:`+${c.val} for ${nm}! It’s ${c.q.a}.`};award(winner,c.val);sfx.good();showRes(`<b>+${c.val}</b> for ${esc(nm)}! It’s <b>${esc(c.q.a)}</b>.`,true);}
+ else{c.result={team:null,ok:false,text:`${pre||""}Nobody scores this one. It was ${c.q.a}.`};sfx.bad();showRes(`${esc(pre||"")}Nobody scores this one. It was <b>${esc(c.q.a)}</b>.`,false);}}
 
 /* ---------- end ---------- */
+function ranking(){const r=S.teams.map((t,i)=>({...t,i})).sort((a,b)=>b.score-a.score);return {r,place:t=>["1st","2nd","3rd","4th"][r.filter(x=>x.score>t.score).length]};}
 function end(){stopClock();clearTimers();cur=null;S.screen="end";$("#buzzers").hidden=true;ticketsUpd();
  S.teams.forEach(t=>t.shown=t.score);
- const r=S.teams.map(t=>({...t})).sort((a,b)=>b.score-a.score),top=r[0].score,w=r.filter(t=>t.score===top);
- const place=t=>["1st","2nd","3rd","4th"][r.filter(x=>x.score>t.score).length];
+ const {r,place}=ranking(),top=r[0].score,w=r.filter(t=>t.score===top);
  setScreen(`<div class="end">${TROPHY}<p class="sub">And the winner is</p><div class="winner" style="--c:${w.length>1?"#ffd23f":w[0].color}">${w.length>1?"It’s a tie!":esc(w[0].name)}</div>${w.length>1?`<p class="sub">${w.map(t=>esc(t.name)).join(" and ")} share the top spot.</p>`:""}
  <div class="stand">${r.map((t,k)=>`<div class="tk" style="--c:${t.color};--d:${k}"><div><b><span>${place(t)}: ${esc(t.name)}</span></b></div><span class="sc">${t.score}</span></div>`).join("")}</div>
  <div class="endb"><button class="go" data-a="go" data-primary>Rematch</button><button class="ghost" data-a="newgame">Change teams or fandoms</button></div></div>`);
+ sync();
  later(()=>{sfx.fanfare();confetti();},700);}
 function confetti(){if(reduced())return;const cv=$("#cf"),x=cv.getContext("2d"),d=Math.min(2,devicePixelRatio||1);cv.hidden=false;
  const W=cv.width=innerWidth*d,H=cv.height=innerHeight*d,cols=[...COLORS,"#fff","#e23636"];
@@ -514,31 +579,125 @@ function confetti(){if(reduced())return;const cv=$("#cf"),x=cv.getContext("2d"),
 function quitAsk(){if(S.screen!=="play")return;pauseClock();const m=$("#modal");m.hidden=false;
  m.innerHTML=`<div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mh"><h2 id="mh">End this game?</h2><p style="margin:0">Scores will be lost.</p><div><button class="go" data-a="quitY">End game</button><button class="ghost" data-a="quitN">Keep playing</button></div></div>`;m.querySelector(".ghost").focus();}
 
+/* ---------- phones ---------- */
+const PH={c:null,bi:0,room:"",players:{},vip:null,sent:{},status:"off",hb:0,gen:0};
+const ROOMCH="ABCDEFGHJKLMNPQRSTUVWXYZ";
+const TP=s=>NET.prefix+PH.room+"/"+s;
+const fresh=p=>Date.now()-p.seen<40000;
+function teamPhones(i){return Object.values(PH.players).filter(p=>p.team===i&&fresh(p)).length;}
+function emptiest(){let best=0,n=1e9;S.teams.forEach((t,i)=>{const k=Object.values(PH.players).filter(p=>p.team===i).length;if(k<n){n=k;best=i;}});return best;}
+const validTeam=t=>S.teams&&Number.isInteger(t)&&t>=0&&t<S.teams.length;
+const joinBase=()=>location.protocol.startsWith("http")&&/\/play\//.test(location.pathname)?location.href.replace(/\/play\/.*$/,"/join/"):NET.joinUrl;
+function joinLink(){const o=NET.override();return joinBase()+"?r="+PH.room+"&b="+PH.bi+(o?"&broker="+encodeURIComponent(o):"");}
+async function phonesStart(){if(PH.c||PH.status==="connecting")return;
+ if(typeof mqtt==="undefined"||typeof NET==="undefined"){PH.status="fail";lobbyUpd();return;}
+ if(!PH.room)PH.room=Array.from({length:4},()=>ROOMCH[rand(ROOMCH.length)]).join("");
+ const gen=++PH.gen;PH.status="connecting";lobbyUpd();
+ const o=NET.override(),urls=o?[o]:NET.brokers;
+ for(let i=0;i<urls.length;i++){const c=await NET.connectOne(urls[i]);if(gen!==PH.gen){if(c)c.end(true);return;}if(!c)continue;
+  PH.c=c;PH.bi=o?0:i;PH.status="up";
+  c.on("message",(t,b)=>{if(t!==TP("h"))return;let m;try{m=JSON.parse(b.toString());}catch(e){return;}onPhone(m);});
+  c.on("connect",()=>{PH.status="up";hello();PH.sent={};sync();lobbyUpd();});
+  c.on("offline",()=>{PH.status="connecting";lobbyUpd();});
+  c.subscribe(TP("h"),{qos:1});hello();clearInterval(PH.hb);PH.hb=setInterval(hello,30000);
+  lobbyUpd();sync();return;}
+ PH.status="fail";lobbyUpd();}
+function hello(){if(PH.c)PH.c.publish(TP("hello"),JSON.stringify({room:PH.room,ts:Date.now(),title:"Fandomonium"}),{qos:1,retain:true});}
+function phonesStop(){PH.gen++;clearInterval(PH.hb);if(PH.c){const c=PH.c;try{c.publish(TP("hello"),"",{qos:1,retain:true});}catch(e){}setTimeout(()=>{try{c.end(true);}catch(e){}},500);}
+ PH.c=null;PH.status="off";PH.players={};PH.vip=null;PH.sent={};PH.room="";}
+function onPhone(m){if(!m||!m.pid)return;const pid=String(m.pid).slice(0,40);let p=PH.players[pid];
+ if(m.t==="join"){if(!p)p=PH.players[pid]={name:"",team:null,seen:0};
+  p.name=String(m.name||"Player").trim().slice(0,16)||"Player";p.seen=Date.now();
+  const t=Number(m.team);if(!validTeam(p.team))p.team=validTeam(t)?t:emptiest();
+  if(!PH.vip||!PH.players[PH.vip]||!fresh(PH.players[PH.vip]))PH.vip=pid;
+  PH.sent[pid]=null;sendView(pid);lobbyUpd();ticketsUpd();return;}
+ if(!p){if(PH.c)PH.c.publish(TP("p/"+pid),JSON.stringify({v:"rejoin"}),{qos:1});return;}
+ p.seen=Date.now();const c=cur,mine=c&&c.team===p.team;
+ switch(m.t){
+  case "ping":if(m.need)PH.sent[pid]=null;sendView(pid);break;
+  case "team":{const t=Number(m.team);if(S.screen==="lobby"&&validTeam(t)){p.team=t;lobbyUpd();sync();}break;}
+  case "start":if(pid===PH.vip&&S.screen==="lobby")ACT.lobbyGo();break;
+  case "cat":if(c&&c.phase==="cat"&&mine)chooseCat(String(m.k));break;
+  case "pick":{const i=Number(m.i);if(!(i>=0&&i<4))break;
+   if(c&&c.ch&&!c.done&&mine)turnEnd(i);
+   else if(c&&c.phase==="buzz"&&c.buzzed===p.team&&c.opts)apPick(i);break;}
+  case "seq":if(c&&c.items&&!c.done&&mine&&Array.isArray(m.order)&&m.order.length===c.items.length&&new Set(m.order).size===c.items.length){c.order=m.order.map(Number);turnEnd(c.order.every((j,k)=>c.items[j]===c.q.items[k]));}break;
+  case "buzz":if(c&&c.phase==="live"&&validTeam(p.team))buzz(p.team,true);break;
+  case "type":if(c&&c.phase==="buzz"&&c.buzzed===p.team)scrTyped(String(m.text||"").slice(0,60));break;
+  case "ready":if(pid===PH.vip&&c&&c.phase==="ready")apGo();break;
+  case "next":if(pid===PH.vip){const r=$("#res");if(r&&!r.hidden){const n=r.querySelector(".next");if(n)n.click();}}break;
+ }}
+const left=()=>clk?Math.max(0,clk.dur-clk.el):(cur&&cur.dur)||20;
+function view(pid){const p=PH.players[pid],teams=S.teams||[];
+ const base={room:PH.room,vip:pid===PH.vip,team:p.team,name:p.name,teams:teams.map(t=>({name:t.name,color:t.color})),score:validTeam(p.team)?teams[p.team].score:0};
+ const V=o=>Object.assign(base,o),tn=i=>teams[i]?teams[i].name:"";
+ if(S.screen==="lobby")return V({v:"lobby"});
+ if(S.screen==="end"){const {r,place}=ranking(),me=r.find(t=>t.i===p.team);return V({v:"end",place:me?place(me):"",winner:r.filter(t=>t.score===r[0].score).map(t=>t.name).join(" and ")});}
+ if(S.screen!=="play")return V({v:"wait",msg:"Hang tight",sub:"The host is setting up."});
+ const c=cur,mine=c&&c.team===p.team;
+ if(!c){if(S.step<teams.length&&S.step===p.team)return V({v:"wait",msg:"You’re up next!",sub:"Get ready."});
+  if(S.step>=teams.length)return V({v:"wait",msg:"All play is coming",sub:"Get ready to buzz."});return V({v:"wait",msg:"Eyes on the screen",sub:tn(S.step)+" is up next."});}
+ if(c.phase==="cat")return mine?V({v:"cat",opts:c.opts.map(k=>({k,n:CATS[k].n,c:CATS[k].c})),secs:left()}):V({v:"wait",msg:tn(c.team)+" is picking a fandom"});
+ const res=()=>{const r=c.result||{};return V({v:"res",mine:r.team===p.team,ok:r.team===p.team&&!!r.ok,text:r.text||""});};
+ if(c.team!=null&&c.ch){if(c.done)return res();return mine?V({v:"mc",q:c.q.q,ch:c.ch,secs:left(),pts:c.pts}):V({v:"wait",msg:tn(c.team)+" is answering",sub:c.q.q});}
+ if(c.team!=null&&c.items){if(c.done)return res();return mine?V({v:"seq",q:c.q.q,items:c.items,secs:left(),pts:c.pts}):V({v:"wait",msg:tn(c.team)+" is putting things in order",sub:c.q.q});}
+ if(c.phase==="ready"||c.phase==="count")return V({v:"ready",msg:"All play!",sub:"Thumbs on the buzzer."});
+ if(c.phase==="live")return V({v:"buzz",locked:c.locked.has(p.team),val:c.val});
+ if(c.phase==="buzz"||c.phase==="judge"){const secs=Math.max(0,(c.bzT-Date.now())/1000);
+  if(c.buzzed===p.team&&c.viaPhone&&c.phase==="buzz")return c.q.kind==="scr"?V({v:"type",hint:c.q.hint,words:c.q.a.split(" ").map(w=>w.length),secs}):V({v:"mc",q:"You buzzed in! Pick your answer.",ch:c.opts,struck:[...c.struck],secs,pts:c.val});
+  return V({v:"wait",msg:tn(c.buzzed)+" buzzed in",sub:c.locked.has(p.team)?"You’re locked out of this one.":"Fingers crossed they’re wrong."});}
+ if(c.phase==="done")return res();
+ return V({v:"wait",msg:"Eyes on the screen"});}
+function sendView(pid){if(!PH.c||PH.status!=="up"||!PH.players[pid])return;const v=JSON.stringify(view(pid));if(PH.sent[pid]===v)return;PH.sent[pid]=v;PH.c.publish(TP("p/"+pid),v,{qos:1});}
+function sync(){if(PH.c)Object.keys(PH.players).forEach(sendView);}
+
+/* ---------- lobby ---------- */
+function lobby(){S.screen="lobby";cur=null;stopClock();$("#buzzers").hidden=true;ticketsUpd();
+ Object.values(PH.players).forEach(p=>{if(!validTeam(p.team))p.team=emptiest();});
+ setScreen(`<div class="lobby"><div class="joinbox"><div class="qr" id="qr" aria-label="QR code to join on your phone" role="img"></div><div><h2 class="q" style="margin:0 0 6px">Join on your phone</h2><p class="sub" style="margin:0">Scan the code, or go to <span class="jurl" id="jurl"></span> and enter</p><div class="rcode" id="rcode"></div><p class="pst" id="pst"></p></div></div>
+ <div class="lteams" id="lteams"></div>
+ <div class="endb"><button class="go" data-a="lobbyGo" data-primary>Start the game</button><button class="ghost" data-a="newgame">Back to setup</button></div>
+ <p class="sub" style="margin:0;text-align:center">The first phone to join (★) can start rounds from the couch. Keyboard buzzers still work.</p></div>`);
+ lobbyUpd();phonesStart();sync();}
+function lobbyUpd(){if(S.screen!=="lobby"||!$("#lteams"))return;const up=PH.status==="up";
+ const qr=$("#qr");if(up&&typeof qrcode!=="undefined"){const link=joinLink();if(qr.dataset.link!==link){try{const g=qrcode(0,"M");g.addData(link);g.make();qr.innerHTML=g.createSvgTag({cellSize:4,margin:0,scalable:true});qr.dataset.link=link;qr.setAttribute("data-join",link);}catch(e){qr.textContent="";}}}else if(!up){qr.innerHTML="";delete qr.dataset.link;}
+ $("#rcode").innerHTML=up?[...PH.room].map(ch=>`<span>${ch}</span>`).join(""):"";
+ $("#jurl").textContent=joinBase().replace(/^https?:\/\//,"").replace(/\/$/,"");
+ const st=$("#pst");st.className="pst "+PH.status;
+ st.innerHTML=`<i></i><span>${{up:"Ready for phones",connecting:"Connecting to the phone relay…",fail:"Couldn’t reach the phone relay. Check your internet, or start anyway and play with the keyboard.",off:"Starting…"}[PH.status]}</span>${PH.status==="fail"?'<button class="ghost" data-a="retry">Try again</button>':""}`;
+ $("#lteams").innerHTML=S.teams.map((t,i)=>{const ps=Object.entries(PH.players).filter(([,p])=>p.team===i&&fresh(p));return `<div class="lteam" style="--c:${t.color}"><h4><span>${esc(t.name)}</span><span>${KEYS[i]}</span></h4><ul>${ps.length?ps.map(([id,p])=>`<li${id===PH.vip?' class="vip"':""}>${esc(p.name)}</li>`).join(""):'<li class="none">No phones yet</li>'}</ul></div>`;}).join("");}
+
 /* ---------- actions ---------- */
 const ACT={
  addT:()=>{if(set.teams.length<4){set.teams.push(DEF_NAMES[set.teams.length]);saveSet();drawSetup();}},
  rm:v=>{set.teams.splice(+v,1);saveSet();drawSetup();},
  cat:v=>{const i=set.cats.indexOf(v);if(i>-1)set.cats.splice(i,1);else set.cats.push(v);saveSet();drawSetup();},
  len:v=>{set.rounds=+v;saveSet();drawSetup();},
+ diff:v=>{set.diff=String(v);saveSet();drawSetup();},
+ ph:()=>{set.phones=!set.phones;saveSet();drawSetup();},
  go:()=>{if(!set.cats.length){toast("Pick at least one fandom");return;}unlock();
-  S={screen:"play",teams:set.teams.map((n,i)=>({name:String(n).trim()||"Team "+(i+1),color:COLORS[i],score:0,shown:0})),rounds:set.rounds,round:0,step:0,cats:set.cats.slice()};hist=[];cur=null;ticketsBuild();play();},
- newgame:()=>setup(),
+  S={screen:set.phones?"lobby":"play",teams:set.teams.map((n,i)=>({name:String(n).trim()||"Team "+(i+1),color:COLORS[i],score:0,shown:0})),rounds:set.rounds,round:0,step:0,cats:set.cats.slice(),diff:String(set.diff)};hist=[];cur=null;
+  if(set.phones)lobby();else{phonesStop();ticketsBuild();play();}},
+ lobbyGo:()=>{if(S.screen!=="lobby")return;S.screen="play";Object.values(PH.players).forEach(p=>{if(!validTeam(p.team))p.team=emptiest();});ticketsBuild();play();},
+ retry:()=>{PH.status="off";phonesStart();},
+ pickcat:v=>chooseCat(v),
+ newgame:()=>{phonesStop();setup();},
  next:()=>next(),
  pick:v=>{if(cur&&!cur.done&&cur.ch)turnEnd(+v);},
  seqp:v=>{const c=cur;if(!c||c.done||!c.items)return;const k=+v,at=c.order.indexOf(k);if(at>-1)c.order=c.order.slice(0,at);else c.order.push(k);
   $$(".seq button").forEach(b=>{const j=+b.dataset.v,p=c.order.indexOf(j);b.classList.toggle("picked",p>-1);b.querySelector(".k").textContent=p>-1?p+1:"";});
   if(c.order.length===c.items.length)turnEnd(c.order.every((j,p)=>c.items[j]===c.q.items[p]));},
  apgo:()=>apGo(),
- bz:v=>buzz(+v),
+ bz:v=>buzz(+v,false),
  apick:v=>apPick(+v),
  reveal:()=>scrReveal(),
  yes:()=>{if(cur&&cur.phase==="judge")apFinish(cur.buzzed);},
  no:()=>{if(cur&&cur.phase==="judge")apFinish(null,`Not it, ${S.teams[cur.buzzed].name}. `);},
- undo:()=>{const h=hist.pop();if(!h)return;S.teams[h.i].score-=h.pts;ticketsUpd();kickScores();popup(h.i,"−"+h.pts,true);toast(`Took back ${h.pts} from ${S.teams[h.i].name}`);},
+ undo:()=>{const h=hist.pop();if(!h)return;S.teams[h.i].score-=h.pts;ticketsUpd();kickScores();popup(h.i,"−"+h.pts,true);toast(`Took back ${h.pts} from ${S.teams[h.i].name}`);sync();},
  snd:()=>{muted=!muted;store.set("fs-muted",muted);sndBtn();if(!muted){unlock();sfx.blip();}},
  fs:()=>{try{if(document.fullscreenElement)document.exitFullscreen();else{const p=document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(()=>toast("Full screen isn’t available here"));else if(!p)toast("Full screen isn’t available here");}}catch(e){toast("Full screen isn’t available here");}},
  quit:()=>quitAsk(),
- quitY:()=>{$("#modal").hidden=true;$("#curt").classList.remove("shut");setup();},
+ quitY:()=>{$("#modal").hidden=true;$("#curt").classList.remove("shut");phonesStop();setup();},
  quitN:()=>{$("#modal").hidden=true;resumeClock();}
 };
 document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||b.disabled)return;unlock();const f=ACT[b.dataset.a];if(f)f(b.dataset.v,b);});
@@ -549,13 +708,14 @@ document.addEventListener("keydown",e=>{
  if(!$("#modal").hidden){if(k==="Escape")ACT.quitN();return;}
  if(cseq||bseq){if(k===" "||k==="Enter"){e.preventDefault();(cseq||bseq).skip();}return;}
  if(S.screen==="play"&&cur){
-  const bi=KEYS.indexOf(k);if(bi>-1&&bi<S.teams.length&&cur.phase==="live"){e.preventDefault();unlock();buzz(bi);return;}
+  const bi=KEYS.indexOf(k);if(bi>-1&&bi<S.teams.length&&cur.phase==="live"){e.preventDefault();unlock();buzz(bi,false);return;}
   let n="1234".indexOf(k);if(n<0)n="ABCD".indexOf(k);
-  if(n>-1){const bs=$$("#screen .ch button");if(bs[n]&&!bs[n].disabled){e.preventDefault();bs[n].click();}return;}
+  if(n>-1){const bs=$$("#screen .ch button, #screen .catpick button");if(bs[n]&&!bs[n].disabled){e.preventDefault();bs[n].click();}return;}
  }
  if(k===" "||k==="Enter"){if(e.target.closest&&e.target.closest("button"))return;const p=$("#screen [data-primary]");if(p&&!p.closest("[hidden]")){e.preventDefault();p.click();}}
 });
 let rz;window.addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(()=>{if(cur&&cur.q&&cur.q.kind==="scr"&&cur.words&&$("#ap"))scrRender();},150);});
+window.addEventListener("pagehide",()=>{if(PH.c){try{PH.c.publish(TP("hello"),"",{qos:0,retain:true});}catch(e){}}});
 
 /* ---------- boot ---------- */
 function start(data){sndBtn();unlock();watchLights($("#frame"));
@@ -565,7 +725,7 @@ function start(data){sndBtn();unlock();watchLights($("#frame"));
   S.step--;}
  else setup();
  const c=$("#curt"),s={t:0};cseq=s;s.skip=()=>{if(cseq!==s)return;cseq=null;clearTimeout(s.t);c.classList.remove("shut");sfx.curtain();};s.t=setTimeout(s.skip,1500);}
-if(window.claude&&window.claude.hot&&window.claude.hot.snapshot){try{window.claude.hot.snapshot(()=>({set,g:S.screen==="play"?{teams:S.teams,rounds:S.rounds,round:S.round,step:S.step,cats:S.cats}:null}));}catch(e){}}
+if(window.claude&&window.claude.hot&&window.claude.hot.snapshot){try{window.claude.hot.snapshot(()=>({set,g:S.screen==="play"?{teams:S.teams,rounds:S.rounds,round:S.round,step:S.step,cats:S.cats,diff:S.diff}:null}));}catch(e){}}
 if(window.claude&&window.claude.hot&&window.claude.hot.ready)window.claude.hot.ready(start);else start(window.claude&&window.claude.hot&&window.claude.hot.data||{});
 }
 </script>

@@ -1,0 +1,42 @@
+name: Phone test
+
+# Plays a whole game from three simulated phones over the real public relays,
+# once through the normal relay order and once forcing the backup relay.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['src/**', 'test/**', 'build-web.js', 'build-site.js', '.github/workflows/phones.yml']
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        relay: ['', 'wss://broker.hivemq.com:8884/mqtt']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - run: node build-site.js
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - name: Play a full game from three phones
+        run: mkdir -p shots && python test/e2e.py
+        env:
+          BROKER: ${{ matrix.relay }}
+          SHOTS: shots
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: phone-test-${{ strategy.job-index }}
+          path: shots

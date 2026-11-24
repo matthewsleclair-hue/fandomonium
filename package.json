@@ -1,13 +1,14 @@
 {
   "name": "fandomonium",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Movie trivia party game for 2 to 4 teams on one screen",
   "main": "main.js",
   "scripts": {
     "web": "node build-web.js",
     "site": "node build-site.js",
     "start": "node build-web.js && electron .",
-    "dist": "node build-web.js && electron-builder --win portable --x64 --publish never"
+    "dist": "node build-web.js && electron-builder --win portable --x64 --publish never",
+    "test": "node build-site.js && python3 test/e2e.py"
   },
   "keywords": [],
   "author": "Matthew",
@@ -15,8 +16,12 @@
   "devDependencies": {
     "@fontsource-variable/rubik": "^5.3.0",
     "@fontsource/bungee": "^5.3.0",
+    "aedes": "^1.2.0",
     "electron": "^45.4.1",
-    "electron-builder": "^26.18.0"
+    "electron-builder": "^26.18.0",
+    "mqtt": "^5.16.1",
+    "qrcode-generator": "^2.0.4",
+    "ws": "^8.23.0"
   },
   "productName": "Fandomonium",
   "build": {

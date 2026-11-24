@@ -1,10 +1,27 @@
 # Fandomonium
 
-Movie trivia for 2 to 4 teams around one screen. 215 questions across Harry Potter, Marvel, Star Wars, Disney & Pixar and Lord of the Rings.
+Movie trivia for 2 to 4 teams around one screen, with phones as controllers. 361 questions across Harry Potter, Marvel, Star Wars, Disney & Pixar and Lord of the Rings, each rated Easy, Medium or Hard.
 
 **[Play in your browser](https://matthewsleclair-hue.github.io/fandomonium/play/)** · **[Download for Windows](https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe)** · **[Website](https://matthewsleclair-hue.github.io/fandomonium/)**
 
 ![A Harry Potter question answered correctly for 200 points](docs/screenshots/answered.webp)
+
+## Play with phones
+
+Turn on **Play with phones** on the setup screen. The TV shows a QR code and a four-letter room code, and everyone joins from their phone's browser (no app, Wi-Fi or mobile data both work).
+
+- Pick your team in the lobby. Several people can share a team.
+- On your team's turn, pick the fandom and answer on your phone.
+- In All play, your phone becomes a big buzzer. Buzz first, then pick the answer, or type it for scrambles.
+- The first phone to join is the VIP, who starts the game and moves things along from the couch.
+
+![The TV lobby with a QR code and room code](docs/screenshots/lobby.webp)
+
+Phones talk to the TV through a free public MQTT relay over secure WebSockets (`broker.emqx.io`, with `broker.hivemq.com` as a backup), so the TV and phones need internet. The keyboard and on-screen buzzers always work too.
+
+## Difficulty
+
+Every question is tagged 1 (easy), 2 (medium) or 3 (hard). Pick **Easy**, **Medium** or **Hard**, or **Mixed**, which starts easy and gets harder each round. When a level runs out of fresh questions, the game borrows from the nearest level before repeating anything.
 
 ## How a game runs
 
@@ -37,15 +54,15 @@ On a touchscreen, tap the buzzers and answers instead.
 
 ## Add your own questions
 
-Every question lives in [`src/bank.js`](src/bank.js). Put the right answer first; the game shuffles the choices.
+Every question lives in [`src/bank.js`](src/bank.js). The first number is the difficulty (1 to 3), then the question, then the right answer first; the game shuffles the choices.
 
 ```js
 hp:{
   mc:[
-    ["What’s the name of Harry’s owl?", "Hedwig", "Errol", "Pigwidgeon", "Hermes"],
+    [1, "What’s the name of Harry’s owl?", "Hedwig", "Errol", "Pigwidgeon", "Hermes"],
   ],
-  scr:[["HOGWARTS", "Place"]],
-  who:[["Dobby", ["clue 1", "clue 2", "clue 3", "clue 4"], ["Kreacher", "Winky", "Griphook"]]],
+  scr:[[2, "HOGWARTS", "Place"]],
+  who:[[3, "Dobby", ["clue 1", "clue 2", "clue 3", "clue 4"], ["Kreacher", "Winky", "Griphook"]]],
 }
 ```
 
@@ -62,15 +79,19 @@ npm run dist     # build release/Fandomonium.exe
 npm run site     # build the website into site/
 ```
 
+To test phones without the internet, run a local relay with `node test/broker.js 8888` and open `play/?broker=ws://127.0.0.1:8888`. `python3 test/e2e.py` plays a whole game from three simulated phones (it uses the `BROKER` environment variable when set).
+
 | File | What it is |
 | --- | --- |
 | `src/game.html` | The whole game: layout, styles and logic |
 | `src/bank.js` | Every question |
+| `src/join.html` | The phone controller |
+| `src/net.js` | The realtime relay connection shared by the TV and phones |
 | `site-src/index.html` | The website's landing page |
 | `main.js` | The Electron window for the Windows app |
 | `build-web.js`, `build-site.js` | Inline the fonts and questions, assemble the site |
 
-Pushing to `main` rebuilds and deploys the website. Publishing a release on GitHub (Releases, then Draft a new release, with a tag like `v1.1.0`) builds `Fandomonium.exe` on Windows and attaches it to that release.
+Pushing to `main` rebuilds and deploys the website and runs the phone test over the real relays. Publishing a release on GitHub (Releases, then Draft a new release, with a tag like `v1.1.0`) builds `Fandomonium.exe` on Windows and attaches it to that release.
 
 ## Notes
 
