@@ -17,7 +17,7 @@ srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(http.s
 srv.RequestHandlerClass.log_message = lambda *a: None
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 BASE = f'http://127.0.0.1:{srv.server_address[1]}'
-errors, log, shot_done = [], [], set()
+errors, log, shot_done, trace = [], [], set(), []
 
 
 def shot(page, name):
@@ -29,6 +29,21 @@ def shot(page, name):
 def watch(page, tag):
     page.on('pageerror', lambda e: errors.append(f'{tag}: {e}'))
     page.on('console', lambda m: m.type == 'error' and errors.append(f'{tag} console: {m.text}'))
+    page.on('console', lambda m: '[fdm]' in m.text and trace.append(f'{time.strftime("%H:%M:%S")} {tag} {m.text}'))
+
+
+def dump(tv, phones):
+    print('--- diagnostics')
+    try:
+        print('TV status:', tv.evaluate("(document.querySelector('#pst')||document.querySelector('#screen')).innerText.slice(0,300)"))
+    except Exception as e:
+        print('TV unreadable', e)
+    for i, p in enumerate(phones):
+        try:
+            print(f'phone {i}:', p.evaluate("document.getElementById('view').innerText.slice(0,200)").replace('\n', ' / '))
+        except Exception as e:
+            print(f'phone {i} unreadable', e)
+    print('trace (last 40):'); print('\n'.join(trace[-40:]))
 
 
 def view(page):
@@ -56,11 +71,11 @@ with sync_playwright() as pw:
     tv = browser.new_page(viewport={'width': 1600, 'height': 1000})
     watch(tv, 'tv')
     tv.add_init_script("""localStorage.setItem('fs-set', JSON.stringify({teams:['Snitch Seekers','Infinity Squad','Rebel Scum'],cats:['hp','mcu','sw','dis','lotr'],rounds:3,diff:'3',phones:true}))""")
-    tv.goto(BASE + '/play/' + (f'?broker={BROKER}' if BROKER else ''))
+    tv.goto(BASE + '/play/?debug' + (f'&broker={BROKER}' if BROKER else ''))
     tv.wait_for_timeout(2200)
     tv.click('[data-a=go]')
     tv.wait_for_selector('#qr[data-join]', timeout=30000)
-    link = tv.get_attribute('#qr', 'data-join')
+    link = tv.get_attribute('#qr', 'data-join') + '&debug'
     code = tv.inner_text('#rcode').replace('\n', '')
     log.append(f'room {code} via {link.split("?")[0]}')
 
@@ -73,7 +88,10 @@ with sync_playwright() as pw:
         ph.wait_for_selector('#nm')
         ph.fill('#nm', name)
         ph.click('#jf button')
-        ph.wait_for_selector('.tbtn', timeout=20000)
+        try:
+            ph.wait_for_selector('.tbtn', timeout=25000)
+        except Exception:
+            phones.append(ph); dump(tv, phones); raise
         phones.append(ph)
         ph.wait_for_timeout(600)
     for n, ph in enumerate(phones):
@@ -115,9 +133,13 @@ with sync_playwright() as pw:
                 # give the puzzle a few seconds to reveal, then a random phone buzzes
                 tv.wait_for_timeout(random.randint(2500, 5000))
                 shot(tv, 'tv-allplay')
-                q = random.choice([x for x, vv in zip(phones, vs) if vv == 'buzz'])
-                q.dispatch_event('#bz', 'pointerdown')
-                buzzed = True
+                live = [x for x in phones if x.query_selector('#bz:not([disabled])')]
+                if live:
+                    try:
+                        random.choice(live).dispatch_event('#bz:not([disabled])', 'pointerdown', timeout=3000)
+                        buzzed = True
+                    except Exception as e:
+                        log.append('buzz skipped: ' + str(e)[:80])
             elif v == 'type':
                 shot(tv, 'tv-typing')
                 p.fill('#ta', random.choice(['wrong guess', p.evaluate('1') and 'x']))
@@ -129,6 +151,8 @@ with sync_playwright() as pw:
     log.append('phone views seen: ' + ', '.join(sorted(seen)))
     log.append('final: ' + final.replace('\n', ' | '))
     ended = all(view(p) == 'end' for p in phones)
+    if not ended:
+        dump(tv, phones)
     browser.close()
 
 print('\n'.join(log))

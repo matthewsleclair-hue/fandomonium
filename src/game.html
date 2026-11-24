@@ -605,7 +605,7 @@ async function phonesStart(){if(PH.c||PH.status==="connecting")return;
 function hello(){if(PH.c)PH.c.publish(TP("hello"),JSON.stringify({room:PH.room,ts:Date.now(),title:"Fandomonium"}),{qos:1,retain:true});}
 function phonesStop(){PH.gen++;clearInterval(PH.hb);if(PH.c){const c=PH.c;try{c.publish(TP("hello"),"",{qos:1,retain:true});}catch(e){}setTimeout(()=>{try{c.end(true);}catch(e){}},500);}
  PH.c=null;PH.status="off";PH.players={};PH.vip=null;PH.sent={};PH.room="";}
-function onPhone(m){if(!m||!m.pid)return;const pid=String(m.pid).slice(0,40);let p=PH.players[pid];
+function onPhone(m){if(!m||!m.pid)return;NET.log("from phone",m.t);const pid=String(m.pid).slice(0,40);let p=PH.players[pid];
  if(m.t==="join"){if(!p)p=PH.players[pid]={name:"",team:null,seen:0};
   p.name=String(m.name||"Player").trim().slice(0,16)||"Player";p.seen=Date.now();
   const t=Number(m.team);if(!validTeam(p.team))p.team=validTeam(t)?t:emptiest();

@@ -109,7 +109,7 @@ function urls(){const o=NET.override();if(o)return [o];const l=NET.brokers.slice
 let lastKind="";
 function card(html,kind){const v=$("#view");kind=kind||html.slice(0,40);if(kind!==lastKind){v.style.animation="none";void v.offsetWidth;v.style.animation="";lastKind=kind;}v.innerHTML=html;}
 function dot(s){$("#dot").className="dot "+s;}
-function send(m){if(P.c)P.c.publish(T("h"),JSON.stringify(Object.assign({pid:P.pid},m)),{qos:1});}
+function send(m){NET.log("send",m.t);if(P.c)P.c.publish(T("h"),JSON.stringify(Object.assign({pid:P.pid},m)),{qos:1});}
 
 /* ---------- joining ---------- */
 function form(err){$("#me").hidden=true;
@@ -130,15 +130,15 @@ async function join(){const rc=$("#rc"),nm=$("#nm");
  for(const u of urls()){const c=await NET.connectOne(u);if(!c)continue;if(await hasHost(c)){attach(c);return;}try{c.end(true);}catch(e){}}
  form(navigator.onLine===false?"You’re offline. Connect to Wi-Fi or data and try again.":`Couldn’t find room ${P.room}. Check the code on the TV.`);}
 function hasHost(c){return new Promise(res=>{const top=T("hello");let done=false,t=0;
- const h=(tp,b)=>{if(tp!==top)return;const s=b.toString();if(!s)return;try{const m=JSON.parse(s);if(Date.now()-m.ts<180000)fin(true);}catch(e){}};
+ const h=(tp,b)=>{if(tp!==top)return;const s=b.toString();NET.log("hello",s.slice(0,80));if(!s)return;try{const m=JSON.parse(s);if(Date.now()-m.ts<180000)fin(true);}catch(e){}};
  const fin=v=>{if(done)return;done=true;clearTimeout(t);c.removeListener("message",h);res(v);};
- c.on("message",h);c.subscribe(top,{qos:1});t=setTimeout(()=>fin(false),4500);});}
+ c.on("message",h);c.subscribe(top,{qos:1});t=setTimeout(()=>{NET.log("no hello");fin(false);},4500);});}
 function attach(c){P.c=c;$("#roomline").hidden=false;$("#roomcode").textContent=P.room;dot("up");
  c.on("message",(tp,b)=>{const s=b.toString();
   if(tp===T("hello")){if(!s)ended();return;}
   if(tp!==T("p/"+P.pid))return;let v;try{v=JSON.parse(s);}catch(e){return;}
   if(v.v==="rejoin"){sendJoin();return;}
-  P.v=v;P.local={};render();});
+  NET.log("view",v.v);P.v=v;P.local={};render();});
  c.subscribe(T("p/"+P.pid),{qos:1});
  c.on("connect",()=>{dot("up");send({t:"ping",need:true});});
  c.on("offline",()=>dot("down"));c.on("reconnect",()=>dot(""));
