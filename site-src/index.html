@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fandomonium</title>
-<meta name="description" content="Movie trivia for 2 to 4 teams around one screen. Play in your browser or download for Windows.">
+<meta name="description" content="Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers. Play in your browser or download for Windows.">
 <meta property="og:title" content="Fandomonium">
-<meta property="og:description" content="Movie trivia for 2 to 4 teams around one screen: trivia, scrambles, Who am I? and emoji puzzles.">
+<meta property="og:description" content="Movie, TV and anime trivia for 2 to 4 teams: trivia, scrambles, Who am I?, emoji puzzles and steals, with phones as controllers.">
 <meta property="og:image" content="img/answered.webp">
 <link rel="icon" href="icon.png">
 <style>
@@ -110,7 +110,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 .phone img{border-radius:22px}
 .phone:nth-child(2){transform:translateY(-26px)}
 .lobbyshot{max-width:1000px}
-.fans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.fans{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 .fan{display:flex;align-items:center;gap:14px;padding:16px 22px 16px 24px;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,0) 60%),var(--c);color:#fff;border-radius:8px;-webkit-mask:var(--notch);mask:var(--notch)}
 .fan svg{width:30px;height:30px;flex:none}
 .fan b{display:block;font-size:18px;line-height:1.2}
@@ -158,7 +158,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 <section class="hero band velvet" id="top">
   <div class="sign"><svg class="lights" aria-hidden="true"></svg>
     <h1>Fandomonium</h1>
-    <p>Movie trivia for 2 to 4 teams around one screen, with your phones as controllers. {{TOTAL}} questions across Harry Potter, Marvel, Star Wars, Disney &amp; Pixar and Lord of the Rings, from easy to superfan.</p>
+    <p>Movie, TV and anime trivia for 2 to 4 teams around one screen, with your phones as controllers. {{TOTAL}} questions across {{NFAN}} fandoms, from Harry Potter and Marvel to Pokémon, The Office and One Piece.</p>
   </div>
   <div class="cta">
     <a class="btn play" href="play/">Play in your browser<small>Nothing to install</small></a>
@@ -191,7 +191,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 <section class="band ivory" id="rounds">
   <div class="wrap">
     <h2>Six kinds of round</h2>
-    <p class="lede">Choose Easy, Medium, Hard, or Mixed, which gets harder every round. Every round, each team gets a question of its own on the clock. Then comes All play: a puzzle reveals itself bit by bit, its value drops from 500 to 100, and the first team to buzz gets a shot.</p>
+    <p class="lede">Choose Easy, Medium, Hard, or Mixed, which gets harder every round. Every round, each team gets a question of its own on the clock, and if they miss it, the other teams can buzz in to steal it for half the points. Then comes All play: a puzzle reveals itself bit by bit, its value drops from 500 to 100, and the first team to buzz gets a shot.</p>
     <div class="posters">
       <article class="poster"><header><h3>Trivia</h3><span class="tag">Team turn, 200 points, 20 seconds</span></header>
         <div class="art"><div class="m-ch"><span class="ok"><b>A</b>Fluffy</span><span><b>B</b>Fang</span><span><b>C</b>Norbert</span><span><b>D</b>Buckbeak</span></div></div>
@@ -234,14 +234,10 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 
 <section class="band velvet" id="fandoms">
   <div class="wrap">
-    <h2>Five fandoms, {{TOTAL}} questions</h2>
+    <h2>{{NFAN}} fandoms, {{TOTAL}} questions</h2>
     <p class="lede">Every question is rated Easy, Medium or Hard, including {{HARD}} for superfans. Turn any fandom off before you start. Questions you’ve already seen are skipped until you’ve been through them all.</p>
     <div class="fans">
-      <div class="fan" style="--c:#946600"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2 5 13.5h5.5L9.5 22 19 10h-5.8z" fill="currentColor"/></svg><div><b>Harry Potter</b><span>{{N_hp}} questions</span></div></div>
-      <div class="fan" style="--c:#c0182b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" fill="currentColor"/></svg><div><b>Marvel</b><span>{{N_mcu}} questions</span></div></div>
-      <div class="fan" style="--c:#1f5fa8"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="currentColor"/><ellipse cx="12" cy="12" rx="10.5" ry="3.4" fill="none" stroke="currentColor" stroke-width="1.8" transform="rotate(-20 12 12)"/></svg><div><b>Star Wars</b><span>{{N_sw}} questions</span></div></div>
-      <div class="fan" style="--c:#6b3fc4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V8h3v2h2V8h2.5v2h3V8H16v2h2V8h3v13h-7v-4a2 2 0 0 0-4 0v4z" fill="currentColor"/></svg><div><b>Disney &amp; Pixar</b><span>{{N_dis}} questions</span></div></div>
-      <div class="fan" style="--c:#2f7d3a"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="14" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="m9 6.5 3-4 3 4-3 2.5z" fill="currentColor"/></svg><div><b>Lord of the Rings</b><span>{{N_lotr}} questions</span></div></div>
+      {{FANDOMS}}
     </div>
   </div>
 </section>
@@ -301,7 +297,7 @@ npm run dist   <span class="c"># build release/Fandomonium.exe</span></pre></div
       <a class="btn play" href="play/">Play in your browser<small>Nothing to install</small></a>
       <a class="btn dl" href="https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe">Download for Windows<small>Windows may warn about an unknown app: More info, then Run anyway</small></a>
     </div>
-    <p class="small">Fandomonium is fan-made trivia and isn’t affiliated with or endorsed by Warner Bros., Disney, Marvel Studios, Lucasfilm or the Tolkien Estate. Film titles and character names belong to their owners. Made by Matthew. <a href="https://github.com/matthewsleclair-hue/fandomonium">Source on GitHub</a>.</p>
+    <p class="small">Fandomonium is fan-made trivia and isn’t affiliated with or endorsed by any of the studios, publishers or companies behind these franchises. Titles and character names belong to their owners. Made by Matthew. <a href="https://github.com/matthewsleclair-hue/fandomonium">Source on GitHub</a>.</p>
   </div>
 </footer>
 </main>

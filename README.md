@@ -1,6 +1,10 @@
 # Fandomonium
 
-Movie trivia for 2 to 4 teams around one screen, with phones as controllers. 361 questions across Harry Potter, Marvel, Star Wars, Disney & Pixar and Lord of the Rings, each rated Easy, Medium or Hard.
+Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers. 741 questions across 14 fandoms, each rated Easy, Medium or Hard:
+
+- **Movies:** Harry Potter, Marvel, DC, Star Wars, Lord of the Rings, Disney & Pixar, Hunger Games, Jurassic Park
+- **TV:** Friends, The Office
+- **Anime and games:** Pokémon, One Piece, Naruto, Attack on Titan
 
 **[Play in your browser](https://matthewsleclair-hue.github.io/fandomonium/play/)** · **[Download for Windows](https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe)** · **[Website](https://matthewsleclair-hue.github.io/fandomonium/)**
 
@@ -39,6 +43,8 @@ Then comes **All play**. A puzzle reveals itself bit by bit while its value drop
 
 A wrong pick locks that team out of the puzzle. The last round is worth double.
 
+**Steals** (on by default): when a team misses its own question or runs out of time, the other teams get 8 seconds to buzz in. The first to buzz picks from the remaining answers and steals it for half the points.
+
 ![All play scramble with team buzzers](docs/screenshots/scramble.webp)
 
 ## Controls
@@ -66,7 +72,9 @@ hp:{
 }
 ```
 
-To add a whole new fandom, add a key to `BANK` in `src/bank.js` and a matching entry in `CATS` in `src/game.html` (name, colour, icon).
+Emoji puzzles take an optional fifth value, the hint shown under the emoji (it defaults to "Movie title").
+
+To add a whole new fandom, add a key to `BANK` in `src/bank.js` and a matching entry in `src/cats.js` (name, colour, icon and setup group).
 
 ## Build it yourself
 
@@ -85,6 +93,7 @@ To test phones without the internet, run a local relay with `node test/broker.js
 | --- | --- |
 | `src/game.html` | The whole game: layout, styles and logic |
 | `src/bank.js` | Every question |
+| `src/cats.js` | The fandom list: names, colours, icons, groups |
 | `src/join.html` | The phone controller |
 | `src/net.js` | The realtime relay connection shared by the TV and phones |
 | `site-src/index.html` | The website's landing page |
@@ -97,4 +106,4 @@ Pushing to `main` rebuilds and deploys the website and runs the phone test over 
 
 The Windows app isn't code-signed, so Windows may show "Windows protected your PC" the first time. Click **More info**, then **Run anyway**.
 
-Fandomonium is fan-made trivia and isn't affiliated with or endorsed by Warner Bros., Disney, Marvel Studios, Lucasfilm or the Tolkien Estate. Film titles and character names belong to their owners.
+Fandomonium is fan-made trivia and isn't affiliated with or endorsed by any of the studios, publishers or companies behind these franchises. Titles and character names belong to their owners.

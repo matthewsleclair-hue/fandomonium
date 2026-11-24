@@ -1,7 +1,7 @@
 {
   "name": "fandomonium",
-  "version": "1.1.0",
-  "description": "Movie trivia party game for 2 to 4 teams on one screen",
+  "version": "1.2.0",
+  "description": "Movie, TV and anime trivia party game for 2 to 4 teams on one screen",
   "main": "main.js",
   "scripts": {
     "web": "node build-web.js",

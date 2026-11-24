@@ -11,7 +11,7 @@ const copy = (from, to) => { fs.mkdirSync(path.dirname(R(to)), { recursive: true
 // Count questions per fandom straight from the bank, so the site never goes stale.
 const ctx = {};
 vm.createContext(ctx);
-vm.runInContext(fs.readFileSync(R('src/bank.js'), 'utf8') + '\nthis.BANK = BANK;', ctx);
+vm.runInContext(fs.readFileSync(R('src/bank.js'), 'utf8') + '\n' + fs.readFileSync(R('src/cats.js'), 'utf8') + '\nthis.BANK = BANK; this.CATS = CATS; this.FICON = FICON;', ctx);
 const counts = {};
 let total = 0;
 let hard = 0;
@@ -34,6 +34,10 @@ for (const f of fs.readdirSync(R('docs/screenshots'))) copy(`docs/screenshots/${
 let html = fs.readFileSync(R('site-src/index.html'), 'utf8').replaceAll('{{TOTAL}}', String(total));
 for (const [k, n] of Object.entries(counts)) html = html.replaceAll(`{{N_${k}}}`, String(n));
 html = html.replaceAll('{{HARD}}', String(hard));
+const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+html = html.replaceAll('{{NFAN}}', String(Object.keys(ctx.CATS).length));
+html = html.replace('{{FANDOMS}}', Object.entries(ctx.CATS).map(([k, c]) =>
+  `<div class="fan" style="--c:${c.c}"><svg viewBox="0 0 24 24" aria-hidden="true">${ctx.FICON[c.i]}</svg><div><b>${esc(c.n)}</b><span>${counts[k]} questions</span></div></div>`).join('\n      '));
 const left = html.match(/\{\{[A-Za-z_]+\}\}/);
 if (left) throw new Error('unfilled placeholder ' + left[0]);
 fs.writeFileSync(R('site/index.html'), html);

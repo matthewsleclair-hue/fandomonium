@@ -53,7 +53,7 @@ def view(page):
       if (v.querySelector('.cbtn:not([disabled])')) return 'cat';
       if (v.querySelector('.seq .abtn:not([disabled])')) return 'seq';
       if (v.querySelector('.abtn:not([disabled])')) return 'mc';
-      if (v.querySelector('#bz:not([disabled])')) return 'buzz';
+      if (v.querySelector('#bz:not([disabled])')) return v.querySelector('#bz').textContent.trim() === 'Steal' ? 'steal' : 'buzz';
       if (v.querySelector('#ta')) return 'type';
       if (v.querySelector('[data-a=start]')) return 'lobby-vip';
       if (v.querySelector('[data-a=ready]')) return 'ready';
@@ -100,7 +100,7 @@ def act(tv, phones, vs, i, p, v, buzzed):
             b.click(timeout=3000)
     elif v in ('ready', 'next', 'lobby-vip') and i == 0:
         p.click('[data-a=ready], [data-a=next], [data-a=start]', timeout=3000)
-    elif v == 'buzz' and not buzzed:
+    elif v in ('buzz', 'steal') and not buzzed:
         tv.wait_for_timeout(random.randint(2500, 5000))
         shot(tv, 'tv-allplay')
         live = [x for x in phones if x.query_selector('#bz:not([disabled])')]

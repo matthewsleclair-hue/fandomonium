@@ -1,4 +1,4 @@
-Movie trivia for 2 to 4 teams around one screen.
+Movie, TV and anime trivia for 2 to 4 teams around one screen: 741 questions across 14 fandoms, phones as controllers, difficulty levels and steals.
 
 **Download `Fandomonium.exe` below**, then double-click it to play. Nothing to install.
 
