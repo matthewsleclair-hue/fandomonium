@@ -38,8 +38,8 @@ function config() {
   const file = path.join(DIR, 'voice.json');
   const saved = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {};
   const cfg = {
-    // Max's voice, picked from the ElevenLabs voice library. List yours with --voices.
-    voice: process.env.ELEVENLABS_VOICE_ID || saved.voice || 'ujcXHLWtGPYXnqBoMBgg',
+    // George, one of ElevenLabs' default voices (free accounts can only use those through the API).
+    voice: process.env.ELEVENLABS_VOICE_ID || saved.voice || 'JBFqnCBsd6RMkjVDRZzb',
     model: process.env.ELEVENLABS_MODEL || saved.model || 'eleven_multilingual_v2',
     // Lower stability and some style make for a livelier, snarkier read.
     settings: saved.settings || { stability: 0.35, similarity_boost: 0.8, style: 0.4, use_speaker_boost: true },
