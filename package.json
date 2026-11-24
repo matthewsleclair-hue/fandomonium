@@ -1,0 +1,58 @@
+{
+  "name": "fandomonium",
+  "version": "1.0.0",
+  "description": "Movie trivia party game for 2 to 4 teams on one screen",
+  "main": "main.js",
+  "scripts": {
+    "web": "node build-web.js",
+    "site": "node build-site.js",
+    "start": "node build-web.js && electron .",
+    "dist": "node build-web.js && electron-builder --win portable --x64 --publish never"
+  },
+  "keywords": [],
+  "author": "Matthew",
+  "license": "ISC",
+  "devDependencies": {
+    "@fontsource-variable/rubik": "^5.3.0",
+    "@fontsource/bungee": "^5.3.0",
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0"
+  },
+  "productName": "Fandomonium",
+  "build": {
+    "appId": "com.matthew.fandomonium",
+    "productName": "Fandomonium",
+    "copyright": "Fan-made trivia for game night",
+    "files": [
+      "main.js",
+      "web/**",
+      "icon.png"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "electronLanguages": [
+      "en-US"
+    ],
+    "compression": "maximum",
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico"
+    },
+    "portable": {
+      "artifactName": "Fandomonium.exe"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matthewsleclair-hue/fandomonium.git"
+  },
+  "homepage": "https://matthewsleclair-hue.github.io/fandomonium/"
+}

@@ -1,0 +1,32 @@
+name: Windows build
+
+# Push a tag like v1.1.0 to build Fandomonium.exe on Windows and attach it to a release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  exe:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run dist
+      - name: Attach to release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="$GITHUB_REF_NAME"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" release/Fandomonium.exe --clobber
+          else
+            gh release create "$TAG" release/Fandomonium.exe --title "Fandomonium $TAG" --notes-file .github/release-notes.md
+          fi

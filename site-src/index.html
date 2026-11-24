@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fandomonium</title>
+<meta name="description" content="Movie trivia for 2 to 4 teams around one screen. Play in your browser or download for Windows.">
+<meta property="og:title" content="Fandomonium">
+<meta property="og:description" content="Movie trivia for 2 to 4 teams around one screen: trivia, scrambles, Who am I? and emoji puzzles.">
+<meta property="og:image" content="img/answered.webp">
+<link rel="icon" href="icon.png">
+<style>
+/* VOICE occasion: a movie palace lobby announcing tonight's show
+   IDEA the front of a cinema: a lit marquee with the title, now-showing posters for each round, a ticket for the download
+   PICTURE the real game screen inside a bulb-lit marquee frame, right under the sign
+   COLOUR velvet red ground, ivory bands, butter-yellow bulbs, the four team ticket colours as accents
+   TYPE Bungee marquee lettering + Rubik for reading
+   LAYOUT sticky nav; hero sign, buttons and framed screenshot; poster grid; film strip; fandom tickets; keyboard; make it yours; footer */
+@font-face{font-family:'Bungee';src:url(fonts/bungee.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Rubik';src:url(fonts/rubik.woff2) format('woff2');font-weight:300 900;font-display:swap}
+:root{color-scheme:dark;--v0:#2a040a;--v1:#4c0711;--v2:#7a0d1e;--v3:#a3172c;--iv:#fff8ec;--iv2:#f4e7d0;--line:#e5d6bb;--ink:#24110f;--mut:#6f5753;--but:#ffd23f;--disp:'Bungee',Impact,'Arial Black',sans-serif;--emoji:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif;--notch:radial-gradient(circle 10px at 0 50%,#0000 96%,#000) left/51% 100% no-repeat,radial-gradient(circle 10px at 100% 50%,#0000 96%,#000) right/51% 100% no-repeat}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--v1);color:#fff;font:17px/1.6 Rubik,system-ui,'Segoe UI',sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--but);outline-offset:3px}
+.band{padding-block:clamp(48px,6vw,100px);padding-left:max(5vw,16px,env(safe-area-inset-left,0px));padding-right:max(5vw,16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1200px;margin:0 auto}
+.velvet{background:radial-gradient(120% 50% at 50% 0,rgba(255,210,63,.2),transparent 60%),repeating-linear-gradient(90deg,var(--v1) 0,var(--v2) 26px,var(--v3) 42px,var(--v2) 58px,var(--v1) 84px)}
+.ivory{background:var(--iv);color:var(--ink)}
+.dark{background:var(--v0)}
+h2{font-family:var(--disp);font-weight:400;font-size:clamp(32px,4.4vw,52px);line-height:1.05;margin:0 0 12px;text-wrap:balance}
+.ivory h2{color:var(--v2)}
+.dark h2,.velvet h2{color:var(--but)}
+.lede{font-size:clamp(17px,1.4vw,19px);max-width:62ch;margin:0 0 34px}
+.ivory .lede{color:var(--mut)}
+.dark .lede,.velvet .lede{color:#f3dcc4}
+.nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px max(5vw,16px);background:rgba(42,4,10,.93);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,210,63,.22)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-size:20px;color:var(--but);text-decoration:none;white-space:nowrap}
+.logo img{width:36px;height:36px}
+.links{display:flex;align-items:center;gap:2px}
+.links a{flex:none;padding:10px 12px;border-radius:999px;text-decoration:none;font-weight:500;font-size:15px;color:#f6e3cf}
+.links a:hover{background:rgba(255,255,255,.08);color:#fff}
+.links .navplay{background:var(--but);color:var(--ink);font-weight:700;margin-left:6px}
+.links .navplay:hover{background:#ffe066;color:var(--ink)}
+.hero{text-align:center;padding-top:clamp(28px,4vw,56px)}
+.sign{position:relative;isolation:isolate;max-width:1000px;margin:0 auto;border-radius:26px;padding:clamp(32px,4vw,50px) 24px clamp(28px,3vw,42px);background:radial-gradient(80% 130% at 50% 0,#9c1a2c,#3f0710);box-shadow:0 10px 0 #24030a,0 30px 60px rgba(0,0,0,.45)}
+.sign>:not(svg){position:relative;z-index:1}
+svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.lights .h{fill:rgba(255,196,60,.26)}
+.lights .o{fill:#fff4c4;stroke:#e3a21c;stroke-width:1.4}
+.lights .a{animation:blA 1.3s steps(1) infinite}
+.lights .b{animation:blB 1.3s steps(1) infinite}
+@keyframes blA{0%{opacity:1}50%{opacity:.28}}
+@keyframes blB{0%{opacity:.28}50%{opacity:1}}
+.sign h1{font-family:var(--disp);font-weight:400;font-size:clamp(28px,8.6vw,112px);line-height:.95;margin:0;color:var(--but);text-shadow:0 0 26px rgba(255,210,63,.55),0 6px 0 #3a0610}
+.sign p{margin:16px auto 0;max-width:58ch;color:#ffe7c0;font-size:clamp(16px,1.5vw,19px)}
+.cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:32px 0 clamp(32px,4vw,50px)}
+.btn{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;min-height:66px;padding:10px 34px;border-radius:16px;text-decoration:none;font-family:var(--disp);font-size:clamp(18px,1.8vw,22px);line-height:1.1;transition:transform .15s}
+.btn small{font-family:Rubik,sans-serif;font-size:13px;font-weight:500;margin-top:5px;opacity:.8}
+.btn.play{background:linear-gradient(#ffe066,#ffc81f);color:var(--ink);box-shadow:0 6px 0 #b98a00,0 14px 30px rgba(0,0,0,.35)}
+.btn.dl{background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,0) 60%),var(--iv);color:var(--v2);padding-inline:40px;-webkit-mask:var(--notch);mask:var(--notch)}
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:translateY(3px)}
+.shot{position:relative;isolation:isolate;max-width:1100px;margin:0 auto;padding:18px;border-radius:28px;background:linear-gradient(#470914,#2a050b);box-shadow:0 30px 70px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,210,63,.4)}
+.shot img{position:relative;z-index:1;border-radius:12px}
+.posters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.poster{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.poster header{padding:16px 20px 14px;background:linear-gradient(#931628,#5e0a17);color:var(--but)}
+.poster h3{margin:0;font-family:var(--disp);font-weight:400;font-size:22px;line-height:1.1}
+.poster .tag{display:block;margin-top:6px;font-size:13px;color:#ffe2bd;font-weight:500}
+.art{height:160px;display:grid;place-items:center;padding:16px;background:var(--iv);border-bottom:2px solid var(--line)}
+.poster p{margin:0;padding:14px 20px 20px;color:var(--mut);font-size:16px}
+.m-ch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:min(240px,100%)}
+.m-ch span,.m-odd span,.m-seq span{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;border-radius:9px;background:#fff;border:2px solid var(--line);font-weight:600;font-size:14px;color:var(--ink)}
+.m-ch b,.m-seq b{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;background:var(--iv2);font-family:var(--disp);font-weight:400;font-size:11px;flex:none}
+.m-ch .ok{background:#dcf3e6;border-color:#12854f}
+.m-ch .ok b{background:#12854f;color:#fff}
+.m-odd{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:min(250px,100%)}
+.m-odd .x{background:#fbe1e4;border-color:#c8233a;text-decoration:line-through}
+.m-seq{display:grid;gap:6px;width:min(220px,100%)}
+.m-seq span{height:28px;font-size:13px}
+.m-seq b{background:var(--ink);color:var(--but)}
+.m-tiles{display:flex;gap:6px}
+.m-tiles span{width:34px;height:42px;border-radius:7px;display:grid;place-items:center;background:var(--ink);color:var(--iv);font-family:var(--disp);font-size:19px;box-shadow:0 3px 0 #000}
+.m-tiles .ok{background:var(--but);color:var(--ink);box-shadow:0 3px 0 #b78900}
+.m-clues{display:grid;gap:7px;width:min(250px,100%)}
+.m-clues span{height:30px;border-radius:8px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;padding:0 10px;font-size:13px;font-weight:600;color:var(--ink)}
+.m-clues .hid{background:transparent;border-style:dashed;color:#ab948c}
+.m-emo{display:flex;gap:10px}
+.m-emo span{width:62px;height:62px;border-radius:14px;display:grid;place-items:center;background:#fff;border:2px solid var(--line);font-family:var(--emoji);font-size:34px;box-shadow:0 4px 0 var(--line)}
+.m-emo .hid{font-family:var(--disp);font-size:24px;color:#cdb790;border-style:dashed;background:transparent;box-shadow:none}
+.striphead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.arrows{display:flex;gap:8px;margin-bottom:34px}
+.arrows button{width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,210,63,.5);background:transparent;color:var(--but);font-size:22px;cursor:pointer}
+.arrows button:hover{background:rgba(255,210,63,.12)}
+.strip{display:flex;gap:4px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0;border-radius:10px;scrollbar-width:thin;scrollbar-color:var(--v3) transparent}
+.strip figure{flex:0 0 min(82%,620px);scroll-snap-align:start;margin:0;padding:26px 14px 14px;background:repeating-linear-gradient(90deg,transparent 0 10px,#e9dcc7 10px 22px,transparent 22px 32px) 0 8px/100% 11px no-repeat,repeating-linear-gradient(90deg,transparent 0 10px,#e9dcc7 10px 22px,transparent 22px 32px) 0 calc(100% - 8px)/100% 11px no-repeat,#130103;padding-bottom:36px}
+.strip img{border-radius:6px}
+.strip figcaption{padding:12px 4px 0;color:#f3dcc4;font-size:16px}
+.strip figcaption b{color:#fff}
+.fans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.fan{display:flex;align-items:center;gap:14px;padding:16px 22px 16px 24px;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,0) 60%),var(--c);color:#fff;border-radius:8px;-webkit-mask:var(--notch);mask:var(--notch)}
+.fan svg{width:30px;height:30px;flex:none}
+.fan b{display:block;font-size:18px;line-height:1.2}
+.fan span{font-size:14px;opacity:.9}
+.tv{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.kb{display:grid;gap:7px;padding:18px;border-radius:20px;background:#2a1714;box-shadow:0 9px 0 #140a08,0 24px 40px rgba(36,17,15,.25)}
+.kb div{display:flex;gap:7px}
+.kb div:nth-child(2){padding-left:4%}
+.kb div:nth-child(3){padding-left:9%}
+.kb div:nth-child(4){padding-inline:22%}
+.kb span{flex:1;aspect-ratio:1;display:grid;place-items:center;border-radius:9px;background:#4a302b;color:#cbb3a8;font-weight:600;font-size:clamp(11px,1.3vw,16px);box-shadow:0 3px 0 #140a08}
+.kb div:nth-child(4) span{aspect-ratio:auto;height:clamp(28px,4vw,48px)}
+.kb .t{background:var(--c);color:var(--ink);font-family:var(--disp);font-weight:400;box-shadow:0 3px 0 rgba(0,0,0,.4),0 0 18px var(--c)}
+.tips{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.tips li{display:flex;gap:14px;align-items:baseline;font-size:17px}
+.tips kbd{flex:none;min-width:58px;text-align:center;padding:3px 8px;border-radius:7px;background:#fff;border:2px solid var(--line);box-shadow:0 3px 0 var(--line);font:600 14px Rubik,sans-serif;color:var(--ink);white-space:nowrap}
+.make{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.code{position:relative;background:#140103;border:1px solid rgba(255,210,63,.25);border-radius:14px;overflow:hidden}
+.code header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,210,63,.18);color:#f3dcc4;font-size:14px;font-weight:600}
+.code button{min-height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,210,63,.5);background:transparent;color:var(--but);font:600 14px Rubik,sans-serif;cursor:pointer}
+.code pre{margin:0;padding:16px;overflow-x:auto;font:14px/1.6 ui-monospace,'Cascadia Code',Consolas,monospace;color:#ffe9c8}
+.code .c{color:#c9a89c}
+.code .s{color:#ffd23f}
+.foot{text-align:center}
+.foot .cta{margin-bottom:28px}
+.small{max-width:70ch;margin:0 auto;font-size:14px;color:#e9cdb7;line-height:1.55}
+.small a{color:var(--but)}
+@media(max-width:900px){.posters{grid-template-columns:repeat(2,minmax(0,1fr))}.tv,.make{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.links a:not(.navplay):not(.gh){display:none}}
+@media(max-width:600px){.posters{grid-template-columns:minmax(0,1fr)}.shot{padding:12px;border-radius:20px}.btn{width:100%}.logo span{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lights g{animation:none!important}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="#top"><img src="icon.png" alt="" width="36" height="36"><span>Fandomonium</span></a>
+  <nav class="links" aria-label="Sections">
+    <a href="#rounds">Rounds</a><a href="#tour">Tour</a><a href="#fandoms">Fandoms</a><a href="#tv">On the TV</a><a href="#make">Add questions</a>
+    <a class="gh" href="https://github.com/matthewsleclair-hue/fandomonium">GitHub</a>
+    <a class="navplay" href="play/">Play</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero band velvet" id="top">
+  <div class="sign"><svg class="lights" aria-hidden="true"></svg>
+    <h1>Fandomonium</h1>
+    <p>Movie trivia for 2 to 4 teams around one screen. {{TOTAL}} questions across Harry Potter, Marvel, Star Wars, Disney &amp; Pixar and Lord of the Rings.</p>
+  </div>
+  <div class="cta">
+    <a class="btn play" href="play/">Play in your browser<small>Nothing to install</small></a>
+    <a class="btn dl" href="https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe">Download for Windows<small>Fandomonium.exe, about 100 MB</small></a>
+  </div>
+  <div class="shot"><svg class="lights" aria-hidden="true"></svg><img src="img/answered.webp" width="1600" height="1000" alt="Fandomonium game screen: a Harry Potter question answered correctly for 200 points, with four team score tickets along the top."></div>
+</section>
+
+<section class="band ivory" id="rounds">
+  <div class="wrap">
+    <h2>Six kinds of round</h2>
+    <p class="lede">Every round, each team gets a question of its own on the clock. Then comes All play: a puzzle reveals itself bit by bit, its value drops from 500 to 100, and the first team to buzz gets a shot.</p>
+    <div class="posters">
+      <article class="poster"><header><h3>Trivia</h3><span class="tag">Team turn, 200 points, 20 seconds</span></header>
+        <div class="art"><div class="m-ch"><span class="ok"><b>A</b>Fluffy</span><span><b>B</b>Fang</span><span><b>C</b>Norbert</span><span><b>D</b>Buckbeak</span></div></div>
+        <p>Four answers, one right. Answer with a tap, a click or the 1–4 keys.</p></article>
+      <article class="poster"><header><h3>Odd one out</h3><span class="tag">Team turn, 200 points, 20 seconds</span></header>
+        <div class="art"><div class="m-odd"><span>Naboo</span><span class="x">Vulcan</span><span>Kashyyyk</span><span>Mustafar</span></div></div>
+        <p>Three belong and one sneaked in from another franchise. Spot the stowaway.</p></article>
+      <article class="poster"><header><h3>Put it in order</h3><span class="tag">Team turn, 300 points, 35 seconds</span></header>
+        <div class="art"><div class="m-seq"><span><b>1</b>Iron Man</span><span><b>2</b>Thor</span><span><b>3</b>Guardians of the Galaxy</span><span><b>4</b>Black Panther</span></div></div>
+        <p>Release dates, story order, the Fellowship’s route. Tap them first to last.</p></article>
+      <article class="poster"><header><h3>Scramble</h3><span class="tag">All play, 500 down to 100</span></header>
+        <div class="art"><div class="m-tiles"><span class="ok">M</span><span>D</span><span class="ok">R</span><span>O</span><span>O</span><span class="ok">R</span></div></div>
+        <p>Letters slide into place one at a time. Buzz the moment you can read it and shout it out.</p></article>
+      <article class="poster"><header><h3>Who am I?</h3><span class="tag">All play, 500 down to 100</span></header>
+        <div class="art"><div class="m-clues"><span>I lost an eye to a cat’s scratch.</span><span>I ran S.H.I.E.L.D.</span><span class="hid">Clue 3</span></div></div>
+        <p>Four clues, hardest first. The earlier you buzz, the more it’s worth.</p></article>
+      <article class="poster"><header><h3>Emoji movie</h3><span class="tag">All play, 500 down to 100</span></header>
+        <div class="art"><div class="m-emo"><span>🦁</span><span>👑</span><span class="hid">?</span></div></div>
+        <p>A film spelled out in emoji, one at a time. Buzz, then pick the title.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="band dark" id="tour">
+  <div class="wrap">
+    <div class="striphead"><div><h2>A game, start to finish</h2><p class="lede">Name your teams, pick your fandoms and how long to play. The curtains close between rounds, and the last round is worth double.</p></div>
+      <div class="arrows"><button type="button" id="prev" aria-label="Previous screenshot">←</button><button type="button" id="next" aria-label="Next screenshot">→</button></div></div>
+    <div class="strip" id="strip" tabindex="0" aria-label="Screenshots">
+      <figure><img src="img/setup.webp" width="1600" height="1000" alt="Setup screen with four team tickets, five fandoms and a length picker."><figcaption><b>Set up.</b> Up to four teams, each with its own colour and buzz key.</figcaption></figure>
+      <figure><img src="img/curtain.webp" width="1600" height="1000" alt="Velvet curtains closed with Round 1 of 3 in marquee letters."><figcaption><b>Curtains.</b> Each round opens with the curtains parting.</figcaption></figure>
+      <figure><img src="img/question.webp" width="1600" height="1000" loading="lazy" alt="A team's trivia question with a countdown timer and four answers."><figcaption><b>Your turn.</b> One question per team, on the clock.</figcaption></figure>
+      <figure><img src="img/scramble.webp" width="1600" height="1000" loading="lazy" alt="All play scramble: letter tiles half sorted, with buzzers for each team below."><figcaption><b>All play.</b> Tiles slide home while the points drain away.</figcaption></figure>
+      <figure><img src="img/buzz.webp" width="1600" height="1000" loading="lazy" alt="Who am I? round with three clues shown and a team picking from four answers after buzzing in."><figcaption><b>Buzz in.</b> Pick wrong and your team is locked out of that puzzle.</figcaption></figure>
+      <figure><img src="img/winner.webp" width="1600" height="1000" loading="lazy" alt="Winner screen with a trophy, the winning team's ticket and final standings."><figcaption><b>Winner.</b> Trophy, confetti, and a rematch button.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="band velvet" id="fandoms">
+  <div class="wrap">
+    <h2>Five fandoms, {{TOTAL}} questions</h2>
+    <p class="lede">Turn any of them off before you start. Questions you’ve already seen are skipped until you’ve been through them all.</p>
+    <div class="fans">
+      <div class="fan" style="--c:#946600"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2 5 13.5h5.5L9.5 22 19 10h-5.8z" fill="currentColor"/></svg><div><b>Harry Potter</b><span>{{N_hp}} questions</span></div></div>
+      <div class="fan" style="--c:#c0182b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" fill="currentColor"/></svg><div><b>Marvel</b><span>{{N_mcu}} questions</span></div></div>
+      <div class="fan" style="--c:#1f5fa8"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="currentColor"/><ellipse cx="12" cy="12" rx="10.5" ry="3.4" fill="none" stroke="currentColor" stroke-width="1.8" transform="rotate(-20 12 12)"/></svg><div><b>Star Wars</b><span>{{N_sw}} questions</span></div></div>
+      <div class="fan" style="--c:#6b3fc4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V8h3v2h2V8h2.5v2h3V8H16v2h2V8h3v13h-7v-4a2 2 0 0 0-4 0v4z" fill="currentColor"/></svg><div><b>Disney &amp; Pixar</b><span>{{N_dis}} questions</span></div></div>
+      <div class="fan" style="--c:#2f7d3a"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="14" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="m9 6.5 3-4 3 4-3 2.5z" fill="currentColor"/></svg><div><b>Lord of the Rings</b><span>{{N_lotr}} questions</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band ivory" id="tv">
+  <div class="wrap tv">
+    <div class="kb" aria-label="Keyboard with the four buzz keys Q, P, Z and M lit in team colours" role="img">
+      <div><span class="t" style="--c:#ffd23f">Q</span><span>W</span><span>E</span><span>R</span><span>T</span><span>Y</span><span>U</span><span>I</span><span>O</span><span class="t" style="--c:#3ddbd0">P</span></div>
+      <div><span>A</span><span>S</span><span>D</span><span>F</span><span>G</span><span>H</span><span>J</span><span>K</span><span>L</span></div>
+      <div><span class="t" style="--c:#ff8db8">Z</span><span>X</span><span>C</span><span>V</span><span>B</span><span>N</span><span class="t" style="--c:#9cc0ff">M</span></div>
+      <div><span>Space</span></div>
+    </div>
+    <div>
+      <h2>Made for the TV</h2>
+      <p class="lede">Hook a laptop or PC up to the TV and crowd around one keyboard. The buzz keys sit at the four corners, so nobody fights over the same spot. On a touchscreen, tap the big buzzers instead.</p>
+      <ul class="tips">
+        <li><kbd>F11</kbd>Full screen in the Windows app (or use the Full screen button)</li>
+        <li><kbd>Q P Z M</kbd>Buzz in for teams 1 to 4</li>
+        <li><kbd>1–4</kbd>Pick an answer, or tap it</li>
+        <li><kbd>Space</kbd>Next question, or skip the curtain</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band dark" id="make">
+  <div class="wrap">
+    <h2>Add your own questions</h2>
+    <p class="lede">Every question lives in one file, <code>src/bank.js</code>. Add a line, rebuild, and it’s in the game. Put the right answer first; the game shuffles the choices.</p>
+    <div class="make">
+      <div class="code"><header><span>src/bank.js</span><button type="button" data-copy="c1">Copy</button></header>
+<pre id="c1">hp:{
+  mc:[
+    [<span class="s">"What’s the name of Harry’s owl?"</span>,
+     <span class="s">"Hedwig"</span>, <span class="s">"Errol"</span>, <span class="s">"Pigwidgeon"</span>, <span class="s">"Hermes"</span>],
+    <span class="c">// question, right answer, three wrong ones</span>
+  ],
+  scr:[[<span class="s">"HOGWARTS"</span>, <span class="s">"Place"</span>]],
+  who:[[<span class="s">"Dobby"</span>, [<span class="s">"clue 1"</span>, <span class="s">"clue 2"</span>, <span class="s">"clue 3"</span>, <span class="s">"clue 4"</span>],
+        [<span class="s">"Kreacher"</span>, <span class="s">"Winky"</span>, <span class="s">"Griphook"</span>]],
+}</pre></div>
+      <div class="code"><header><span>Build it yourself (needs Node.js)</span><button type="button" data-copy="c2">Copy</button></header>
+<pre id="c2">git clone https://github.com/matthewsleclair-hue/fandomonium
+cd fandomonium
+npm install
+npm start      <span class="c"># play it in a window</span>
+npm run dist   <span class="c"># build release/Fandomonium.exe</span></pre></div>
+    </div>
+  </div>
+</section>
+
+<footer class="band velvet foot">
+  <div class="wrap">
+    <h2>Ready for game night?</h2>
+    <div class="cta">
+      <a class="btn play" href="play/">Play in your browser<small>Nothing to install</small></a>
+      <a class="btn dl" href="https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe">Download for Windows<small>Windows may warn about an unknown app: More info, then Run anyway</small></a>
+    </div>
+    <p class="small">Fandomonium is fan-made trivia and isn’t affiliated with or endorsed by Warner Bros., Disney, Marvel Studios, Lucasfilm or the Tolkien Estate. Film titles and character names belong to their owners. Made by Matthew. <a href="https://github.com/matthewsleclair-hue/fandomonium">Source on GitHub</a>.</p>
+  </div>
+</footer>
+</main>
+
+<script>
+{
+const NS="http://www.w3.org/2000/svg";
+function drawLights(el){const svg=el.querySelector(":scope>svg.lights");if(!svg)return;const W=el.clientWidth,H=el.clientHeight;if(W<40||H<40)return;
+ const d=9,r=Math.max(4,parseFloat(getComputedStyle(el).borderTopLeftRadius)-d),path=document.createElementNS(NS,"path");
+ path.setAttribute("d",`M${d+r} ${d}H${W-d-r}A${r} ${r} 0 0 1 ${W-d} ${d+r}V${H-d-r}A${r} ${r} 0 0 1 ${W-d-r} ${H-d}H${d+r}A${r} ${r} 0 0 1 ${d} ${H-d-r}V${d+r}A${r} ${r} 0 0 1 ${d+r} ${d}Z`);
+ svg.innerHTML="";svg.appendChild(path);
+ const L=path.getTotalLength(),n=Math.max(8,Math.round(L/22/2)*2),st=L/n;let a="",b="";
+ for(let k=0;k<n;k++){const p=path.getPointAtLength(k*st),x=p.x.toFixed(1),y=p.y.toFixed(1),c=`<circle class="h" cx="${x}" cy="${y}" r="7"/><circle class="o" cx="${x}" cy="${y}" r="3.4"/>`;if(k%2)b+=c;else a+=c;}
+ svg.innerHTML=`<g class="a">${a}</g><g class="b">${b}</g>`;}
+const lightsRO=new ResizeObserver(es=>es.forEach(e=>drawLights(e.target)));
+document.querySelectorAll(".sign,.shot").forEach(el=>lightsRO.observe(el));
+
+const strip=document.getElementById("strip");
+const step=dir=>{const f=strip.querySelector("figure");const w=f?f.getBoundingClientRect().width+4:strip.clientWidth;strip.scrollBy({left:dir*w,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});};
+document.getElementById("prev").addEventListener("click",()=>step(-1));
+document.getElementById("next").addEventListener("click",()=>step(1));
+strip.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();step(1);}if(e.key==="ArrowLeft"){e.preventDefault();step(-1);}});
+
+document.querySelectorAll("[data-copy]").forEach(btn=>btn.addEventListener("click",()=>{
+ const text=document.getElementById(btn.dataset.copy).textContent;
+ const done=()=>{btn.textContent="Copied";setTimeout(()=>{btn.textContent="Copy";},1600);};
+ try{navigator.clipboard.writeText(text).then(done,()=>{btn.textContent="Select and copy";});}catch(e){btn.textContent="Select and copy";}
+}));
+}
+</script>
+</body>
+</html>
