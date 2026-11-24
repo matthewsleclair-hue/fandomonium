@@ -3,8 +3,10 @@
    from any network. Topics: fandomonium/v1/ROOM/hello (host presence, retained),
    .../h (phones to host) and .../p/PLAYERID (host to one phone). */
 const NET={
-  // tried in order; the second runs on port 443, which gets through stricter networks
-  brokers:["wss://broker.emqx.io:8084/mqtt","wss://mqtt.eclipseprojects.io:443/mqtt","wss://broker.hivemq.com:8884/mqtt"],
+  // Tried in order. EMQX's public broker is the one verified end to end (test/e2e.py on GitHub).
+  // HiveMQ's and Eclipse's public brokers failed that test, so they're left out on purpose:
+  // a relay that connects but doesn't deliver would show a room code nobody can join.
+  brokers:["wss://broker.emqx.io:8084/mqtt"],
   prefix:"fandomonium/v1/",
   joinUrl:"https://matthewsleclair-hue.github.io/fandomonium/join/",
   // ?broker=ws://... points both sides at a test relay

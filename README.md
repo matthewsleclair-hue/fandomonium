@@ -17,7 +17,7 @@ Turn on **Play with phones** on the setup screen. The TV shows a QR code and a f
 
 ![The TV lobby with a QR code and room code](docs/screenshots/lobby.webp)
 
-Phones talk to the TV through a free public MQTT relay over secure WebSockets (`broker.emqx.io`, with `broker.hivemq.com` as a backup), so the TV and phones need internet. The keyboard and on-screen buzzers always work too.
+Phones talk to the TV through EMQX's free public MQTT relay (`broker.emqx.io`) over secure WebSockets, so the TV and phones need internet. If the relay can't be reached, the lobby says so and the keyboard and on-screen buzzers still work. To use a different relay, change `NET.brokers` in `src/net.js`.
 
 ## Difficulty
 
