@@ -3,7 +3,8 @@
    from any network. Topics: fandomonium/v1/ROOM/hello (host presence, retained),
    .../h (phones to host) and .../p/PLAYERID (host to one phone). */
 const NET={
-  brokers:["wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt"],
+  // tried in order; the second runs on port 443, which gets through stricter networks
+  brokers:["wss://broker.emqx.io:8084/mqtt","wss://mqtt.eclipseprojects.io:443/mqtt","wss://broker.hivemq.com:8884/mqtt"],
   prefix:"fandomonium/v1/",
   joinUrl:"https://matthewsleclair-hue.github.io/fandomonium/join/",
   // ?broker=ws://... points both sides at a test relay

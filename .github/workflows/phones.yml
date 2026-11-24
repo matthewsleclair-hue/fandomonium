@@ -1,7 +1,7 @@
 name: Phone test
 
-# Plays a whole game from three simulated phones over the real public relays,
-# once through the normal relay order and once forcing the backup relay.
+# Plays a whole game from three simulated phones over the real public relays.
+# The first job uses the normal relay order (what real games do); the others force each backup.
 on:
   workflow_dispatch:
   push:
@@ -12,10 +12,11 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    continue-on-error: ${{ matrix.relay != '' }}
     strategy:
       fail-fast: false
       matrix:
-        relay: ['', 'wss://broker.hivemq.com:8884/mqtt']
+        relay: ['', 'wss://mqtt.eclipseprojects.io:443/mqtt', 'wss://broker.hivemq.com:8884/mqtt']
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

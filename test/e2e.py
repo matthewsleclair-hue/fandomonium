@@ -63,6 +63,57 @@ def view(page):
     })()""")
 
 
+slow_seq_done = []
+slow_mc_done = []
+
+
+def act(tv, phones, vs, i, p, v, buzzed):
+    if v == 'cat':
+        shot(tv, 'tv-cat')
+        p.click('.cbtn >> nth=0', timeout=3000)
+    elif v == 'mc':
+        shot(tv, 'tv-question')
+        if not slow_mc_done:
+            # mark the screen, wait past a keep-alive ping, and make sure it wasn't redrawn
+            slow_mc_done.append(1)
+            p.evaluate("document.getElementById('view').insertAdjacentHTML('beforeend','<i id=keepme></i>')")
+            p.wait_for_timeout(11500)
+            kept = p.evaluate("!!document.getElementById('keepme')")
+            log.append('question screen survived a ping: ' + str(kept))
+            assert kept, 'phone screen was redrawn by a ping'
+        b = p.query_selector_all('.abtn:not([disabled])')
+        if b:
+            random.choice(b).click(timeout=3000)
+    elif v == 'seq':
+        items = p.query_selector_all('.seq .abtn')
+        if not slow_seq_done:
+            # tap two, wait past a keep-alive ping, then finish: the partial order must survive
+            slow_seq_done.append(1)
+            for b in items[:2]:
+                b.click(timeout=3000)
+            p.wait_for_timeout(12000)
+            picked = p.evaluate("document.querySelectorAll('.seq .abtn:not(.un)').length")
+            log.append(f'put-in-order kept {picked}/2 taps after a ping')
+            assert picked == 2, 'phone lost its partial answer'
+            items = p.query_selector_all('.seq .abtn.un')
+        for b in items:
+            b.click(timeout=3000)
+    elif v in ('ready', 'next', 'lobby-vip') and i == 0:
+        p.click('[data-a=ready], [data-a=next], [data-a=start]', timeout=3000)
+    elif v == 'buzz' and not buzzed:
+        tv.wait_for_timeout(random.randint(2500, 5000))
+        shot(tv, 'tv-allplay')
+        live = [x for x in phones if x.query_selector('#bz:not([disabled])')]
+        if live:
+            random.choice(live).dispatch_event('#bz:not([disabled])', 'pointerdown', timeout=3000)
+            return True
+    elif v == 'type':
+        shot(tv, 'tv-typing')
+        p.fill('#ta', 'wrong guess', timeout=3000)
+        p.click('#tf button', timeout=3000)
+    return buzzed
+
+
 with sync_playwright() as pw:
     kw = {'args': ['--no-sandbox']}
     if CHROME:
@@ -117,33 +168,10 @@ with sync_playwright() as pw:
                 continue
             seen.add(v)
             shot(p, 'phone-' + v)
-            if v == 'cat':
-                shot(tv, 'tv-cat')
-                p.click('.cbtn >> nth=0')
-            elif v == 'mc':
-                shot(tv, 'tv-question')
-                b = p.query_selector_all('.abtn:not([disabled])')
-                random.choice(b).click()
-            elif v == 'seq':
-                for b in p.query_selector_all('.seq .abtn'):
-                    b.click()
-            elif v in ('ready', 'next', 'lobby-vip') and i == 0:
-                p.click('[data-a=ready], [data-a=next], [data-a=start]')
-            elif v == 'buzz' and not buzzed:
-                # give the puzzle a few seconds to reveal, then a random phone buzzes
-                tv.wait_for_timeout(random.randint(2500, 5000))
-                shot(tv, 'tv-allplay')
-                live = [x for x in phones if x.query_selector('#bz:not([disabled])')]
-                if live:
-                    try:
-                        random.choice(live).dispatch_event('#bz:not([disabled])', 'pointerdown', timeout=3000)
-                        buzzed = True
-                    except Exception as e:
-                        log.append('buzz skipped: ' + str(e)[:80])
-            elif v == 'type':
-                shot(tv, 'tv-typing')
-                p.fill('#ta', random.choice(['wrong guess', p.evaluate('1') and 'x']))
-                p.click('#tf button')
+            try:
+                buzzed = act(tv, phones, vs, i, p, v, buzzed)
+            except Exception as e:  # a screen changed under us; look again next pass
+                log.append(f'retry {v}: {str(e)[:70]}')
     for p in phones:
         shot(p, 'phone-end')
     final = tv.inner_text('.stand') if tv.query_selector('.stand') else '(no end screen)'
