@@ -1,5 +1,5 @@
 // Assembles the single-file pages: the game (web/index.html) and the phone controller (web/join.html).
-// Inlines the fonts, the question bank, the realtime relay client and the QR code generator.
+// Inlines the fonts, the question bank, the host's lines and gauntlet sets, the realtime relay client and the QR code generator.
 const fs = require('fs');
 const path = require('path');
 
@@ -13,6 +13,7 @@ const parts = {
     `@font-face{font-family:'Rubik';src:url(data:font/woff2;base64,${b64('node_modules/@fontsource-variable/rubik/files/rubik-latin-wght-normal.woff2')}) format('woff2');font-weight:300 900;font-display:block}`,
   BANK: read('src/bank.js'),
   CATS: read('src/cats.js'),
+  SHOW: read('src/show.js'),
   MQTT: read('node_modules/mqtt/dist/mqtt.min.js'),
   QR: read('node_modules/qrcode-generator/dist/qrcode.js'),
   NET: read('src/net.js'),
@@ -31,5 +32,5 @@ function build(from, to, keys) {
   console.log(to, (html.length / 1024).toFixed(0) + ' KB');
 }
 
-build('src/game.html', 'web/index.html', ['FONTS', 'CATS', 'BANK', 'MQTT', 'QR', 'NET']);
+build('src/game.html', 'web/index.html', ['FONTS', 'CATS', 'BANK', 'SHOW', 'MQTT', 'QR', 'NET']);
 build('src/join.html', 'web/join.html', ['FONTS', 'MQTT', 'NET']);

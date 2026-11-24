@@ -51,6 +51,8 @@ def view(page):
       const v = document.getElementById('view'); if (!v) return 'none';
       if (v.querySelector('#jf')) return 'form';
       if (v.querySelector('.cbtn:not([disabled])')) return 'cat';
+      if (v.querySelector('.dbtn:not([disabled])')) return 'dod';
+      if (v.querySelector('.sbtn:not([disabled])')) return 'sab';
       if (v.querySelector('.seq .abtn:not([disabled])')) return 'seq';
       if (v.querySelector('.abtn:not([disabled])')) return 'mc';
       if (v.querySelector('#bz:not([disabled])')) return v.querySelector('#bz').textContent.trim() === 'Steal' ? 'steal' : 'buzz';
@@ -65,6 +67,8 @@ def view(page):
 
 slow_seq_done = []
 slow_mc_done = []
+sab_done = []
+held = set()
 
 
 def act(tv, phones, vs, i, p, v, buzzed):
@@ -81,6 +85,12 @@ def act(tv, phones, vs, i, p, v, buzzed):
             kept = p.evaluate("!!document.getElementById('keepme')")
             log.append('question screen survived a ping: ' + str(kept))
             assert kept, 'phone screen was redrawn by a ping'
+        q = p.inner_text('.qtext')
+        if not sab_done and q not in held and len(held) < 6:
+            # leave the question up for a moment so another team can sabotage it
+            held.add(q)
+            p.wait_for_timeout(1500)
+            return buzzed
         b = p.query_selector_all('.abtn:not([disabled])')
         if b:
             random.choice(b).click(timeout=3000)
@@ -107,6 +117,17 @@ def act(tv, phones, vs, i, p, v, buzzed):
         if live:
             random.choice(live).dispatch_event('#bz:not([disabled])', 'pointerdown', timeout=3000)
             return True
+    elif v == 'dod':
+        shot(tv, 'tv-gauntlet')
+        p.click(random.choice(['.dbtn >> nth=0', '.dbtn >> nth=1']), timeout=3000)
+    elif v == 'sab' and slow_mc_done and not sab_done:
+        # one team sabotages another's question from its phone
+        shot(p, 'phone-sabbox')
+        p.click('.sbtn >> nth=0', timeout=3000)
+        tv.wait_for_selector('.sabtag', timeout=5000)
+        sab_done.append(1)
+        shot(tv, 'tv-sabotage')
+        log.append('sabotage from a phone: ' + tv.inner_text('.sabtag').replace('\n', ' / ')[:90])
     elif v == 'type':
         shot(tv, 'tv-typing')
         p.fill('#ta', 'wrong guess', timeout=3000)
@@ -124,6 +145,8 @@ with sync_playwright() as pw:
     tv.add_init_script("""localStorage.setItem('fs-set', JSON.stringify({teams:['Snitch Seekers','Infinity Squad','Rebel Scum'],cats:['hp','mcu','sw','dis','lotr'],rounds:3,diff:'3',phones:true}))""")
     tv.goto(BASE + '/play/?debug' + (f'&broker={BROKER}' if BROKER else ''))
     tv.wait_for_timeout(2200)
+    tv.click('[data-a=toSetup]')
+    tv.click('[data-a=step][data-v="3"]')
     tv.click('[data-a=go]')
     tv.wait_for_selector('#qr[data-join]', timeout=30000)
     link = tv.get_attribute('#qr', 'data-join') + '&debug'
@@ -164,7 +187,7 @@ with sync_playwright() as pw:
             break
         buzzed = False
         for i, (p, v) in enumerate(zip(phones, vs)):
-            if v in ('form', 'wait', 'end', 'none'):
+            if v in ('form', 'wait', 'end', 'none') or (v == 'sab' and (sab_done or not slow_mc_done)):
                 continue
             seen.add(v)
             shot(p, 'phone-' + v)
@@ -185,6 +208,6 @@ with sync_playwright() as pw:
 
 print('\n'.join(log))
 print('errors:', errors or 'none')
-ok = ended and not errors and {'cat', 'mc', 'buzz'} <= seen
+ok = ended and not errors and {'cat', 'mc', 'buzz', 'dod'} <= seen
 print('RESULT:', 'PASS' if ok else 'FAIL')
 sys.exit(0 if ok else 1)

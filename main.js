@@ -58,7 +58,7 @@ function createWindow() {
     win.webContents.on('did-finish-load', () => {
       setTimeout(async () => {
         const info = await win.webContents.executeJavaScript(
-          `({title:document.title,setup:!!document.querySelector('.setup'),font:document.fonts.check('20px Bungee'),bulbs:document.querySelectorAll('svg.lights circle').length})`
+          `({title:document.title,intro:!!document.querySelector('.intro'),font:document.fonts.check('20px Bungee'),bulbs:document.querySelectorAll('svg.lights circle').length})`
         );
         await win.webContents.capturePage().then((img) =>
           require('fs').writeFileSync(process.env.FS_SMOKE, img.toPNG())

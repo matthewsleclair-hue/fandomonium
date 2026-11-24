@@ -1,6 +1,6 @@
 # Fandomonium
 
-Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers. 741 questions across 14 fandoms, each rated Easy, Medium or Hard:
+Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers and a host with opinions. 741 questions across 14 fandoms, each rated Easy, Medium or Hard:
 
 - **Movies:** Harry Potter, Marvel, DC, Star Wars, Lord of the Rings, Disney & Pixar, Hunger Games, Jurassic Park
 - **TV:** Friends, The Office
@@ -12,7 +12,7 @@ Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as co
 
 ## Play with phones
 
-Turn on **Play with phones** on the setup screen. The TV shows a QR code and a four-letter room code, and everyone joins from their phone's browser (no app, Wi-Fi or mobile data both work).
+Turn on **Play with phones** under House rules, the last setup screen. The TV shows a QR code and a four-letter room code, and everyone joins from their phone's browser (no app, Wi-Fi or mobile data both work).
 
 - Pick your team in the lobby. Several people can share a team.
 - On your team's turn, pick the fandom and answer on your phone.
@@ -22,6 +22,17 @@ Turn on **Play with phones** on the setup screen. The TV shows a QR code and a f
 ![The TV lobby with a QR code and room code](docs/screenshots/lobby.webp)
 
 Phones talk to the TV through EMQX's free public MQTT relay (`broker.emqx.io`) over secure WebSockets, so the TV and phones need internet. If the relay can't be reached, the lobby says so and the keyboard and on-screen buzzers still work. To use a different relay, change `NET.brokers` in `src/net.js`.
+
+## Setting up
+
+The title screen has **Let's play** and **How to play**. Setup takes four quick screens, and you can jump between them with the step buttons at the top:
+
+1. **Teams**: 2 to 4 teams, each with a name, a colour and a buzz key
+2. **Fandoms**: pick any of the 14
+3. **Difficulty**: Easy, Medium, Hard or Mixed, and Quick (3 rounds), Standard (5) or Marathon (8)
+4. **House rules**: phones, steals, Screw your neighbour and the snarky host, each on or off
+
+Space or Enter goes to the next screen and Esc goes back. Your choices are remembered for next time.
 
 ## Difficulty
 
@@ -45,15 +56,25 @@ A wrong pick locks that team out of the puzzle. The last round is worth double.
 
 **Steals** (on by default): when a team misses its own question or runs out of time, the other teams get 8 seconds to buzz in. The first to buzz picks from the remaining answers and steals it for half the points.
 
+**Screw your neighbour** (on by default): once per game, each team can mess with a rival during that rival's own question. Tap the bomb on your ticket, or the button on your phone, then scramble their question (every word's middle letters get shuffled) or slash their timer to 6 seconds.
+
+The show ends with the **Final Gauntlet**, a Dis-or-Dat round at double points. Every team sorts 8 things into one of two piles at once (Jedi or Sith? Marvel or DC? Pixar or DreamWorks?), 5 seconds each: +100 for a right call, −50 for a wrong one, nothing for a pass. Picks stay hidden until the reveal.
+
+**Max, the snarky host** (on by default) introduces each round and roasts slow, wrong and timed-out answers, with jokes for each fandom. His lines show on the TV and on phones.
+
 ![All play scramble with team buzzers](docs/screenshots/scramble.webp)
+
+![The Final Gauntlet](docs/screenshots/gauntlet.webp)
 
 ## Controls
 
 | Key | What it does |
 | --- | --- |
 | Q, P, Z, M | Buzz in for teams 1 to 4 |
+| Q/W, O/P, Z/X, N/M | Final Gauntlet: left or right pile for teams 1 to 4 |
 | 1–4 or A–D | Pick an answer |
-| Space or Enter | Next question, or skip the curtain |
+| Space or Enter | Next question or setup screen, or skip the curtain |
+| Esc | Back a setup screen |
 | F11 | Full screen (Windows app) |
 
 On a touchscreen, tap the buzzers and answers instead.
@@ -73,6 +94,14 @@ hp:{
 ```
 
 Emoji puzzles take an optional fifth value, the hint shown under the emoji (it defaults to "Movie title").
+
+The host's lines and the Final Gauntlet's sets live in [`src/show.js`](src/show.js). A gauntlet set is two labels and two lists, tagged with the fandoms it belongs to:
+
+```js
+{id:"jedi", cats:["sw"], a:"Jedi", b:"Sith", A:["Yoda", "Mace Windu", ...], B:["Darth Maul", "Count Dooku", ...]}
+```
+
+The game picks a set that matches the fandoms you chose (sets tagged `"*"` fill in when none do), and draws 8 items from it.
 
 To add a whole new fandom, add a key to `BANK` in `src/bank.js` and a matching entry in `src/cats.js` (name, colour, icon and setup group).
 
@@ -94,11 +123,12 @@ To test phones without the internet, run a local relay with `node test/broker.js
 | `src/game.html` | The whole game: layout, styles and logic |
 | `src/bank.js` | Every question |
 | `src/cats.js` | The fandom list: names, colours, icons, groups |
+| `src/show.js` | Max the host's lines and the Final Gauntlet sets |
 | `src/join.html` | The phone controller |
 | `src/net.js` | The realtime relay connection shared by the TV and phones |
 | `site-src/index.html` | The website's landing page |
 | `main.js` | The Electron window for the Windows app |
-| `build-web.js`, `build-site.js` | Inline the fonts and questions, assemble the site |
+| `build-web.js`, `build-site.js` | Inline the fonts, questions and show content, assemble the site |
 
 Pushing to `main` rebuilds and deploys the website and runs the phone test over the real relays. Publishing a release on GitHub (Releases, then Draft a new release, with a tag like `v1.1.0`) builds `Fandomonium.exe` on Windows and attaches it to that release.
 
