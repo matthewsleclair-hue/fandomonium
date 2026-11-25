@@ -54,6 +54,13 @@ Then comes **All play**. A puzzle reveals itself bit by bit while its value drop
 
 A wrong pick locks that team out of the puzzle. The last round is worth double.
 
+**Special rounds** (on by default) replace the usual questions for a whole round, so every team plays the same thing:
+
+- **Rapid Fire**: 30 seconds of two-answer questions from your fandom. +50 for each right answer, −50 for each wrong one, and a turn never goes below zero.
+- **Higher or Lower**: five movies, games or seasons in a row. Say whether each came out earlier or later than the one before (Left and Right arrows, 1 and 2, or your phone). +50 a call, +100 for a perfect streak, and a wrong call ends the turn. Years come from `HILO` in `src/show.js`.
+
+A 3-round game goes classic, Rapid Fire, Higher or Lower. A 5-round game puts Rapid Fire in round 2 and Higher or Lower in round 4, and an 8-round game has two of each.
+
 **Steals** (on by default): when a team misses its own question or runs out of time, the other teams get 8 seconds to buzz in. The first to buzz picks from the remaining answers and steals it for half the points.
 
 **Screw your neighbour** (on by default): once per game, each team can mess with a rival during that rival's own question. Tap the bomb on your ticket, or the button on your phone, then scramble their question (every word's middle letters get shuffled) or slash their timer to 6 seconds.

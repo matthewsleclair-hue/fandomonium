@@ -27,6 +27,13 @@ const HOST={
  gNone:["Nobody survived the Gauntlet. Impressive, in its own way.","That Gauntlet won. You all lost."],
  win:[["{t} wins! Bragging rights expire at midnight.","We have a winner! Bragging rights expire at midnight."],["{t} takes the crown. Everyone else: there’s always a rematch.","The crown is theirs. Everyone else: there’s always a rematch."],["Congratulations, {t}. You’ve peaked. It’s all downhill from here.","Congratulations. You’ve peaked. It’s all downhill from here."]],
  tie:["A tie. How diplomatic. How boring.","A tie! Settle it with a rematch, not a fistfight."],
+ rapidIntro:["Rapid Fire. Think fast, or don’t think at all.","Thirty seconds. Two answers. No pressure."],
+ hiloIntro:["Higher or Lower. Let’s see who knows when anything came out.","Earlier or later? Try to keep the streak alive."],
+ rapidHigh:["Speed and brains. Disgusting.","That was fast. Somebody’s been studying."],
+ rapidMid:["Not bad. Not great. Very medium.","Respectable. Barely."],
+ rapidLow:["Rapid Fire, slow brain.","Thirty seconds, well wasted."],
+ hiloPerfect:["A perfect streak. Are you a calendar?","Every call right. Show-off."],
+ hiloBust:["Streak over. History wasn’t your subject.","And the streak dies. Tragic."],
  awards:["Before the winner, a few awards nobody asked for.","Award time. Try to look surprised."],
  aw_brain:["Big brain energy. Somebody actually studied.","Most right answers. Nerd. Respect."],
  aw_fast:["Fastest finger in the house. Calm down.","Buzzed in before I finished breathing."],
@@ -114,3 +121,30 @@ const DOD=[
   A:["Harry Potter","Luke Skywalker","Wonder Woman","Frodo Baggins","Simba","Katniss Everdeen","Naruto","Monkey D. Luffy","Mikasa Ackerman","Captain America","Moana","Ash Ketchum"],
   B:["Lord Voldemort","Thanos","Emperor Palpatine","The Joker","Sauron","Scar","President Snow","Orochimaru","Jafar","Team Rocket","Ursula","Ultron"]}
 ];
+
+/* Higher or Lower: things with the year they first came out. Only years that are the same everywhere,
+   or labelled with where they came out first. A fandom needs 5 different years to get its own chain;
+   otherwise the chain mixes the fandoms in play. */
+const HILO={
+ hp:[["Philosopher’s Stone (book)",1997],["Chamber of Secrets (book)",1998],["Prisoner of Azkaban (book)",1999],["Goblet of Fire (book)",2000],["Philosopher’s Stone (film)",2001],["Chamber of Secrets (film)",2002],["Order of the Phoenix (book)",2003],["Prisoner of Azkaban (film)",2004],["Half-Blood Prince (book)",2005],["Order of the Phoenix (film)",2007],["Half-Blood Prince (film)",2009],["Deathly Hallows – Part 1 (film)",2010],["Deathly Hallows – Part 2 (film)",2011],["Fantastic Beasts and Where to Find Them",2016],["The Crimes of Grindelwald",2018],["The Secrets of Dumbledore",2022]],
+ mcu:[["Iron Man",2008],["Thor",2011],["The Avengers",2012],["Iron Man 3",2013],["Guardians of the Galaxy",2014],["Avengers: Age of Ultron",2015],["Captain America: Civil War",2016],["Thor: Ragnarok",2017],["Black Panther",2018],["Avengers: Endgame",2019],["Spider-Man: No Way Home",2021],["Guardians of the Galaxy Vol. 3",2023],["Deadpool & Wolverine",2024]],
+ sw:[["A New Hope",1977],["The Empire Strikes Back",1980],["Return of the Jedi",1983],["The Phantom Menace",1999],["Attack of the Clones",2002],["Revenge of the Sith",2005],["The Force Awakens",2015],["Rogue One",2016],["The Last Jedi",2017],["Solo",2018],["The Rise of Skywalker",2019],["Andor",2022],["Ahsoka",2023]],
+ lotr:[["The Hobbit (book)",1937],["The Fellowship of the Ring (book)",1954],["The animated Lord of the Rings film",1978],["The Fellowship of the Ring (film)",2001],["The Two Towers (film)",2002],["The Return of the King (film)",2003],["An Unexpected Journey",2012],["The Desolation of Smaug",2013],["The Battle of the Five Armies",2014],["The Rings of Power",2022],["The War of the Rohirrim",2024]],
+ dis:[["Snow White and the Seven Dwarfs",1937],["Pinocchio",1940],["Cinderella",1950],["Sleeping Beauty",1959],["The Little Mermaid",1989],["Beauty and the Beast",1991],["Aladdin",1992],["The Lion King",1994],["Toy Story",1995],["Mulan",1998],["Finding Nemo",2003],["The Incredibles",2004],["Up",2009],["Tangled",2010],["Frozen",2013],["Coco",2017],["Encanto",2021],["Inside Out 2",2024]],
+ hg:[["The Hunger Games (book)",2008],["Catching Fire (book)",2009],["Mockingjay (book)",2010],["The Hunger Games (film)",2012],["Catching Fire (film)",2013],["Mockingjay – Part 1",2014],["Mockingjay – Part 2",2015],["The Ballad of Songbirds and Snakes (book)",2020],["The Ballad of Songbirds and Snakes (film)",2023],["Sunrise on the Reaping (book)",2025]],
+ jp:[["Jurassic Park (book)",1990],["Jurassic Park (film)",1993],["The Lost World: Jurassic Park",1997],["Jurassic Park III",2001],["Jurassic World",2015],["Jurassic World: Fallen Kingdom",2018],["Jurassic World Dominion",2022],["Jurassic World Rebirth",2025]],
+ dc:[["Superman, starring Christopher Reeve",1978],["Tim Burton’s Batman",1989],["Batman Returns",1992],["Batman Begins",2005],["The Dark Knight",2008],["The Dark Knight Rises",2012],["Man of Steel",2013],["Batman v Superman",2016],["Wonder Woman",2017],["Aquaman",2018],["Joker",2019],["The Batman",2022],["Superman, starring David Corenswet",2025]],
+ fr:[["Friends first airs",1994],["The last episode of Friends",2004],["Friends: The Reunion",2021]],
+ off:[["The Office (UK) first airs",2001],["The Office (US) first airs",2005],["The last episode of The Office (US)",2013]],
+ pkmn:[["Pokémon Red and Green (Japan)",1996],["Pokémon X and Y",2013],["Pokémon Go",2016],["Pokémon: Let’s Go, Pikachu!",2018],["Pokémon Sword and Shield",2019],["Pokémon Scarlet and Violet",2022],["Pokémon Legends: Z-A",2025]],
+ op:[["The One Piece manga begins",1997],["The One Piece anime begins",1999],["One Piece: Stampede",2019],["One Piece Film: Red",2022],["Netflix’s live-action One Piece",2023]],
+ nar:[["The Naruto manga begins",1999],["The Naruto anime begins (Japan)",2002],["Naruto Shippuden begins (Japan)",2007],["The Last: Naruto the Movie",2014],["Boruto: Naruto the Movie",2015],["The Boruto anime begins (Japan)",2017]],
+ aot:[["The Attack on Titan manga begins",2009],["The anime begins (Japan)",2013],["Season 2 (Japan)",2017],["Season 3 (Japan)",2018],["The Final Season begins (Japan)",2020],["The manga ends",2021],["The Last Attack (Japan)",2024]],
+ st:[["Stranger Things season 1",2016],["Season 2",2017],["Season 3",2019],["Season 4",2022],["Season 5",2025]],
+ got:[["A Game of Thrones (book)",1996],["Game of Thrones season 1",2011],["Season 2",2012],["Season 4",2014],["Season 6",2016],["Season 8",2019],["House of the Dragon",2022]],
+ mario:[["Donkey Kong (arcade)",1981],["Super Mario Bros.",1985],["Super Mario Kart",1992],["The live-action Super Mario Bros. movie",1993],["Super Mario 64",1996],["Super Mario Sunshine",2002],["Super Mario Galaxy",2007],["Super Mario 3D World",2013],["Mario Kart 8",2014],["Super Mario Odyssey",2017],["Super Mario Bros. Wonder",2023]],
+ zelda:[["Link’s Awakening",1993],["Ocarina of Time",1998],["Majora’s Mask",2000],["Twilight Princess",2006],["Skyward Sword",2011],["A Link Between Worlds",2013],["Breath of the Wild",2017],["Tears of the Kingdom",2023],["Echoes of Wisdom",2024]],
+ bttf:[["Back to the Future",1985],["Back to the Future Part II",1989],["Back to the Future Part III",1990],["Back to the Future: The Animated Series",1991]],
+ ghibli:[["Castle in the Sky (Japan)",1986],["My Neighbor Totoro (Japan)",1988],["Kiki’s Delivery Service (Japan)",1989],["Porco Rosso (Japan)",1992],["Princess Mononoke (Japan)",1997],["Spirited Away (Japan)",2001],["Howl’s Moving Castle (Japan)",2004],["Ponyo (Japan)",2008],["The Wind Rises (Japan)",2013],["The Boy and the Heron (Japan)",2023]],
+ potc:[["The Pirates of the Caribbean ride opens at Disneyland",1967],["The Curse of the Black Pearl",2003],["Dead Man’s Chest",2006],["At World’s End",2007],["On Stranger Tides",2011],["Dead Men Tell No Tales",2017]]
+};

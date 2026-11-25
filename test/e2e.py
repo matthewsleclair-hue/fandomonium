@@ -51,6 +51,8 @@ def view(page):
       const v = document.getElementById('view'); if (!v) return 'none';
       if (v.querySelector('#jf')) return 'form';
       if (v.querySelector('.cbtn:not([disabled])')) return 'cat';
+      if (v.querySelector('[data-a=rpick]:not([disabled])')) return 'rapid';
+      if (v.querySelector('[data-a=hpick]:not([disabled])')) return 'hilo';
       if (v.querySelector('.dbtn:not([disabled])')) return 'dod';
       if (v.querySelector('.sbtn:not([disabled])')) return 'sab';
       if (v.querySelector('.seq .abtn:not([disabled])')) return 'seq';
@@ -118,6 +120,12 @@ def act(tv, phones, vs, i, p, v, buzzed):
         if live:
             random.choice(live).dispatch_event('#bz:not([disabled])', 'pointerdown', timeout=3000)
             return True
+    elif v in ('rapid', 'hilo'):
+        shot(tv, 'tv-' + v)
+        p.wait_for_timeout(random.randint(300, 1200))
+        b = p.query_selector_all('[data-a=rpick]:not([disabled]), [data-a=hpick]:not([disabled])')
+        if b:
+            random.choice(b).click(timeout=3000)
     elif v == 'dod':
         shot(tv, 'tv-gauntlet')
         p.click(random.choice(['.dbtn >> nth=0', '.dbtn >> nth=1']), timeout=3000)
@@ -215,6 +223,6 @@ with sync_playwright() as pw:
 
 print('\n'.join(log))
 print('errors:', errors or 'none')
-ok = ended and not errors and {'cat', 'mc', 'buzz', 'dod'} <= seen
+ok = ended and not errors and {'cat', 'mc', 'buzz', 'dod', 'rapid', 'hilo'} <= seen
 print('RESULT:', 'PASS' if ok else 'FAIL')
 sys.exit(0 if ok else 1)
