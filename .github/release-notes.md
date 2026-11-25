@@ -1,18 +1,11 @@
 Movie, TV, anime and video game trivia for 2 to 4 teams, or up to 8 players each for themselves, around one screen: 1,108 questions across 22 fandoms, with phones as controllers.
 
-**New in 1.8: six things you asked for**
-- **Every player for themselves.** Skip teams: up to 8 people join on their phones and each plays alone, with their own colour, score, turns, steals, sabotage and lifelines. Switch it on at the top of the first setup screen. Late arrivals get to watch.
-- **Difficulty per team.** Pick Per team and give each team its own level, so the kids can play on Easy while the adults suffer on Hard. Shared All play puzzles use the average. In every-player mode, each person picks their own level on their phone.
-- **Lifelines.** Once per game, each team can use a 50/50 to knock out two wrong answers, and +10 seconds on its own question. Keys 5 and 0, or tap them on your phone. Turn them off under House rules.
-- **Music and a sound mixer.** Game-show music for the menus, the questions and the Final Gauntlet. The new Sound button sets music, Max's voice and effects separately.
-- **Holiday mode and Holiday Movies.** From December to January 6, the stage gets snow, coloured lights and sleigh bells (or turn it on or off yourself). There's also a new Holiday Movies fandom: Home Alone, Elf, The Grinch and more, 50 questions.
-- **Report a question.** Spot a wrong answer? Tap Report this question after it's answered, on the TV or your phone. Reported questions collect on the title screen, ready to copy or send as a GitHub issue.
-
-**Also fixed**
-- On smaller screens (laptops, or a TV with Windows set to 150%), the whole show now shrinks to fit, so nothing needs scrolling.
+**1.8.1: fixes from a full check of every feature**
+- **Fits smaller screens.** On a laptop, or a TV with Windows set to 150%, the whole show now shrinks to fit, so nothing needs scrolling.
 - A sabotage and a lifeline on the same question now sit side by side instead of pushing the answers off screen.
 - Five awards fit on one row.
 - Higher or Lower: when a fandom has too few dates and the game mixes in others, each card now says which fandom it's from.
+- Every player for themselves: a 9th phone is told the game is full and it'll watch this one.
 - Esc closes the sound panel even after you've moved a slider, and Enter in a team name goes to the next screen.
 
 Already have the app from 1.5 or later? It updates itself, so there's nothing to download. Otherwise:
