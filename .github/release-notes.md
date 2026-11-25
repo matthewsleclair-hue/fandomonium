@@ -1,10 +1,12 @@
-Movie, TV, anime and video game trivia for 2 to 4 teams around one screen: 1,058 questions across 21 fandoms, with phones as controllers.
+Movie, TV, anime and video game trivia for 2 to 4 teams, or up to 8 players each for themselves, around one screen: 1,108 questions across 22 fandoms, with phones as controllers.
 
-**New in 1.7: two new round types**
-- **Rapid Fire.** Each team gets 30 seconds of two-answer questions from its fandom. +50 for every right answer, −50 for every wrong one, so wild guessing doesn't pay.
-- **Higher or Lower.** Five movies, games or seasons in a row. Did each one come out earlier or later than the one before? +50 a call, +100 for a perfect streak, and one wrong call ends it.
-
-They take over whole rounds, so every team plays the same thing: round 2 is Rapid Fire and round 4 is Higher or Lower in a standard game. Max introduces both, with new lines. Prefer the classic questions? Turn off Special rounds under House rules.
+**New in 1.8: six things you asked for**
+- **Every player for themselves.** Skip teams: up to 8 people join on their phones and each plays alone, with their own colour, score, turns, steals, sabotage and lifelines. Switch it on at the top of the first setup screen. Late arrivals get to watch.
+- **Difficulty per team.** Pick Per team and give each team its own level, so the kids can play on Easy while the adults suffer on Hard. Shared All play puzzles use the average. In every-player mode, each person picks their own level on their phone.
+- **Lifelines.** Once per game, each team can use a 50/50 to knock out two wrong answers, and +10 seconds on its own question. Keys 5 and 0, or tap them on your phone. Turn them off under House rules.
+- **Music and a sound mixer.** Game-show music for the menus, the questions and the Final Gauntlet. The new Sound button sets music, Max's voice and effects separately.
+- **Holiday mode and Holiday Movies.** From December to January 6, the stage gets snow, coloured lights and sleigh bells (or turn it on or off yourself). There's also a new Holiday Movies fandom: Home Alone, Elf, The Grinch and more, 50 questions.
+- **Report a question.** Spot a wrong answer? Tap Report this question after it's answered, on the TV or your phone. Reported questions collect on the title screen, ready to copy or send as a GitHub issue.
 
 Already have the app from 1.5 or later? It updates itself, so there's nothing to download. Otherwise:
 

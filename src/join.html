@@ -98,6 +98,9 @@ input{width:100%;min-height:56px;padding:0 14px;border-radius:12px;border:2px so
 .sbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d1322}
 .sbtn:disabled{opacity:.45}
 .ribbon{padding:8px 12px;border-radius:12px;background:repeating-linear-gradient(-45deg,var(--no) 0 12px,#9e1a2d 12px 24px);color:#fff;font-family:var(--disp);font-size:16px;text-align:center;text-shadow:0 2px 0 rgba(0,0,0,.35);animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+.lvseg{display:flex;gap:8px;margin:4px 0 14px}
+.lvbtn{flex:1;min-height:52px;border-radius:12px;border:2px solid var(--line,#cdb790);background:#fff;font:inherit;font-weight:700;font-size:16px;color:inherit}
+.lvbtn.on{background:var(--c,#ffd23f);border-color:#2b1d14;box-shadow:0 3px 0 #2b1d14}
 .lifes{display:flex;gap:8px}
 .lbtn{flex:1;min-height:48px;border-radius:12px;border:2px solid var(--ok);background:#dcf3e6;color:#0a5533;font-weight:700;font-size:15px}
 .lbtn:disabled{opacity:.4}
@@ -124,6 +127,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
 const clean=s=>String(s||"").toUpperCase().replace(/[^A-Z]/g,"").slice(0,4);
 const P={room:"",name:"",pid:"",c:null,v:null,key:"",local:{},deadline:0,dur:0,ping:0};
+if(/[?&]debug\b/.test(location.search))window.__fsPhone=()=>P;
 const qs=new URLSearchParams(location.search);
 P.room=clean(qs.get("r")||location.hash.slice(1));
 P.name=store.get("fdm-name","");
@@ -189,10 +193,13 @@ const mx=h=>h?`<p class="mx"><b>Max</b><span>${esc(h)}</span></p>`:"";
 const rib=v=>v.sabBy?`<div class="ribbon">${v.sabK==="rush"?"Timer slashed":"Scrambled"} by ${esc(v.sabBy)}!</div>`:"";
 function render(){const v=P.v;if(!v)return;const K=v.v+(v.q||v.msg||v.item||"");const card_=card;const card2=h=>card_(h,K);
  const tm=v.teams&&v.teams[v.team];
- if(tm){document.documentElement.style.setProperty("--c",tm.color);$("#me").hidden=false;$("#myteam").textContent=tm.name;$("#myname").textContent=P.name+(v.vip?" ★ VIP":"");$("#myscore").textContent=v.score;store.set("fdm-team-"+P.room,v.team);}
+ if(tm){document.documentElement.style.setProperty("--c",tm.color);$("#me").hidden=false;$("#myteam").textContent=tm.name;$("#myname").textContent=(v.ffa?"Playing for yourself":P.name)+(v.vip?" ★ VIP":"");$("#myscore").textContent=v.score;if(!v.ffa)store.set("fdm-team-"+P.room,v.team);}
+ else if(v.ffa)$("#me").hidden=true;
  const vip=v.vip;
  switch(v.v){
-  case "lobby":card2(`<h2>You’re in, ${esc(P.name)}!</h2><p class="sub">Pick your team:</p><div class="teams">${v.teams.map((t,i)=>`<button class="tbtn${i===v.team?" on":""}" style="--c:${t.color}" data-a="team" data-v="${i}">${esc(t.name)}${i===v.team?'<span class="ck">Your team</span>':""}</button>`).join("")}</div>
+  case "lobby":if(v.ffa){card2(`<h2>You’re in, ${esc(P.name)}!</h2><p class="sub">Every player for themselves. ${v.count} of 8 here so far.</p>${v.pick?`<p class="sub">How hard do you want your questions?</p><div class="lvseg">${[["1","Easy"],["2","Medium"],["3","Hard"]].map(([d,l])=>`<button class="lvbtn${v.mydiff===d?" on":""}" data-a="diff" data-v="${d}">${l}</button>`).join("")}</div>`:""}
+   ${vip?`<button class="big" data-a="start">Everyone’s in. Start!</button><p class="hint">You’re the VIP: you start the game and move things along from your phone.</p>`:`<p class="hint">Waiting for the VIP to start the game…</p>`}`);break;}
+   card2(`<h2>You’re in, ${esc(P.name)}!</h2><p class="sub">Pick your team:</p><div class="teams">${v.teams.map((t,i)=>`<button class="tbtn${i===v.team?" on":""}" style="--c:${t.color}" data-a="team" data-v="${i}">${esc(t.name)}${i===v.team?'<span class="ck">Your team</span>':""}</button>`).join("")}</div>
    ${vip?`<button class="big" data-a="start">Everyone’s in. Start!</button><p class="hint">You’re the VIP: you start the game and move things along from your phone.</p>`:`<p class="hint">Waiting for the VIP to start the game…</p>`}`);break;
   case "wait":card2(`<div class="center"><h2>${esc(v.msg)}</h2>${v.sub?`<p class="sub">${esc(v.sub)}</p>`:""}</div>${v.sab?`<div class="sabbox"><h3>Screw your neighbour</h3><p class="hint">One use per game. Mess with ${esc(v.victim)}:</p><div><button class="sbtn" data-a="sab" data-v="scr">Scramble their question</button><button class="sbtn" data-a="sab" data-v="rush">Slash their timer</button></div></div>`:""}`);break;
   case "ready":card2(`<div class="center"><h2>${esc(v.msg)}</h2><p class="sub">${esc(v.sub||"")}</p>${vip?`<button class="big" data-a="ready">Start the round</button>`:`<p class="hint">The VIP starts the round.</p>`}</div>`);break;
@@ -215,6 +222,7 @@ function render(){const v=P.v;if(!v)return;const K=v.v+(v.q||v.msg||v.item||"");
 const A={
  again:()=>{location.href=location.pathname;},
  team:v=>send({t:"team",team:+v}),
+ diff:v=>send({t:"diff",d:v}),
  start:()=>send({t:"start"}),
  ready:()=>send({t:"ready"}),
  next:(v,b)=>{b.disabled=true;send({t:"next"});},

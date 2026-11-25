@@ -3,6 +3,7 @@
 Usage:
   python3 test/e2e.py                      # uses the public relay (what real games use)
   BROKER=ws://127.0.0.1:8888 python3 test/e2e.py   # uses a local relay (node test/broker.js 8888)
+  FFA=1 python3 test/e2e.py                # every player for themselves: six phones, plus one that joins late
 Serves ./site on a local port, so run `node build-site.js` first.
 """
 import functools, http.server, os, random, sys, threading, time
@@ -12,6 +13,8 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'site')
 SHOTS = os.environ.get('SHOTS')  # folder for screenshots, optional
 BROKER = os.environ.get('BROKER')
 CHROME = os.environ.get('CHROME')
+FFA = os.environ.get('FFA') == '1'
+NAMES = ['Matt', 'Sam', 'Jo', 'Alex', 'Riley', 'Kim'] if FFA else ['Matt', 'Sam', 'Jo']
 
 srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(http.server.SimpleHTTPRequestHandler, directory=ROOT))
 srv.RequestHandlerClass.log_message = lambda *a: None
@@ -85,9 +88,16 @@ def act(tv, phones, vs, i, p, v, buzzed):
         if not slow_mc_done:
             # mark the screen, wait past a keep-alive ping, and make sure it wasn't redrawn
             slow_mc_done.append(1)
+            try:  # lifeline buttons appear once the clock starts; that redraw is expected
+                p.wait_for_selector('.lbtn', timeout=8000)
+            except Exception:
+                pass
             p.evaluate("document.getElementById('view').insertAdjacentHTML('beforeend','<i id=keepme></i>')")
+            before = p.evaluate("JSON.stringify(Object.assign({},__fsPhone().v,{secs:0}))")
             p.wait_for_timeout(11500)
             kept = p.evaluate("!!document.getElementById('keepme')")
+            if not kept:
+                log.append('before: ' + before[330:]); log.append('after:  ' + p.evaluate("JSON.stringify(Object.assign({},__fsPhone().v,{secs:0}))")[330:]); log.append('view: ' + p.evaluate("document.getElementById('view').innerText").replace('\n',' / ')[:200])
             log.append('question screen survived a ping: ' + str(kept))
             assert kept, 'phone screen was redrawn by a ping'
         q = p.inner_text('.qtext')
@@ -165,7 +175,8 @@ with sync_playwright() as pw:
     browser = pw.chromium.launch(**kw)
     tv = browser.new_page(viewport={'width': 1600, 'height': 1000})
     watch(tv, 'tv')
-    tv.add_init_script("""localStorage.setItem('fs-set', JSON.stringify({teams:['Snitch Seekers','Infinity Squad','Rebel Scum'],cats:['hp','mcu','sw','dis','lotr'],rounds:3,diff:'3',phones:true}))""")
+    cfg = "ffa:true,diff:'team'" if FFA else "diff:'3'"
+    tv.add_init_script("""localStorage.setItem('fs-set', JSON.stringify({teams:['Snitch Seekers','Infinity Squad','Rebel Scum'],cats:['hp','mcu','sw','dis','lotr'],rounds:3,%s,phones:true}))""" % cfg)
     tv.goto(BASE + '/play/?debug' + (f'&broker={BROKER}' if BROKER else ''))
     tv.wait_for_timeout(2200)
     tv.click('[data-a=toSetup]')
@@ -177,7 +188,7 @@ with sync_playwright() as pw:
     log.append(f'room {code} via {link.split("?")[0]}')
 
     phones = []
-    for n, name in enumerate(['Matt', 'Sam', 'Jo']):
+    for n, name in enumerate(NAMES):
         ctx = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True)
         ph = ctx.new_page()
         watch(ph, name)
@@ -186,23 +197,39 @@ with sync_playwright() as pw:
         ph.fill('#nm', name)
         ph.click('#jf button')
         try:
-            ph.wait_for_selector('.tbtn', timeout=25000)
+            ph.wait_for_selector('.lvbtn' if FFA else '.tbtn', timeout=25000)
         except Exception:
             phones.append(ph); dump(tv, phones); raise
         phones.append(ph)
         ph.wait_for_timeout(600)
     for n, ph in enumerate(phones):
-        ph.click(f'.tbtn[data-v="{n}"]')
+        if FFA:
+            ph.click(f'.lvbtn[data-v="{n % 3 + 1}"]')  # each player picks their own level
+        else:
+            ph.click(f'.tbtn[data-v="{n}"]')
         ph.wait_for_timeout(500)
+    if FFA:
+        phones[0].wait_for_function("document.getElementById('view').innerText.includes('6 of 8')", timeout=8000)
+        log.append('phone lobby: ' + phones[0].evaluate("document.getElementById('view').innerText").replace('\n', ' / ')[:90])
     tv.wait_for_timeout(1000)
     shot(tv, 'tv-lobby')
     shot(phones[0], 'phone-lobby')
     names = tv.inner_text('#lteams')
-    assert all(x in names for x in ['Matt', 'Sam', 'Jo']), 'lobby missing players: ' + names
+    assert all(x in names for x in NAMES), 'lobby missing players: ' + names
     phones[0].click('[data-a=start]')
     log.append('VIP started the game')
+    if FFA:
+        tv.wait_for_selector('.tickets.many', timeout=8000)
+        log.append('TV scores: ' + tv.inner_text('#tickets').replace('\n', ' ')[:160])
+        log.append('levels: ' + str(tv.evaluate('window.__fsState().tdiff')))
+        ctx = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True)
+        late = ctx.new_page(); watch(late, 'Late')
+        late.goto(link); late.wait_for_selector('#nm'); late.fill('#nm', 'Latecomer'); late.click('#jf button')
+        late.wait_for_function("document.getElementById('view').innerText.includes('watching')", timeout=20000)
+        log.append('late phone: ' + late.evaluate("document.getElementById('view').innerText").replace('\n', ' / ')[:80])
+        late.wait_for_timeout(900); shot(late, 'phone-watching')
 
-    seen, deadline = set(), time.time() + 420
+    seen, deadline = set(), time.time() + (1100 if FFA else 420)
     while time.time() < deadline:
         tv.wait_for_timeout(300)
         vs = [view(p) for p in phones]
@@ -224,6 +251,7 @@ with sync_playwright() as pw:
                 buzzed = act(tv, phones, vs, i, p, v, buzzed)
             except Exception as e:  # a screen changed under us; look again next pass
                 log.append(f'retry {v}: {str(e)[:70]}')
+    tv.wait_for_timeout(3500)
     for p in phones:
         shot(p, 'phone-end')
     final = tv.inner_text('.stand') if tv.query_selector('.stand') else '(no end screen)'

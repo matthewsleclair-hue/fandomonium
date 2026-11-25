@@ -1,6 +1,7 @@
 name: Phone test
 
-# Plays a whole game from three simulated phones over the real public relay.
+# Plays whole games from simulated phones over the real public relay:
+# three phones on teams, then six players each for themselves plus a latecomer.
 on:
   workflow_dispatch:
   push:
@@ -10,7 +11,7 @@ on:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -29,8 +30,15 @@ jobs:
         run: mkdir -p shots && python test/e2e.py
         env:
           SHOTS: shots
+      - name: Play every player for themselves with six phones
+        run: mkdir -p shots-ffa && python test/e2e.py
+        env:
+          SHOTS: shots-ffa
+          FFA: '1'
       - if: always()
         uses: actions/upload-artifact@v7
         with:
           name: phone-test-screens
-          path: shots
+          path: |
+            shots
+            shots-ffa

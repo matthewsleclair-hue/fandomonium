@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fandomonium</title>
-<meta name="description" content="Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers. Play in your browser or download for Windows.">
+<meta name="description" content="Movie, TV and anime trivia for 2 to 4 teams, or up to 8 players, around one screen, with phones as controllers. Play in your browser or download for Windows.">
 <meta property="og:title" content="Fandomonium">
-<meta property="og:description" content="Movie, TV and anime trivia for 2 to 4 teams: trivia, scrambles, Who am I?, emoji puzzles and steals, with phones as controllers.">
+<meta property="og:description" content="Movie, TV and anime trivia for teams or up to 8 players: trivia, scrambles, Who am I?, emoji puzzles and steals, with phones as controllers.">
 <meta property="og:image" content="img/answered.webp">
 <link rel="icon" href="icon.png">
 <style>
@@ -107,6 +107,12 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 .m-dod span{display:grid;place-items:center;height:66px;border-radius:10px;background:#fff;border:2px solid var(--line);font-family:var(--disp);font-size:13px;color:var(--v2)}
 .m-dod span:first-child{opacity:.45}
 .m-dod .ok{background:#dcf3e6;border-color:#12854f}
+.m-ch .gone{opacity:.32;text-decoration:line-through}
+.m-ffa{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;width:min(290px,100%)}
+.m-ffa span{padding:7px 12px;border-radius:8px;background:var(--c);color:var(--ink);font-weight:700;font-size:13px}
+.m-snd{display:grid;gap:9px;width:min(250px,100%)}
+.m-snd span{display:grid;grid-template-columns:62px 1fr;align-items:center;gap:10px;font-weight:700;font-size:13px;color:var(--ink)}
+.m-snd i{height:8px;border-radius:99px;background:linear-gradient(90deg,var(--v2) var(--w),#e6dcc6 var(--w))}
 .m-dod b{display:grid;place-items:center;text-align:center;border-radius:10px;background:var(--ink);color:var(--iv);font-size:14px;line-height:1.15;padding:4px}
 .extras{margin-top:56px}
 .m-emo .hid{font-family:var(--disp);font-size:24px;color:#cdb790;border-style:dashed;background:transparent;box-shadow:none}
@@ -176,7 +182,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
 <section class="hero band velvet" id="top">
   <div class="sign"><svg class="lights" aria-hidden="true"></svg>
     <h1>Fandomonium</h1>
-    <p>Movie, TV and anime trivia for 2 to 4 teams around one screen, with your phones as controllers and a host with opinions. {{TOTAL}} questions across {{NFAN}} fandoms, from Harry Potter and Marvel to Pokémon, The Office and One Piece.</p>
+    <p>Movie, TV and anime trivia for 2 to 4 teams, or up to 8 players each for themselves, around one screen, with your phones as controllers and a host with opinions. {{TOTAL}} questions across {{NFAN}} fandoms, from Harry Potter and Marvel to Pokémon, The Office and One Piece.</p>
   </div>
   <div class="cta">
     <a class="btn play" href="play/">Play in your browser<small>Nothing to install</small></a>
@@ -192,7 +198,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
       <p class="lede">Like a party game console, minus the console. Nobody installs anything: phones join in the browser, over Wi-Fi or mobile data.</p>
       <ul class="steps">
         <li><b>Turn on Play with phones.</b> The TV shows a QR code and a four-letter room code.</li>
-        <li><b>Scan to join.</b> Type your name and pick your team. Several people can share a team.</li>
+        <li><b>Scan to join.</b> Type your name and pick your team. Several people can share a team, or skip teams and play every player for themselves.</li>
         <li><b>Pick, answer, buzz.</b> On your team’s turn, choose the fandom and answer on your phone. In All play, slam the buzzer and type scramble answers in.</li>
         <li><b>The first to join is the VIP.</b> They start rounds and move things along from the couch.</li>
       </ul>
@@ -238,7 +244,7 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
     </div>
     <div class="extras" id="extras">
       <h2>And the extras</h2>
-      <p class="lede">Each one can be switched off under House rules before the show starts.</p>
+      <p class="lede">Most can be switched off under House rules before the show starts.</p>
       <div class="posters">
         <article class="poster"><header><h3>Max, your host</h3><span class="tag">Every round, every answer</span></header>
           <div class="art"><div class="m-host"><b>Max</b><span>Bold choice. Wrong, but bold.</span></div></div>
@@ -249,6 +255,15 @@ svg.lights{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-ev
         <article class="poster"><header><h3>Final Gauntlet</h3><span class="tag">Last thing before the winner, double points</span></header>
           <div class="art"><div class="m-dod"><span>Jedi</span><b>Count Dooku</b><span class="ok">Sith</span></div></div>
           <p>Eight quick calls: Jedi or Sith? Marvel or DC? Everyone answers at once. +100 if you’re right, −50 if you’re wrong.</p></article>
+        <article class="poster"><header><h3>Lifelines</h3><span class="tag">Once per team, per game</span></header>
+          <div class="art"><div class="m-ch"><span><b>A</b>Tatooine</span><span class="gone"><b>B</b>Hoth</span><span class="gone"><b>C</b>Endor</span><span><b>D</b>Naboo</span></div></div>
+          <p>A 50/50 knocks out two wrong answers, and +10 seconds buys time on your own question.</p></article>
+        <article class="poster"><header><h3>Every player for themselves</h3><span class="tag">2 to 8 players, on phones</span></header>
+          <div class="art"><div class="m-ffa"><span style="--c:#ffd23f">Matt</span><span style="--c:#3ddbd0">Sam</span><span style="--c:#ff8db8">Jo</span><span style="--c:#9cc0ff">Alex</span><span style="--c:#a6e36a">Riley</span><span style="--c:#ffad5c">Kim</span><span style="--c:#c7a6ff">Dev</span><span style="--c:#e6e2d8">Lee</span></div></div>
+          <p>No teams. Everyone gets their own colour, score, turns and sabotage, and picks their own difficulty on their phone.</p></article>
+        <article class="poster"><header><h3>Music and a holiday mode</h3><span class="tag">With a sound mixer</span></header>
+          <div class="art"><div class="m-snd"><span>Music<i style="--w:50%"></i></span><span>Max<i style="--w:100%"></i></span><span>Effects<i style="--w:80%"></i></span></div></div>
+          <p>Game-show music for every part of the night. In December the stage gets snow, coloured lights and sleigh bells, to go with the Holiday Movies pack.</p></article>
       </div>
     </div>
   </div>

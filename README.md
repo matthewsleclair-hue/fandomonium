@@ -1,6 +1,6 @@
 # Fandomonium
 
-Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers and a host with opinions. 1,108 questions across 22 fandoms, each rated Easy, Medium or Hard:
+Movie, TV and anime trivia for 2 to 4 teams (or up to 8 players, each for themselves) around one screen, with phones as controllers and a host with opinions. 1,108 questions across 22 fandoms, each rated Easy, Medium or Hard:
 
 - **Movies:** Harry Potter, Marvel, DC, Star Wars, Lord of the Rings, Disney & Pixar, Hunger Games, Jurassic Park, Back to the Future, Studio Ghibli, Pirates of the Caribbean, Holiday Movies (Home Alone, Elf, The Grinch and more)
 - **TV:** Friends, The Office, Stranger Things, Game of Thrones
@@ -19,6 +19,10 @@ Turn on **Play with phones** under House rules, the last setup screen. The TV sh
 - In All play, your phone becomes a big buzzer. Buzz first, then pick the answer, or type it for scrambles.
 - The first phone to join is the VIP, who starts the game and moves things along from the couch.
 
+### Every player for themselves
+
+On the first setup screen, switch from **Teams** to **Every player for themselves**. Up to 8 people join with their phones and each plays alone: their own colour, score, turns, steals, sabotage and lifelines. Phones are always on in this mode. Anyone who joins after the game starts, or after the first 8, watches instead. With lots of players, Quick (3 rounds) keeps the game to about half an hour.
+
 ![The TV lobby with a QR code and room code](docs/screenshots/lobby.webp)
 
 Phones talk to the TV through EMQX's free public MQTT relay (`broker.emqx.io`) over secure WebSockets, so the TV and phones need internet. If the relay can't be reached, the lobby says so and the keyboard and on-screen buzzers still work. To use a different relay, change `NET.brokers` in `src/net.js`.
@@ -27,8 +31,8 @@ Phones talk to the TV through EMQX's free public MQTT relay (`broker.emqx.io`) o
 
 The title screen has **Let's play** and **How to play**. Setup takes four quick screens, and you can jump between them with the step buttons at the top:
 
-1. **Teams**: 2 to 4 teams, each with a name, a colour and a buzz key
-2. **Fandoms**: pick any of the 14
+1. **Teams**: 2 to 4 teams, each with a name, a colour and a buzz key, or every player for themselves (2 to 8 players on phones)
+2. **Fandoms**: pick any of the 22
 3. **Difficulty**: Easy, Medium, Hard or Mixed, and Quick (3 rounds), Standard (5) or Marathon (8)
 4. **House rules**: phones, steals, Screw your neighbour and the snarky host, each on or off
 
@@ -38,7 +42,7 @@ Space or Enter goes to the next screen and Esc goes back. Your choices are remem
 
 Every question is tagged 1 (easy), 2 (medium) or 3 (hard). Pick **Easy**, **Medium** or **Hard**, or **Mixed**, which starts easy and gets harder each round. When a level runs out of fresh questions, the game borrows from the nearest level before repeating anything.
 
-Pick **Per team** to give each team its own level, so kids can play on Easy against adults on Hard. Each team's own questions use its level, and the shared All play puzzles use the average.
+Pick **Per team** to give each team its own level, so kids can play on Easy against adults on Hard. Each team's own questions use its level, and the shared All play puzzles use the average. When every player plays for themselves, this becomes **Per player** and each person picks Easy, Medium or Hard on their phone in the lobby.
 
 ## How a game runs
 
