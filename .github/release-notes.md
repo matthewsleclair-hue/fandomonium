@@ -8,6 +8,13 @@ Movie, TV, anime and video game trivia for 2 to 4 teams, or up to 8 players each
 - **Holiday mode and Holiday Movies.** From December to January 6, the stage gets snow, coloured lights and sleigh bells (or turn it on or off yourself). There's also a new Holiday Movies fandom: Home Alone, Elf, The Grinch and more, 50 questions.
 - **Report a question.** Spot a wrong answer? Tap Report this question after it's answered, on the TV or your phone. Reported questions collect on the title screen, ready to copy or send as a GitHub issue.
 
+**Also fixed**
+- On smaller screens (laptops, or a TV with Windows set to 150%), the whole show now shrinks to fit, so nothing needs scrolling.
+- A sabotage and a lifeline on the same question now sit side by side instead of pushing the answers off screen.
+- Five awards fit on one row.
+- Higher or Lower: when a fandom has too few dates and the game mixes in others, each card now says which fandom it's from.
+- Esc closes the sound panel even after you've moved a slider, and Enter in a team name goes to the next screen.
+
 Already have the app from 1.5 or later? It updates itself, so there's nothing to download. Otherwise:
 
 **Download `Fandomonium.exe` below**, then double-click it to play. Nothing to install.
