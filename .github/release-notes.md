@@ -1,9 +1,9 @@
 Movie, TV and anime trivia for 2 to 4 teams around one screen: 741 questions across 14 fandoms, with phones as controllers.
 
-**New in 1.4: Max talks**
-- **Max has a voice.** Every one of his 111 lines is now spoken out loud, recorded in ElevenLabs' Callum voice. It's built into the app, so it works offline.
-- **A "Max's voice" switch** under House rules. Turn it off to keep Max on screen but silent.
-- The curtains wait for Max to finish his line before they open, and his name badge pulses while he talks. The mute button silences him too.
+**New in 1.5: the last download you'll need**
+- **The app updates itself.** It now plays the latest version of the game from the website, so new questions and features show up the next time you open it. No more downloading a new `.exe`. Without internet, it plays the version built into the app.
+- **The awards.** Before the winner is announced, Max hands out up to five awards: Big brain, Fastest finger, Master thief, Agent of chaos, Gauntlet guru, Bold guesser and Punching bag. Playing with phones? Awards go to the person who earned them, and their phone tells them.
+- Max has new lines for every award.
 
 **Download `Fandomonium.exe` below**, then double-click it to play. Nothing to install.
 

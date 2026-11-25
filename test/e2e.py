@@ -68,6 +68,7 @@ def view(page):
 slow_seq_done = []
 slow_mc_done = []
 sab_done = []
+awards_seen = []
 held = set()
 
 
@@ -186,6 +187,12 @@ with sync_playwright() as pw:
         if all(v == 'end' for v in vs):
             break
         buzzed = False
+        if not awards_seen and tv.query_selector('.aw'):
+            tv.wait_for_timeout(2500)
+            awards_seen.append(1)
+            shot(tv, 'tv-awards')
+            log.append('awards: ' + ' | '.join(tv.eval_on_selector_all('.aw', 'e=>e.map(x=>x.querySelector("h3").textContent+": "+x.querySelector("b").textContent)')))
+            log.append('a phone during the awards: ' + phones[1].evaluate("document.getElementById('view').innerText").replace('\n', ' / ')[:80])
         for i, (p, v) in enumerate(zip(phones, vs)):
             if v in ('form', 'wait', 'end', 'none') or (v == 'sab' and (sab_done or not slow_mc_done)):
                 continue

@@ -334,6 +334,18 @@ h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--mut)}
 .end .mx b{display:inline-block;margin-right:8px;vertical-align:2px}
 .maxtalk .mx b,.maxtalk .mxc b{animation:talk .42s ease-in-out infinite alternate}
 @keyframes talk{from{transform:translateY(-1px) scale(1)}to{transform:translateY(-1px) scale(1.14)}}
+.agrid{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px;align-content:start;perspective:1000px}
+.aw{display:grid;justify-items:center;align-content:start;gap:4px;padding:18px 16px 16px;border-radius:18px;background:#fff;border:3px solid var(--c);box-shadow:0 5px 0 color-mix(in srgb,var(--c) 65%,#000);text-align:center;animation:awin .65s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes awin{from{opacity:0;transform:translateY(26px) rotateX(-45deg) scale(.9)}}
+.awi{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:var(--ink);box-shadow:0 4px 0 color-mix(in srgb,var(--c) 55%,#000)}
+.awi svg{width:32px;height:32px}
+.aw h3{margin:8px 0 0;font-family:var(--disp);font-weight:400;font-size:clamp(17px,.6vw + 1vh,23px);line-height:1.1;color:var(--v2)}
+.aw>b{font-size:clamp(22px,1vw + 1.5vh,34px);line-height:1.1;color:var(--ink);text-wrap:balance}
+.aw small{color:var(--mut);font-weight:600;font-size:14px}
+.aw>p{margin:4px 0 0;color:var(--ink);font-weight:600}
+.aw .mx{display:block;text-align:center;font-size:15px;margin-top:8px}
+.aw .mx b{display:inline-block;margin-right:7px;vertical-align:1px}
+.awards .res{margin-top:0}
 .frame.shake{animation:jolt .45s cubic-bezier(.36,.07,.19,.97)}
 @keyframes jolt{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(4px,-1px)}30%,50%,70%{transform:translate(-8px,2px) rotate(-.5deg)}40%,60%{transform:translate(8px,-2px) rotate(.5deg)}}
 .dod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) minmax(0,1fr);gap:14px;margin:0 0 18px}
@@ -617,9 +629,9 @@ function play(){cur=null;stopClock();$("#buzzers").hidden=true;ticketsUpd();sync
  else{lines.push(["All play!","Everyone can buzz in",null,quip("allplay")]);curtains(lines,allPlay);}}
 function next(){if(S.screen!=="play")return;
  if(cur&&cur.g){if(cur.phase==="gdone")finalScores();return;}
+ if(cur&&cur.aw){if(cur.phase==="areveal")awardsAll();else toWinner();return;}
  S.step++;if(S.step>S.teams.length){S.step=0;S.round++;}
  if(S.round>=S.rounds){stopClock();$("#buzzers").hidden=true;gauntlet();}else play();}
-function finalScores(){stopClock();clearTimers();$("#buzzers").hidden=true;curtains([["And the winner is…"]],end);}
 
 /* ---------- my turn ---------- */
 function turnStart(i){if(PH.c&&teamPhones(i)&&S.cats.length>1)catPick(i);else myTurn(i,null);}
@@ -639,16 +651,19 @@ function myTurn(i,cat){const q=draw("turn",null,cat),m=mult(),seq=q.kind==="seq"
  setScreen(qhead(q,DLAB[q.d]+" "+(seq?"put it in order":q.kind==="odd"?"odd one out":"trivia")+" for "+S.teams[i].name,c.pts,m)+`<div class="barw"><div class="bar" id="bar"><i id="bi"></i></div><span class="secs" id="secs">${c.dur}</span></div>`+body+`<div class="res" id="res" role="status" hidden></div>`);
  sync();
  later(()=>{if(cur!==c||c.done)return;c.started=true;startClock(c.dur,el=>{const left=c.dur-el;setBar(left/c.dur,left);const s=Math.ceil(left);if(s<=5&&s<c.sec&&s>0)sfx.tick();c.sec=s;if(left<=4&&!c.shut){c.shut=true;ticketsUpd();}},()=>turnEnd(seq?false:null));ticketsUpd();sync();},650);}
-function turnEnd(v){const c=cur;if(!c||c.done||(!c.ch&&!c.items))return;const tl=c.started?(clk?Math.max(0,clk.dur-clk.el):0):c.dur;c.done=true;stopClock();sabClose();ticketsUpd();
+function turnEnd(v,w){const c=cur;if(!c||c.done||(!c.ch&&!c.items))return;const tl=c.started?(clk?Math.max(0,clk.dur-clk.el):0):c.dur;c.done=true;stopClock();sabClose();ticketsUpd();
  if(c.scr){c.scr=false;paintQ(c);}
  const q=c.q,nm=S.teams[c.team].name,name=esc(nm),hv={t:nm,a:q.a};let ok,msg,plain,h;
+ const tally=(ok,guessed)=>{if(guessed){const x=st(actor(c.team,w));if(ok)x.right++;else x.wrong++;}if(!ok&&c.sab)st(c.sab.who).sabHit++;};
  if(q.kind==="seq"){ok=v===true;const box=$(".seq");
   $$(".seq button").map(b=>{const k=+b.dataset.v,r=q.items.indexOf(c.items[k]);b.disabled=true;b.style.animation="none";b.querySelector(".k").textContent=r+1;b.classList.remove("picked");b.classList.add(c.order[r]===k?"good":"bad");return [r,b];}).sort((a,b)=>a[0]-b[0]).forEach(([,b])=>box.appendChild(b));
   const pre=c.order.length<c.items.length?"Time’s up! ":"Not quite. ";
   msg=ok?`<b>+${c.pts}</b> for ${name}. Perfect order!`:pre+"Here’s the right order.";
   plain=ok?`+${c.pts} for ${nm}. Perfect order!`:pre+"The right order is on the screen.";
+  tally(ok,c.order.length===c.items.length);
   if(!ok)h=c.order.length<c.items.length?quip("timeout",hv):roast(q.cat,hv);}
  else{ok=v!=null&&c.ch[v]===q.a;const pre=v==null?"Time’s up! ":"Not quite. ";
+  tally(ok,v!=null);
   if(!ok)h=v==null?quip("timeout",hv):roast(q.cat,hv);
   if(!ok&&S.steals&&S.teams.length>1){startSteal(v,pre,h);return;}
   $$(".ch button").forEach((b,k)=>{b.disabled=true;if(c.ch[k]===q.a)b.classList.add("good");else if(k===v)b.classList.add("bad");});
@@ -659,14 +674,19 @@ function turnEnd(v){const c=cur;if(!c||c.done||(!c.ch&&!c.items))return;const tl
  if(ok){award(c.team,c.pts);sfx.good();}else{sfx.bad();shake();}
  showRes(msg,ok,h);}
 
+/* ---------- who did what, for the awards ---------- */
+// An actor is a phone player ("p:<id>") or, for keyboard and on-screen play, a team ("t:<n>").
+const actor=(i,w)=>w||"t:"+i;
+function st(k){const s=S.st||(S.st={});return s[k]||(s[k]={right:0,wrong:0,steals:0,fast:null,sab:0,sabHit:0,gRight:0});}
+
 /* ---------- steals ---------- */
 function startSteal(v,pre,h){const c=cur;c.phase="steal";c.own=v;c.locked=new Set([c.team]);c.half=Math.round(c.pts/20)*10;
  $$(".ch button").forEach((b,k)=>{b.disabled=true;if(k===v)b.classList.add("bad");});sfx.bad();shake();
  const r=$("#res");r.hidden=false;r.className="res steal";r.innerHTML=`<p>${pre}<b>Steal it!</b> Other teams, buzz in for ${c.half}.</p>${mxh(h&&Math.random()<.6?h:quip("stealOpen"))}`;
  buzzers();buzzUpd();sync();
  startClock(8,el=>setBar(1-el/8,8-el),()=>{if(cur===c&&c.phase==="steal")finishSteal(null,null);});}
-function stealBuzz(i,phone){const c=cur;if(!c||c.phase!=="steal"||c.locked.has(i)||i>=S.teams.length)return;
- stopClock();c.phase="stealing";c.stealer=i;c.viaPhone=!!phone;sfx.buzz();flash(S.teams[i].color);buzzUpd();
+function stealBuzz(i,phone,w){const c=cur;if(!c||c.phase!=="steal"||c.locked.has(i)||i>=S.teams.length)return;
+ stopClock();c.phase="stealing";c.stealer=i;c.stealWho=actor(i,w);c.viaPhone=!!phone;sfx.buzz();flash(S.teams[i].color);buzzUpd();
  const b=$("#bz"+i);if(b){b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),300);}
  $$(".ch button").forEach((x,k)=>{x.disabled=k===c.own;});
  $("#res").innerHTML=`<p><b>${esc(S.teams[i].name)}</b> is stealing for ${c.half}! ${phone?"Pick on your phone, or tap here.":"Pick an answer."}</p>`;
@@ -675,6 +695,7 @@ function stealBuzz(i,phone){const c=cur;if(!c||c.phase!=="steal"||c.locked.has(i
 function stealPick(k){const c=cur;if(!c||c.phase!=="stealing"||k===c.own||!(k>=0&&k<4))return;finishSteal(c.stealer,k);}
 function finishSteal(i,k){const c=cur;if(!c||(c.phase!=="steal"&&c.phase!=="stealing"))return;stopClock();c.phase="over";buzzUpd();$("#buzzers").hidden=true;
  const q=c.q,ok=i!=null&&k!=null&&c.ch[k]===q.a,nm=i!=null?S.teams[i].name:"";
+ if(i!=null&&k!=null){const x=st(c.stealWho||actor(i));if(ok){x.right++;x.steals++;}else x.wrong++;}
  $$(".ch button").forEach((b,j)=>{b.disabled=true;if(c.ch[j]===q.a)b.classList.add("good");else if(j===k)b.classList.add("bad");});
  let msg,plain;
  const h=ok?quip("stolen",{t:nm}):i==null?quip("noSteal"):k==null?quip("timeout",{t:nm}):quip("stealWrong",{t:nm});
@@ -692,7 +713,7 @@ const scrambleText=t=>String(t).replace(/\p{L}{4,}/gu,scrWord);
 function paintQ(c){const on=!!c.scr,q=$("#screen .q");if(q)q.textContent=on?c.sq:c.q.q;
  if(c.ch)$$("#screen .ch button").forEach(b=>{const k=+b.dataset.v,t=b.querySelector("span:last-child");if(t&&c.ch[k]!=null)t.textContent=on?c.sch[k]:c.ch[k];});
  if(c.items)$$("#screen .seq button").forEach(b=>{const k=+b.dataset.v,t=b.querySelector("span:last-child");if(t&&c.items[k]!=null)t.textContent=on?c.sitems[k]:c.items[k];});}
-function sabotage(i,kind){const c=cur;if(!sabOpen(i))return;S.sab[i]=false;c.sab={by:i,k:kind};const by=S.teams[i],vic=S.teams[c.team];
+function sabotage(i,kind,w){const c=cur;if(!sabOpen(i))return;S.sab[i]=false;c.sab={by:i,k:kind,who:actor(i,w)};st(c.sab.who).sab++;(S.sabbed||(S.sabbed=[]))[c.team]=(S.sabbed[c.team]||0)+1;const by=S.teams[i],vic=S.teams[c.team];
  if(kind==="rush"){if(clk)clk.el=Math.max(clk.el,clk.dur-SAB_RUSH);}
  else{c.scr=true;c.sq=scrambleText(c.q.q);if(c.ch)c.sch=c.ch.map(scrambleText);if(c.items)c.sitems=c.items.map(scrambleText);paintQ(c);}
  const h=quip("sab",{o:by.name,t:vic.name}),tag=document.createElement("div");tag.className="sabtag";tag.style.setProperty("--c",by.color);
@@ -726,14 +747,14 @@ function gStage(){const c=cur,g=c.g,keys=s=>S.teams.map((t,i)=>GKEYS[i][s]).join
 function gStart(){const c=cur;if(!c||!c.g||c.phase!=="gintro")return;c.phase="gcount";gStage();sync();let n=3;
  const step=()=>{if(cur!==c||c.phase!=="gcount")return;if(n===0){gItem(0);return;}const it=$("#gitem");if(it)it.innerHTML=`<b class="count">${n}</b>`;sfx.blip();n--;later(step,700);};
  step();}
-function gItem(k){const c=cur;c.k=k;c.phase="glive";c.ans={};c.sec=99;
+function gItem(k){const c=cur;c.k=k;c.phase="glive";c.ans={};c.ansWho={};c.sec=99;
  $("#gitem").innerHTML=`<b>${esc(c.items[k][0])}</b><small>${k+1} of ${G_N}</small>`;$("#gk").textContent=`Call ${k+1} of ${G_N}`;
  $("#gs0").className="side";$("#gs1").className="side";
  S.teams.forEach((t,i)=>{$("#gst"+i).textContent="Thinking…";$("#gp"+i).className="gp";[0,1].forEach(x=>{const b=$(`#gb${i}_${x}`);b.disabled=false;b.className="gb";});});
  sfx.whoosh();
  startClock(G_SECS,el=>{const l=G_SECS-el;setBar(l/G_SECS,l);const s=Math.ceil(l);if(s<=3&&s<c.sec&&s>0)sfx.tick();c.sec=s;},()=>gReveal());sync();}
 // Picks stay hidden until the reveal so nobody can copy a rival's call.
-function gPick(i,x){const c=cur;if(!c||c.phase!=="glive"||!validTeam(i)||c.ans[i]!=null||(x!==0&&x!==1))return;c.ans[i]=x;sfx.blip();
+function gPick(i,x,w){const c=cur;if(!c||c.phase!=="glive"||!validTeam(i)||c.ans[i]!=null||(x!==0&&x!==1))return;c.ans[i]=x;c.ansWho[i]=actor(i,w);sfx.blip();
  $("#gst"+i).textContent="Locked in";$("#gp"+i).classList.add("in");[0,1].forEach(y=>{$(`#gb${i}_${y}`).disabled=true;});
  sync();
  if(Object.keys(c.ans).length>=S.teams.length){stopClock();later(gReveal,350);}}
@@ -742,7 +763,7 @@ function gReveal(){const c=cur;if(!c||c.phase!=="glive")return;stopClock();c.pha
  $("#gitem").innerHTML=`<b>${esc(t)}</b><small class="ans">${esc(r?g.b:g.a)}!</small>`;
  S.teams.forEach((tm,i)=>{const a=c.ans[i];[0,1].forEach(y=>{const b=$(`#gb${i}_${y}`);b.disabled=true;if(y===a)b.classList.add(a===r?"good":"bad");});
   if(a==null){c.last[i]=0;$("#gst"+i).textContent="Passed";return;}
-  const pts=a===r?100:-50;c.last[i]=pts;c.tot[i]+=pts;award(i,pts);$("#gst"+i).textContent=(pts>0?"+":"−")+Math.abs(pts);if(pts>0){c.hits[i]++;right++;}else wrong++;});
+  const pts=a===r?100:-50,x=st(c.ansWho[i]||actor(i));if(pts>0)x.gRight++;else x.wrong++;c.last[i]=pts;c.tot[i]+=pts;award(i,pts);$("#gst"+i).textContent=(pts>0?"+":"−")+Math.abs(pts);if(pts>0){c.hits[i]++;right++;}else wrong++;});
  if(right)sfx.good();else sfx.bad();if(!right&&wrong)shake();
  sync();
  later(()=>{if(cur!==c||c.phase!=="grev")return;if(c.k+1<G_N)gItem(c.k+1);else gDone();},2000);}
@@ -800,8 +821,8 @@ function apRevealAll(){const q=cur.q;if(q.kind==="scr"){if(cur.cover){cur.cover=
  else{const n=q.kind==="who"?4:q.e.length;while(cur.k<n){cur.k++;apShow(cur.k);}}}
 function buzzers(){const f=$("#buzzers");f.hidden=false;f.innerHTML=S.teams.map((t,i)=>`<button class="bzr" id="bz${i}" data-a="bz" data-v="${i}" style="--c:${t.color}" aria-label="Buzz for ${esc(t.name)}, key ${KEYS[i]}" disabled><span class="cap">${KEYS[i]}</span><span class="nm">${esc(t.name)}</span></button>`).join("");}
 function buzzUpd(){const open=!!cur&&(cur.phase==="live"||cur.phase==="steal");S.teams.forEach((t,i)=>{const b=$("#bz"+i);if(!b)return;b.classList.toggle("lock",!!cur&&!!cur.locked&&cur.locked.has(i));b.disabled=!open||cur.locked.has(i);});}
-function buzz(i,phone){const c=cur;if(!c||c.phase!=="live"||c.locked.has(i)||i>=S.teams.length)return;
- c.phase="buzz";c.buzzed=i;c.viaPhone=!!phone;c.bzId=(c.bzId||0)+1;c.bzT=Date.now()+25000;pauseClock();sfx.buzz();buzzUpd();flash(S.teams[i].color);const b=$("#bz"+i);if(b){b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),300);}
+function buzz(i,phone,w){const c=cur;if(!c||c.phase!=="live"||c.locked.has(i)||i>=S.teams.length)return;
+ c.buzzWho=actor(i,w);c.buzzEl=clk?clk.el:0;c.phase="buzz";c.buzzed=i;c.viaPhone=!!phone;c.bzId=(c.bzId||0)+1;c.bzT=Date.now()+25000;pauseClock();sfx.buzz();buzzUpd();flash(S.teams[i].color);const b=$("#bz"+i);if(b){b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),300);}
  const tm=S.teams[i],scr=c.q.kind==="scr";
  const inner=scr?`<div class="judge"><button class="reveal" data-a="reveal"${phone?"":" data-primary"}>Show the answer</button></div>`
   :`<div class="ch">${c.opts.map((t,k)=>`<button data-a="apick" data-v="${k}" style="--d:${k}"${c.struck.has(k)?' disabled class="gone"':""}><span class="k">${"ABCD"[k]}</span><span>${esc(t)}</span></button>`).join("")}</div>`;
@@ -810,7 +831,7 @@ function buzz(i,phone){const c=cur;if(!c||c.phase!=="live"||c.locked.has(i)||i>=
  $("#bzp .bz").scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});
  sync();
  if(phone){const id=c.bzId;later(()=>{if(cur===c&&c.phase==="buzz"&&c.bzId===id)wrongBuzz(`Time’s up, ${tm.name}. Locked out!`);},25000);}}
-function wrongBuzz(msg){const c=cur,i=c.buzzed;c.locked.add(i);sfx.bad();shake();
+function wrongBuzz(msg){const c=cur,i=c.buzzed;c.locked.add(i);st(c.buzzWho||actor(i)).wrong++;sfx.bad();shake();
  if(c.locked.size>=S.teams.length||(c.opts&&c.struck.size>=c.opts.length-1)){apFinish(null,c.locked.size>=S.teams.length?"Everyone’s locked out! ":"Out of guesses! ");return;}
  c.phase="live";c.viaPhone=false;buzzUpd();$("#bzp").innerHTML=`<p class="miss">${esc(msg)} Everyone else, keep watching.</p>${mxh(roast(c.q.cat,{t:S.teams[i].name,a:c.q.a},"buzzWrong"))}`;resumeClock();sync();}
 function apPick(k){const c=cur;if(!c||c.phase!=="buzz"||!c.opts||c.struck.has(k))return;
@@ -825,9 +846,44 @@ function scrTyped(text){const c=cur;if(!c||c.phase!=="buzz"||c.q.kind!=="scr")re
 function scrReveal(){const c=cur;if(!c||c.phase!=="buzz")return;c.phase="judge";apRevealAll();
  $("#bzp").innerHTML=`<div class="bz" style="--c:${S.teams[c.buzzed].color}"><h4>Did ${esc(S.teams[c.buzzed].name)} say ${esc(c.q.a)}?</h4><p>Close counts for spelling, not for a different name.</p><div class="judge"><button class="yes" data-a="yes">Yes, +${c.val}</button><button class="no" data-a="no">No</button></div></div>`;sync();}
 function apFinish(winner,pre){const c=cur;if(!c||c.phase==="done")return;stopClock();c.phase="done";buzzUpd();apRevealAll();$("#bzp").innerHTML="";
- if(winner!=null){const nm=S.teams[winner].name,hv={t:nm,v:c.val,a:c.q.a},h=c.val>=c.max*.8?quip("buzzEarly",hv):c.val<=c.min*1.6?quip("buzzLate",hv):quip("right",hv);
+ if(winner!=null){const x=st(c.buzzWho||actor(winner));x.right++;if(x.fast==null||c.buzzEl<x.fast)x.fast=c.buzzEl;const nm=S.teams[winner].name,hv={t:nm,v:c.val,a:c.q.a},h=c.val>=c.max*.8?quip("buzzEarly",hv):c.val<=c.min*1.6?quip("buzzLate",hv):quip("right",hv);
   c.result={team:winner,ok:true,text:`+${c.val} for ${nm}! It’s ${c.q.a}.`,host:h};award(winner,c.val);sfx.good();showRes(`<b>+${c.val}</b> for ${esc(nm)}! It’s <b>${esc(c.q.a)}</b>.`,true,h);}
  else{const h=quip("apNobody");c.result={team:null,ok:false,text:`${pre||""}Nobody scores this one. It was ${c.q.a}.`,host:h};sfx.bad();shake();showRes(`${esc(pre||"")}Nobody scores this one. It was <b>${esc(c.q.a)}</b>.`,false,h);}}
+
+/* ---------- awards ---------- */
+const AW={brain:["Big brain","star"],fast:["Fastest finger","bolt"],thief:["Master thief","mask"],chaos:["Agent of chaos","bomb"],guru:["Gauntlet guru","crown"],bold:["Bold guesser","arrow"],bag:["Punching bag","shuriken"]};
+function who(k){if(k.startsWith("p:")){const p=PH.players[k.slice(2)];if(p&&validTeam(p.team))return {name:p.name,team:p.team,sub:S.teams[p.team].name};return null;}
+ const i=+k.slice(2);return validTeam(i)?{name:S.teams[i].name,team:i,sub:""}:null;}
+// Up to five awards, each only if somebody earned it.
+function pickAwards(){const s=S.st||{},ks=Object.keys(s).filter(who),out=[];
+ const top=(f,min)=>{let b=null;for(const k of ks){const n=f(s[k]);if(n==null||n<min)continue;if(!b||n>b[1])b=[k,n];}return b;};
+ const add=(id,r,stat)=>{if(r)out.push({id,who:r[0],stat:stat(r[1],s[r[0]])});};
+ add("brain",top(x=>x.right,3),n=>`${n} right answers`);
+ let f=null;for(const k of ks){const t=s[k].fast;if(t!=null&&(!f||t<f[1]))f=[k,t];}
+ add("fast",f,t=>`Buzzed in right after ${Math.max(.1,t).toFixed(1)} seconds`);
+ add("thief",top(x=>x.steals,1),n=>n>1?`${n} steals`:"Stole a question");
+ add("chaos",top(x=>x.sab?x.sab+2*x.sabHit:null,1),(n,x)=>x.sabHit?"Sabotaged a rival, and it worked":"Sabotaged a rival");
+ add("guru",top(x=>x.gRight,4),n=>`${n} of ${G_N} Gauntlet calls right`);
+ add("bold",top(x=>x.wrong,3),n=>`${n} wrong answers, zero shame`);
+ const bag=(S.sabbed||[]).reduce((b,n,i)=>n>=2&&(!b||n>b[1])?[i,n]:b,null);
+ if(bag)out.push({id:"bag",who:"t:"+bag[0],stat:`Sabotaged ${bag[1]} times`});
+ return out.slice(0,5);}
+function finalScores(){stopClock();clearTimers();$("#buzzers").hidden=true;const list=pickAwards();
+ if(list.length)curtains([["The awards",null,null,quip("awards")]],()=>awardsShow(list));else toWinner();}
+const toWinner=()=>curtains([["And the winner is…"]],end);
+function awardsShow(list){const c={aw:list,phase:"areveal",k:0,seq:{},team:null};cur=c;ticketsUpd();
+ setScreen(`<div class="wiz awards"><div class="shead"><h2>The awards</h2><p>Before the winner, Max hands out some hardware.</p></div>
+ <div class="agrid" id="agrid"></div>
+ <div class="res" id="res"><p>Up next: the final scores.</p><button class="next" data-a="next" data-primary>And the winner is…</button></div></div>`,"full");
+ later(awardNext,500);}
+function awardCard(a,i){const w=who(a.who),[title,icon]=AW[a.id];
+ return `<div class="aw" style="--c:${S.teams[w.team].color};--d:${i}"><span class="awi">${icon==="bomb"?BOMB:ico(icon)}</span><h3>${esc(title)}</h3><b>${esc(w.name)}</b>${w.sub?`<small>${esc(w.sub)}</small>`:""}<p>${esc(a.stat)}</p>${a.host?`<div class="mx"><b>Max</b><span>${esc(a.host)}</span></div>`:""}</div>`;}
+function awardAdd(c){const a=c.aw[c.k++];a.host=quip("aw_"+a.id);$("#agrid").insertAdjacentHTML("beforeend",awardCard(a,c.k-1));return a;}
+// One award at a time; each waits for Max to finish his line.
+function awardNext(){const c=cur;if(!c||!c.aw||c.phase!=="areveal")return;
+ if(c.k>=c.aw.length){c.phase="adone";sync();return;}
+ const a=awardAdd(c);sfx.whoosh();later(()=>sfx.good(),250);sync();hold(c.seq,a.host?speak(a.host):null,2600,awardNext);}
+function awardsAll(){const c=cur;clearTimeout(c.seq.t);hush();while(c.k<c.aw.length)awardAdd(c);c.phase="adone";sync();}
 
 /* ---------- end ---------- */
 function ranking(){const r=S.teams.map((t,i)=>({...t,i})).sort((a,b)=>b.score-a.score);return {r,place:t=>["1st","2nd","3rd","4th"][r.filter(x=>x.score>t.score).length]};}
@@ -889,14 +945,14 @@ function onPhone(m){if(!m||!m.pid)return;NET.log("from phone",m.t);const pid=Str
   case "cat":if(c&&c.phase==="cat"&&mine)chooseCat(String(m.k));break;
   case "pick":{const i=Number(m.i);if(!(i>=0&&i<4))break;
    if(c&&c.phase==="stealing"&&c.stealer===p.team)stealPick(i);
-   else if(c&&c.ch&&!c.done&&mine)turnEnd(i);
+   else if(c&&c.ch&&!c.done&&mine)turnEnd(i,"p:"+pid);
    else if(c&&c.phase==="buzz"&&c.buzzed===p.team&&c.opts)apPick(i);break;}
-  case "seq":if(c&&c.items&&!c.done&&mine&&Array.isArray(m.order)&&m.order.length===c.items.length&&new Set(m.order).size===c.items.length){c.order=m.order.map(Number);turnEnd(c.order.every((j,k)=>c.items[j]===c.q.items[k]));}break;
-  case "buzz":if(c&&validTeam(p.team)){if(c.phase==="live")buzz(p.team,true);else if(c.phase==="steal")stealBuzz(p.team,true);}break;
+  case "seq":if(c&&c.items&&!c.done&&mine&&Array.isArray(m.order)&&m.order.length===c.items.length&&new Set(m.order).size===c.items.length){c.order=m.order.map(Number);turnEnd(c.order.every((j,k)=>c.items[j]===c.q.items[k]),"p:"+pid);}break;
+  case "buzz":if(c&&validTeam(p.team)){if(c.phase==="live")buzz(p.team,true,"p:"+pid);else if(c.phase==="steal")stealBuzz(p.team,true,"p:"+pid);}break;
   case "type":if(c&&c.phase==="buzz"&&c.buzzed===p.team)scrTyped(String(m.text||"").slice(0,60));break;
   case "ready":if(pid===PH.vip&&c){if(c.phase==="ready")apGo();else if(c.phase==="gintro")gStart();}break;
-  case "dod":if(c&&c.phase==="glive"&&Number(m.k)===c.k&&validTeam(p.team))gPick(p.team,Number(m.s));break;
-  case "sab":if(validTeam(p.team))sabotage(p.team,m.k==="rush"?"rush":"scr");break;
+  case "dod":if(c&&c.phase==="glive"&&Number(m.k)===c.k&&validTeam(p.team))gPick(p.team,Number(m.s),"p:"+pid);break;
+  case "sab":if(validTeam(p.team))sabotage(p.team,m.k==="rush"?"rush":"scr","p:"+pid);break;
   case "next":if(pid===PH.vip){const r=$("#res");if(r&&!r.hidden){const n=r.querySelector(".next");if(n)n.click();}}break;
  }}
 const left=()=>clk?Math.max(0,clk.dur-clk.el):(cur&&cur.dur)||20;
@@ -910,6 +966,8 @@ function view(pid){const p=PH.players[pid],teams=S.teams||[];
  if(!c){if(S.step<teams.length&&S.step===p.team)return V({v:"wait",msg:"You’re up next!",sub:"Get ready."});
   if(S.step>=teams.length)return V({v:"wait",msg:"All play is coming",sub:"Get ready to buzz."});return V({v:"wait",msg:"Eyes on the screen",sub:tn(S.step)+" is up next."});}
  if(c.phase==="cat")return mine?V({v:"cat",opts:c.opts.map(k=>({k,n:CATS[k].n,c:CATS[k].c})),secs:left()}):V({v:"wait",msg:tn(c.team)+" is picking a fandom"});
+ if(c.aw){const got=c.aw.slice(0,c.k).filter(a=>a.who==="p:"+pid||a.who==="t:"+p.team).map(a=>AW[a.id][0]+(a.who[0]==="t"?" (your team)":""));
+  return got.length?V({v:"res",mine:true,ok:true,text:`You won ${got.join(" and ")}!`}):V({v:"res",mine:false,text:c.phase==="adone"?"No awards for you this time.":"Max is handing out awards…"});}
  if(c.g){const g=c.g,it=c.items[c.k]||[];
   if(c.phase==="gcurt")return V({v:"wait",msg:"Final Gauntlet",sub:"Get ready…"});
   if(c.phase==="gintro"||c.phase==="gcount")return V({v:"ready",msg:"Final Gauntlet",sub:`${g.a} or ${g.b}? Everyone answers. Double points.`});
@@ -1024,6 +1082,7 @@ function start(data){sndBtn();unlock();watchLights($("#frame"));
   setScreen(`<div class="end">${TROPHY}<p class="sub">Game in progress</p><h2 class="q" style="margin:0">Round ${Math.min(S.round+1,S.rounds)} of ${S.rounds}</h2><div class="endb"><button class="go" data-a="next" data-primary>Keep playing</button><button class="ghost" data-a="newgame">New game</button></div></div>`);
   S.step--;}
  else intro();
+ if(location.protocol==="file:"&&/Electron/.test(navigator.userAgent))setTimeout(()=>toast("Offline, so this is the version built into the app"),2600);
  const c=$("#curt"),s={t:0};cseq=s;s.skip=()=>{if(cseq!==s)return;cseq=null;clearTimeout(s.t);c.classList.remove("shut");sfx.curtain();};s.t=setTimeout(s.skip,1500);}
 if(window.claude&&window.claude.hot&&window.claude.hot.snapshot){try{window.claude.hot.snapshot(()=>({set,g:S.screen==="play"?{teams:S.teams,rounds:S.rounds,round:S.round,step:S.step,cats:S.cats,diff:S.diff}:null}));}catch(e){}}
 if(window.claude&&window.claude.hot&&window.claude.hot.ready)window.claude.hot.ready(start);else start(window.claude&&window.claude.hot&&window.claude.hot.data||{});

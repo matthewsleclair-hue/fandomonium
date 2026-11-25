@@ -60,6 +60,8 @@ A wrong pick locks that team out of the puzzle. The last round is worth double.
 
 The show ends with the **Final Gauntlet**, a Dis-or-Dat round at double points. Every team sorts 8 things into one of two piles at once (Jedi or Sith? Marvel or DC? Pixar or DreamWorks?), 5 seconds each: +100 for a right call, −50 for a wrong one, nothing for a pass. Picks stay hidden until the reveal.
 
+Before the winner, Max hands out **awards**: Big brain (most right answers), Fastest finger, Master thief, Agent of chaos, Gauntlet guru, Bold guesser and Punching bag, up to five per game. With phones, awards go to the player who earned them; without, to the team.
+
 **Max, the snarky host** (on by default) introduces each round and roasts slow, wrong and timed-out answers, with jokes for each fandom. His lines show on the TV and on phones.
 
 ![All play scramble with team buzzers](docs/screenshots/scramble.webp)
@@ -154,6 +156,10 @@ To test phones without the internet, run a local relay with `node test/broker.js
 | `build-web.js`, `build-site.js` | Inline the fonts, questions and show content, assemble the site |
 
 Pushing to `main` rebuilds and deploys the website and runs the phone test over the real relays. Publishing a release on GitHub (Releases, then Draft a new release, with a tag like `v1.1.0`) builds `Fandomonium.exe` on Windows and attaches it to that release.
+
+## The Windows app
+
+The app plays the latest version of the game from the website, so every change pushed to GitHub reaches it the next time it opens, with no new download. Without internet, or if the website can't be reached, it plays the copy built into the app and says so. A new `.exe` is only needed when the app itself changes (`main.js`).
 
 ## Notes
 

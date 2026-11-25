@@ -27,10 +27,8 @@ function lines() {
     if (/\{\w\}/.test(spoken)) throw new Error(`${where}: "${spoken}" has a name or number in it. Write it as ["shown", "spoken"].`);
     out.add(spoken);
   });
-  for (const [k, v] of Object.entries(HOST)) {
-    if (k === 'fan') for (const [f, arr] of Object.entries(v)) add(arr, 'fan.' + f);
-    else add(v, k);
-  }
+  const walk = (o, where) => { for (const [k, v] of Object.entries(o)) Array.isArray(v) ? add(v, where + k) : walk(v, where + k + '.'); };
+  walk(HOST, '');
   return [...out];
 }
 
