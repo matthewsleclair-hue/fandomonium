@@ -36,6 +36,7 @@ const HOST={
  rapidLow:["Rapid Fire, slow brain.","Thirty seconds, well wasted."],
  hiloPerfect:["A perfect streak. Are you a calendar?","Every call right. Show-off."],
  hiloBust:["Streak over. History wasn’t your subject.","And the streak dies. Tragic."],
+ holiday:["Happy holidays. I got you nothing.","It’s the holiday special. Same host, worse sweater.","Welcome to the holiday special. Try not to embarrass yourselves in front of family."],
  awards:["Before the winner, a few awards nobody asked for.","Award time. Try to look surprised."],
  aw_brain:["Big brain energy. Somebody actually studied.","Most right answers. Nerd. Respect."],
  aw_fast:["Fastest finger in the house. Calm down.","Buzzed in before I finished breathing."],
@@ -45,6 +46,7 @@ const HOST={
  aw_bold:["Most wrong answers, delivered with total confidence.","Never right, never in doubt."],
  aw_bag:["Everyone’s favourite target. Sorry, not sorry.","Sabotaged again and again. Somebody’s not popular."],
  fan:{
+  hol:["That answer is going on the naughty list.","Bah humbug. That was wrong."],
   st:["That answer belongs in the Upside Down.","Somebody get this team some Eggos and a clue."],
   got:["You know nothing.","That answer just got sent to the Wall."],
   mario:["Sorry, but your answer is in another castle.","That answer just fell down a pipe."],
@@ -119,6 +121,9 @@ const DOD=[
  {id:"ghidis",cats:["ghibli","dis"],a:"Studio Ghibli",b:"Disney Animation",
   A:["Spirited Away","My Neighbor Totoro","Princess Mononoke","Howl’s Moving Castle","Kiki’s Delivery Service","Ponyo","Castle in the Sky","Porco Rosso","The Wind Rises","Whisper of the Heart","The Boy and the Heron","Pom Poko"],
   B:["Frozen","Moana","Tangled","Encanto","Zootopia","The Lion King","Aladdin","Mulan","Bambi","Hercules","Lilo & Stitch","Big Hero 6","Wreck-It Ralph"]},
+ {id:"homeelf",cats:["hol"],a:"Home Alone",b:"Elf",
+  A:["Kevin","Buzz","Harry","Marv","Kate McCallister","Uncle Frank","Old Man Marley","Gus Polinski","Fuller"],
+  B:["Buddy","Jovie","Walter Hobbs","Papa Elf","Miles Finch","Leon the Snowman","Michael Hobbs","Emily Hobbs","Mr. Narwhal"]},
  {id:"herovil",cats:["*"],a:"Hero",b:"Villain",
   A:["Harry Potter","Luke Skywalker","Wonder Woman","Frodo Baggins","Simba","Katniss Everdeen","Naruto","Monkey D. Luffy","Mikasa Ackerman","Captain America","Moana","Ash Ketchum"],
   B:["Lord Voldemort","Thanos","Emperor Palpatine","The Joker","Sauron","Scar","President Snow","Orochimaru","Jafar","Team Rocket","Ursula","Ultron"]}
@@ -148,5 +153,6 @@ const HILO={
  zelda:[["Link’s Awakening",1993],["Ocarina of Time",1998],["Majora’s Mask",2000],["Twilight Princess",2006],["Skyward Sword",2011],["A Link Between Worlds",2013],["Breath of the Wild",2017],["Tears of the Kingdom",2023],["Echoes of Wisdom",2024]],
  bttf:[["Back to the Future",1985],["Back to the Future Part II",1989],["Back to the Future Part III",1990],["Back to the Future: The Animated Series",1991]],
  ghibli:[["Castle in the Sky (Japan)",1986],["My Neighbor Totoro (Japan)",1988],["Kiki’s Delivery Service (Japan)",1989],["Porco Rosso (Japan)",1992],["Princess Mononoke (Japan)",1997],["Spirited Away (Japan)",2001],["Howl’s Moving Castle (Japan)",2004],["Ponyo (Japan)",2008],["The Wind Rises (Japan)",2013],["The Boy and the Heron (Japan)",2023]],
+ hol:[["It’s a Wonderful Life",1946],["Miracle on 34th Street (the original)",1947],["Rudolph the Red-Nosed Reindeer (TV special)",1964],["How the Grinch Stole Christmas! (cartoon)",1966],["Frosty the Snowman (TV special)",1969],["A Christmas Story",1983],["Gremlins",1984],["Die Hard",1988],["National Lampoon’s Christmas Vacation",1989],["Home Alone",1990],["Home Alone 2: Lost in New York",1992],["The Nightmare Before Christmas",1993],["The Santa Clause",1994],["Jingle All the Way",1996],["How the Grinch Stole Christmas, with Jim Carrey",2000],["Elf",2003],["The Polar Express",2004],["The Holiday",2006],["Arthur Christmas",2011],["The Grinch (animated)",2018],["Klaus",2019]],
  potc:[["The Pirates of the Caribbean ride opens at Disneyland",1967],["The Curse of the Black Pearl",2003],["Dead Man’s Chest",2006],["At World’s End",2007],["On Stranger Tides",2011],["Dead Men Tell No Tales",2017]]
 };

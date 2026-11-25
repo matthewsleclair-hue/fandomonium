@@ -1112,5 +1112,61 @@ emo:[
 [2,"Davy Jones","🐙 ❤️ 📦",["The Kraken","Blackbeard","Bootstrap Bill"],"Character"],
 [2,"The Black Pearl","⚫ 🦪 ⛵",["The Flying Dutchman","Queen Anne’s Revenge","The Interceptor"],"Ship"],
 [3,"The Kraken","🦑 🌊 ⚓",["Leviathan","Calypso","Davy Jones"],"Monster"]]
+},
+hol:{
+mc:[
+[1,"In Home Alone, where is the McCallister family flying when they leave Kevin behind?","Paris","London","Miami","Rome"],
+[1,"Who plays Kevin McCallister in Home Alone?","Macaulay Culkin","Elijah Wood","Haley Joel Osment","Jonathan Taylor Thomas"],
+[1,"Who plays Buddy in Elf?","Will Ferrell","Jim Carrey","Adam Sandler","Jack Black"],
+[1,"Where was Buddy raised in Elf?","The North Pole","Greenland","Iceland","Lapland"],
+[1,"Where does the Grinch live?","On Mount Crumpit, above Whoville","In a cave under Whoville","At the North Pole","In a lighthouse"],
+[1,"What is the name of the Grinch’s dog?","Max","Fido","Rex","Buddy"],
+[1,"How much does the Grinch’s heart grow on Christmas Day?","Three sizes","Two sizes","Ten sizes","It doubles"],
+[1,"Where does the train in The Polar Express go?","The North Pole","New York","Toyland","The South Pole"],
+[2,"What does Ralphie want for Christmas in A Christmas Story?","A Red Ryder BB gun","A sled","A toy train","A bicycle"],
+[2,"What “major award” does Ralphie’s dad win in A Christmas Story?","A leg lamp","A bowling trophy","A turkey","A new car"],
+[2,"What do the burglars call themselves in the first Home Alone?","The Wet Bandits","The Sticky Bandits","The Snow Bandits","The Night Bandits"],
+[2,"Which city is Kevin lost in during Home Alone 2?","New York","Miami","Chicago","Los Angeles"],
+[2,"What does Buddy put on his spaghetti in Elf?","Maple syrup","Chocolate sauce","Ketchup","Whipped cream"],
+[2,"Where does Jovie work in Elf?","Gimbels department store","A toy factory","A coffee shop","A bakery"],
+[2,"Who plays the Grinch in the 2000 live-action movie?","Jim Carrey","Mike Myers","Eddie Murphy","Robin Williams"],
+[2,"Who plays the dad who becomes Santa in The Santa Clause?","Tim Allen","Tom Hanks","Steve Martin","Billy Crystal"],
+[2,"In Christmas Vacation, what does Clark Griswold get instead of a Christmas bonus?","A Jelly of the Month Club membership","A fruitcake","A gift card","A new car"],
+[2,"Who is the Pumpkin King in The Nightmare Before Christmas?","Jack Skellington","Oogie Boogie","Zero","The Mayor"],
+[2,"In It’s a Wonderful Life, what does an angel get every time a bell rings?","His wings","A halo","A star","A harp"],
+[2,"In Gremlins, what must you never do to a mogwai after midnight?","Feed it","Take it outside","Let it sing","Give it a name"],
+[3,"What does Hermey the elf want to be in Rudolph the Red-Nosed Reindeer?","A dentist","A doctor","A baker","A pilot"],
+[3,"Which state does Kevin’s family fly to in Home Alone 2?","Florida","Hawaii","California","Texas"],
+[3,"What is the angel called in It’s a Wonderful Life?","Clarence","Gabriel","Charles","Henry"],
+[3,"What is the first gift of Christmas in The Polar Express?","A sleigh bell","A snow globe","A golden ticket","A teddy bear"],
+[3,"Which department store hires Kris Kringle in Miracle on 34th Street?","Macy’s","Bloomingdale’s","Saks","Sears"],
+[3,"Who plays Ebenezer Scrooge in The Muppet Christmas Carol?","Michael Caine","Kermit the Frog","Patrick Stewart","Bill Murray"],
+[3,"Which toy does Arnold Schwarzenegger chase all over town in Jingle All the Way?","Turbo-Man","Buzz Lightyear","Robo-Ranger","Captain Comet"],
+[3,"Which building is taken over in Die Hard?","Nakatomi Plaza","The Empire State Building","The Plaza Hotel","Willis Tower"],
+[3,"What is the head elf called in The Santa Clause?","Bernard","Curtis","Comet","Jingle"]
+],
+odd:[
+[1,"Which of these is NOT one of Santa’s reindeer?","Sparkle","Dasher","Prancer","Blitzen"],
+[2,"Which of these is NOT a Home Alone character?","Buddy","Kevin","Buzz","Marv"],
+[2,"Which of these is NOT in The Nightmare Before Christmas?","Gizmo","Sally","Zero","Oogie Boogie"],
+[3,"Which of these movies was NOT directed by Robert Zemeckis?","Elf","The Polar Express","Back to the Future","Forrest Gump"]
+],
+seq:[
+[1,"Put the Grinch’s Christmas in order",["He dresses up as Santa","He steals the presents","He hears the Whos singing anyway","His heart grows three sizes"]],
+[2,"Put these holiday movies in release order",["It’s a Wonderful Life","A Christmas Story","Home Alone","Elf"]],
+[3,"Put these in release order",["Rudolph the Red-Nosed Reindeer (TV special)","National Lampoon’s Christmas Vacation","The Polar Express","Klaus"]]
+],
+scr:[[1,"KEVIN","Home Alone"],[1,"GRINCH","Green grump"],[2,"NORTH POLE","Place"],[2,"WHOVILLE","Town"],[3,"BEDFORD FALLS","Town"],[3,"SKELLINGTON","Pumpkin King"]],
+who:[
+[1,"Buddy the Elf",["I lasted one day in a mailroom.","I think the four main food groups are all sugar.","I came to New York to find my dad.","I was raised by elves."],["Kevin McCallister","Scott Calvin","Bernard"]],
+[2,"Kevin McCallister",["I played a gangster movie to scare off a pizza delivery guy.","My brother Buzz has a tarantula.","I booby-trapped my whole house.","My family left me behind at Christmas."],["Buddy","Ralphie","Charlie Calvin"]],
+[2,"The Grinch",["My dog Max pulled my sleigh.","I live on Mount Crumpit.","I stole Christmas from Whoville.","My heart was two sizes too small."],["Ebenezer Scrooge","Jack Skellington","Oogie Boogie"]],
+[3,"George Bailey",["An angel showed me what life would be like without me.","My uncle lost $8,000.","I run the Building and Loan.","I live in Bedford Falls."],["Clark Griswold","Kris Kringle","Mr. Potter"]]
+],
+emo:[
+[1,"Home Alone","🏠 🧒 😱",["Elf","The Santa Clause","Jingle All the Way"]],
+[2,"Elf","🧝 🍝 🍁",["The Santa Clause","Home Alone","The Polar Express"]],
+[2,"The Polar Express","🚂 ❄️ 🔔",["Frozen","Klaus","Arthur Christmas"]],
+[3,"A Christmas Story","👓 🦵 💡",["Christmas Vacation","Home Alone","Jingle All the Way"]]]
 }
 };

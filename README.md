@@ -1,8 +1,8 @@
 # Fandomonium
 
-Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers and a host with opinions. 1,058 questions across 21 fandoms, each rated Easy, Medium or Hard:
+Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers and a host with opinions. 1,108 questions across 22 fandoms, each rated Easy, Medium or Hard:
 
-- **Movies:** Harry Potter, Marvel, DC, Star Wars, Lord of the Rings, Disney & Pixar, Hunger Games, Jurassic Park, Back to the Future, Studio Ghibli, Pirates of the Caribbean
+- **Movies:** Harry Potter, Marvel, DC, Star Wars, Lord of the Rings, Disney & Pixar, Hunger Games, Jurassic Park, Back to the Future, Studio Ghibli, Pirates of the Caribbean, Holiday Movies (Home Alone, Elf, The Grinch and more)
 - **TV:** Friends, The Office, Stranger Things, Game of Thrones
 - **Anime and games:** Pokémon, One Piece, Naruto, Attack on Titan, Mario, Zelda
 
@@ -100,6 +100,12 @@ node tools/voice.js --check                                # what's left to reco
 ```
 
 Lines that mention a team name or a number are written as `["shown text", "spoken text"]` in `src/show.js`, so the recording works for any team.
+
+## Music and the holiday theme
+
+The game plays its own music, made from synthesized notes rather than audio files: a bouncy theme on the title and setup screens and between turns, a ticking thinking track under questions, and a faster track for the Final Gauntlet. The music gets quieter while Max talks. The **Sound** button opens sliders for Music, Max's voice and Effects, plus Mute everything.
+
+Under House rules, **Holiday theme** adds falling snow, coloured Christmas lights on the marquee, sleigh bells in the music and holiday lines from Max. It can be off, on in December (until January 6), or always on.
 
 ## Reporting a question
 
