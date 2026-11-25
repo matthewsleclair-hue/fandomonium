@@ -341,6 +341,25 @@ h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--mut)}
 .end .mx b{display:inline-block;margin-right:8px;vertical-align:2px}
 .maxtalk .mx b,.maxtalk .mxc b{animation:talk .42s ease-in-out infinite alternate}
 @keyframes talk{from{transform:translateY(-1px) scale(1)}to{transform:translateY(-1px) scale(1.14)}}
+.tdiff{display:grid;gap:8px;margin-top:14px}
+.tdrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:6px 8px 6px 18px;border-radius:10px;background:linear-gradient(rgba(255,255,255,.35),rgba(255,255,255,0) 60%),var(--c);-webkit-mask:var(--notch);mask:var(--notch)}
+.tdrow b{flex:1 1 160px;color:var(--ink)}
+.tdrow .seg{flex:2 1 320px}
+.gopts .tdrow .seg button{min-height:44px;font-size:15px;border-radius:10px}
+.tdnote{margin:12px 0 0;color:var(--mut);font-weight:600}
+.lifes{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin:-12px 0 12px;min-height:0}
+.life{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 6px 0 14px;border-radius:999px;border:2px solid var(--ok);background:#dcf3e6;color:#0a5533;font-weight:700;font-size:15px;transition:transform .12s,opacity .2s}
+.life:hover:not(:disabled){transform:translateY(-1px)}
+.life:disabled{opacity:.4;cursor:default}
+.life kbd{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ok);color:#fff;font-family:var(--disp);font-size:13px}
+.rep{order:4;margin-left:auto;min-height:34px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line2);background:transparent;color:var(--mut);font-size:13px;font-weight:600}
+.rep:hover:not(:disabled){background:#fff}
+.replist{flex:1;display:grid;gap:10px;align-content:start}
+.repi{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:12px 14px;border-radius:14px;background:#fff;border:2px solid var(--line)}
+.repi p{margin:0;color:var(--ink)}
+.repi i{color:var(--mut)}
+.repi small{color:var(--mut);font-weight:600}
+.intro .mini{margin-top:-6px}
 .hl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:4px 0 18px}
 .hc{display:grid;align-content:center;justify-items:center;gap:6px;min-height:clamp(110px,19vh,180px);padding:12px 8px;border-radius:16px;background:#fff;border:2px solid var(--line);text-align:center;box-shadow:0 4px 0 var(--line);transition:transform .3s,background-color .25s,border-color .25s;animation:deal .45s both}
 .hc b{font-size:clamp(14px,.45vw + .9vh,20px);line-height:1.2;color:var(--ink);text-wrap:balance}
@@ -468,12 +487,15 @@ for(const c in BANK){const b=BANK[c];
 }
 const used=new Set(store.get("fs-used2",[]));
 const DLAB={1:"Easy",2:"Medium",3:"Hard"};
-function curDiff(){const d=String(S.diff||"2");if(d==="mix")return Math.min(3,1+Math.floor(S.round*3/Math.max(1,S.rounds)));return +d||2;}
+function lvl(d){d=String(d||"2");if(d==="mix")return Math.min(3,1+Math.floor(S.round*3/Math.max(1,S.rounds)));return +d||2;}
+// With difficulty per team, each team's own questions use its level; shared puzzles use the average.
+function curDiff(team){if(S.diff!=="team")return lvl(S.diff);const td=S.tdiff||[];if(team!=null)return lvl(td[team]);
+ const ls=(S.teams||[]).map((t,i)=>lvl(td[i]));return ls.length?Math.round(ls.reduce((a,b)=>a+b,0)/ls.length):2;}
 // Fresh questions at the chosen difficulty first, then the nearest other level, before any repeats.
-function draw(group,kind,cat){
+function draw(group,kind,cat,team){
  const base=POOL[group].filter(q=>S.cats.includes(q.cat)&&(!cat||q.cat===cat));
  let pool=base.filter(q=>!kind||q.kind===kind);if(!pool.length)pool=base;
- const d=curDiff(),order=d===1?[1,2,3]:d===2?[2,1,3]:[3,2,1];
+ const d=curDiff(team),order=d===1?[1,2,3]:d===2?[2,1,3]:[3,2,1];
  for(const x of order){const f=pool.filter(q=>q.d===x&&!used.has(q.id));if(f.length)return pickQ(f);}
  const x=order.find(v=>pool.some(q=>q.d===v)),all=pool.filter(q=>q.d===x);all.forEach(q=>used.delete(q.id));return pickQ(all);}
 function pickQ(list){const cs=[...new Set(list.map(q=>q.cat))];let p=cs.filter(c=>c!==S.lastCat);if(!p.length)p=cs;
@@ -535,7 +557,7 @@ const later=(fn,ms)=>{timers.push(setTimeout(fn,ms));};
 const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
 
 /* ---------- state ---------- */
-const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5,diff:"2",phones:false,steals:true,host:true,sab:true,voice:true,catsV:3},store.get("fs-set",{}));
+const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5,diff:"2",tdiff:["2","2","2","2"],life:true,phones:false,steals:true,host:true,sab:true,voice:true,catsV:3},store.get("fs-set",{}));
 if((set.catsV||1)<2){Object.keys(CATS).forEach(k=>{if(!["hp","mcu","sw","dis","lotr"].includes(k)&&!set.cats.includes(k))set.cats.push(k);});set.catsV=2;}
 // Fandoms added in 1.6 start switched on for people who already have saved settings.
 if(set.catsV<3){["st","got","mario","zelda","bttf","ghibli","potc"].forEach(k=>{if(CATS[k]&&!set.cats.includes(k))set.cats.push(k);});set.catsV=3;}
@@ -577,7 +599,7 @@ function ticketsUpd(){const t=$("#tickets");if(S.screen!=="play"){t.hidden=true;
   const sb=$("#sb"+i);if(sb){sb.hidden=!(S.sab&&S.sab[i]);const o=sabOpen(i);sb.disabled=!o;sb.classList.toggle("arm",o);}});
  tools();}
 let scoreRaf=0;
-function scoreLoop(){let busy=false;S.teams.forEach((t,i)=>{if(t.shown!==t.score){const d=t.score-t.shown,s=Math.sign(d)*Math.max(1,Math.ceil(Math.abs(d)*.1));t.shown=Math.abs(s)>=Math.abs(d)?t.score:t.shown+s;const el=$("#sc"+i);if(el)el.textContent=t.shown;busy=true;}});scoreRaf=busy?requestAnimationFrame(scoreLoop):0;}
+function scoreLoop(){if(!S.teams){scoreRaf=0;return;}let busy=false;S.teams.forEach((t,i)=>{if(t.shown!==t.score){const d=t.score-t.shown,s=Math.sign(d)*Math.max(1,Math.ceil(Math.abs(d)*.1));t.shown=Math.abs(s)>=Math.abs(d)?t.score:t.shown+s;const el=$("#sc"+i);if(el)el.textContent=t.shown;busy=true;}});scoreRaf=busy?requestAnimationFrame(scoreLoop):0;}
 const kickScores=()=>{if(!scoreRaf)scoreRaf=requestAnimationFrame(scoreLoop);};
 function popup(i,txt,neg){const el=$("#tk"+i);if(!el)return;const r=el.getBoundingClientRect(),p=document.createElement("div");p.className="pop"+(neg?" neg":"");p.textContent=txt;p.style.left=(r.right-50)+"px";p.style.top=(r.bottom-12)+"px";document.body.appendChild(p);setTimeout(()=>p.remove(),1300);}
 function award(i,pts){if(!pts)return;S.teams[i].score+=pts;hist.push({i,pts});ticketsUpd();kickScores();popup(i,(pts<0?"−":"+")+Math.abs(pts),pts<0);const el=$("#tk"+i);if(el){el.classList.remove("bump");void el.offsetWidth;el.classList.add("bump");}}
@@ -586,7 +608,7 @@ function toast(msg){const d=document.createElement("div");d.className="toast";d.
 function qhead(q,label,pts,m){const c=CATS[q.cat];return `<div class="qh"><span class="chip" style="--c:${c.c}">${ico(c.i)}${esc(c.n)}</span><span class="kind">${esc(label)}</span><span class="pts"><span id="pv">${pts}</span><small>pts${m>1?", double":""}</small></span></div>`;}
 function setBar(f,secs){const i=$("#bi");if(!i)return;i.style.transform=`scaleX(${Math.max(0,f).toFixed(4)})`;const low=f<.25;if(low!==lastLow){$("#bar").classList.toggle("low",low);lastLow=low;}
  if(secs!=null){const s=Math.max(0,Math.ceil(secs));if(s!==lastSec){const e=$("#secs");if(e)e.textContent=s;lastSec=s;}}}
-function showRes(html,win,host,label){const r=$("#res");r.hidden=false;r.className="res"+(win?" win":"");r.innerHTML=`<p>${html}</p><button class="next" data-a="next" data-primary>${esc(label||(isLast()?"Final Gauntlet":"Next"))}</button>${mxh(host)}`;r.querySelector(".next").focus({preventScroll:true});r.scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});sync();}
+function showRes(html,win,host,label){const r=$("#res");r.hidden=false;r.className="res"+(win?" win":"");r.innerHTML=`<p>${html}</p><button class="next" data-a="next" data-primary>${esc(label||(isLast()?"Final Gauntlet":"Next"))}</button>${mxh(host)}${cur&&cur.q&&cur.q.id&&!cur.g&&!cur.aw?`<button class="rep" data-a="report">Report this question</button>`:""}`;r.querySelector(".next").focus({preventScroll:true});r.scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});sync();}
 
 /* ---------- curtains and banner ---------- */
 function curtains(lines,done){const c=$("#curt"),tx=$("#ctext"),was=c.classList.contains("shut"),seq={i:0,t:0};cseq=seq;
@@ -613,12 +635,13 @@ function intro(){reset("intro");const nq=POOL.turn.length+POOL.all.length,nf=Obj
  <div class="fanrow" aria-hidden="true">${FANS()}</div>
  ${mxh(h)}
  <div class="introb"><button class="go" data-a="toSetup" data-primary>Let’s play</button><button class="ghost" data-a="howto">How to play</button></div>
- <p class="facts"><span>${nq.toLocaleString("en-US")} questions</span><span>${nf} fandoms</span><span>Phones as buzzers</span><span class="kb">Press Space to start</span></p></div>`,"full");}
+ <p class="facts"><span>${nq.toLocaleString("en-US")} questions</span><span>${nf} fandoms</span><span>Phones as buzzers</span><span class="kb">Press Space to start</span></p>${store.get("fs-reports",[]).length?`<button class="mini" data-a="reports">Reported questions (${store.get("fs-reports",[]).length})</button>`:""}</div>`,"full");}
 const HOWTO=[["Your question","Each round, every team gets its own question: trivia, odd one out, or put it in order. Answer before the timer runs out. The last round is worth double."],
  ["Steals","Miss your question and the other teams can buzz in to steal it for half the points. A wrong steal scores nothing."],
  ["All play","A puzzle reveals itself bit by bit while its value drops from 500 to 100. Buzz with your key or your phone. A wrong answer locks your team out."],
  ["Screw your neighbour","Once per game, tap the bomb on your ticket (or the button on your phone) during a rival’s question to scramble it or slash their timer."],
  ["Final Gauntlet","The show ends with 8 quick calls: sort each one into one of two piles, everyone at once. +100 for a right call, −50 for a wrong one."],
+ ["Lifelines","Once per game, each team can use a 50/50 to remove two wrong answers, and add 10 seconds to its own question. Keys 5 and 0, or your phone."],
  ["Special rounds","Some rounds are Rapid Fire (30 seconds of two-answer questions: +50 right, −50 wrong) or Higher or Lower (did it come out earlier or later? +50 a call, +100 for a perfect streak)."],
  ["Phones","Turn on phones and everyone joins from their browser with a room code. The first to join is the VIP and runs the show from the couch."]];
 function howto(){reset("howto");
@@ -631,7 +654,7 @@ let sStep=0;
 function setup(step){const from=S.screen==="setup"?sStep:-1;reset("setup");sStep=Math.max(0,Math.min(STEPS.length-1,+step||0));const [,t,sub]=STEPS[sStep],last=sStep===STEPS.length-1;
  const body=[`<div class="tlist"><div id="tl"></div><button class="add" id="addT" data-a="addT">Add a team</button></div>`,
   `<div class="fanbox"><div class="fh"><span class="grp" id="fcount"></span><span><button class="mini" data-a="allc">All</button><button class="mini" data-a="nonec">None</button></span></div><div id="cl"></div></div>`,
-  `<div class="gopts"><div><h3>Difficulty</h3><div class="seg seg4" id="dif"></div></div><div><h3>Length</h3><div class="seg" id="len"></div></div></div>`,
+  `<div class="gopts"><div><h3>Difficulty</h3><div class="seg seg4" id="dif"></div><div id="tdif"></div></div><div><h3>Length</h3><div class="seg" id="len"></div></div></div>`,
   `<div class="rules" id="rules"></div>`][sStep];
  setScreen(`<div class="wiz"><nav class="steps" aria-label="Setup steps">${STEPS.map(([n],k)=>`<button class="stp${k<sStep?" done":""}" data-a="step" data-v="${k}"${k===sStep?' aria-current="step"':""}><i>${k<sStep?ico("check"):k+1}</i><span>${esc(n)}</span></button>`).join("")}</nav>
  <div class="shead"><h2>${esc(t)}</h2><p>${esc(sub)}</p></div>
@@ -641,13 +664,14 @@ function setup(step){const from=S.screen==="setup"?sStep:-1;reset("setup");sStep
 function drawSetup(){const has=id=>document.getElementById(id);
  if(has("tl")){$("#tl").innerHTML=set.teams.map((n,i)=>`<div class="trow" style="--c:${COLORS[i]}"><input id="tn${i}" data-i="${i}" value="${esc(n)}" maxlength="22" aria-label="Team ${i+1} name"><span class="key" title="Buzz key">${KEYS[i]}</span>${set.teams.length>2?`<button class="x" data-a="rm" data-v="${i}" aria-label="Remove team ${i+1}">×</button>`:""}</div>`).join("");
   $("#addT").hidden=set.teams.length>=4;}
- if(has("rules"))$("#rules").innerHTML=[["ph",set.phones,"Play with phones","Everyone joins from their phone’s browser with a room code. Needs internet."],["spT",set.special!==false,"Special rounds","Some rounds are Rapid Fire or Higher or Lower instead of the usual questions."],["st",set.steals,"Steals","A missed question goes up for grabs. First to buzz steals it for half points."],["sabT",set.sab,"Screw your neighbour","Once per game, scramble a rival’s question or slash their timer."],["hostT",set.host,"Snarky host","Max introduces each round and roasts your answers."]].concat(Object.keys(VOICE).length?[["voiceT",set.voice&&set.host,"Max’s voice","Max says his lines out loud. Needs Snarky host and sound on."]]:[])
+ if(has("rules"))$("#rules").innerHTML=[["ph",set.phones,"Play with phones","Everyone joins from their phone’s browser with a room code. Needs internet."],["lifeT",set.life!==false,"Lifelines","Once per game, each team can use a 50/50 and add 10 seconds to its own question."],["spT",set.special!==false,"Special rounds","Some rounds are Rapid Fire or Higher or Lower instead of the usual questions."],["st",set.steals,"Steals","A missed question goes up for grabs. First to buzz steals it for half points."],["sabT",set.sab,"Screw your neighbour","Once per game, scramble a rival’s question or slash their timer."],["hostT",set.host,"Snarky host","Max introduces each round and roasts your answers."]].concat(Object.keys(VOICE).length?[["voiceT",set.voice&&set.host,"Max’s voice","Max says his lines out loud. Needs Snarky host and sound on."]]:[])
   .map(([a,on,b,sm])=>`<button class="switch" data-a="${a}" aria-pressed="${!!on}"><span class="track"></span><span><b>${b}</b><small>${sm}</small></span></button>`).join("");
  if(has("cl")){$("#cl").innerHTML=[...new Set(Object.values(CATS).map(c=>c.g))].map(g=>`<p class="grp">${esc(g)}</p><div class="cats">${Object.entries(CATS).filter(([,c])=>c.g===g).map(([k,c])=>`<button class="cat" style="--c:${c.c}" data-a="cat" data-v="${k}" aria-pressed="${set.cats.includes(k)}"><span class="ic">${ico(c.i)}</span>${esc(c.n)}<span class="ck">${ico("check")}</span></button>`).join("")}</div>`).join("");
   $("#fcount").textContent=`${set.cats.length} of ${Object.keys(CATS).length} picked`;}
- if(has("dif"))$("#dif").innerHTML=[["1","Easy","Casual fans"],["2","Medium","Seen them all"],["3","Hard","Superfans"],["mix","Mixed","Gets harder"]].map(([v,l,s])=>`<button data-a="diff" data-v="${v}" aria-pressed="${String(set.diff)===v}">${l}<small>${s}</small></button>`).join("");
+ if(has("dif"))$("#dif").innerHTML=[["1","Easy","Casual fans"],["2","Medium","Seen them all"],["3","Hard","Superfans"],["mix","Mixed","Gets harder"],["team","Per team","Kids vs adults"]].map(([v,l,s])=>`<button data-a="diff" data-v="${v}" aria-pressed="${String(set.diff)===v}">${l}<small>${s}</small></button>`).join("");
  if(has("len"))$("#len").innerHTML=[[3,"Quick"],[5,"Standard"],[8,"Marathon"]].map(([n,l])=>`<button data-a="len" data-v="${n}" aria-pressed="${set.rounds===n}">${l}<small>${n} rounds</small></button>`).join("");
- if(has("sum")){const d={1:"Easy",2:"Medium",3:"Hard",mix:"Mixed"}[set.diff]||"Medium",n=set.cats.length;
+ if(has("tdif"))$("#tdif").innerHTML=set.diff!=="team"?"":set.ffa?`<p class="tdnote">Each player picks their own level on their phone in the lobby.</p>`:`<div class="tdiff">${set.teams.map((n,i)=>`<div class="tdrow" style="--c:${COLORS[i]}"><b>${esc(String(n).trim()||"Team "+(i+1))}</b><div class="seg">${[["1","Easy"],["2","Medium"],["3","Hard"],["mix","Mixed"]].map(([v,l])=>`<button data-a="tdiff" data-v="${i}:${v}" aria-pressed="${String(set.tdiff[i]||"2")===v}">${l}</button>`).join("")}</div></div>`).join("")}</div>`;
+ if(has("sum")){const d={1:"Easy",2:"Medium",3:"Hard",mix:"Mixed",team:"Per team"}[set.diff]||"Medium",n=set.cats.length;
   $("#sum").textContent=`${set.teams.length} teams · ${n} fandom${n===1?"":"s"} · ${d} · ${set.rounds} rounds${set.phones?" · phones":""}`;}}
 
 /* ---------- flow ---------- */
@@ -672,7 +696,7 @@ function catPick(i){const opts=shuffle(S.cats).slice(0,3),c={team:i,phase:"cat",
  startClock(c.dur,el=>setBar(1-el/c.dur,c.dur-el),()=>{if(cur===c&&c.phase==="cat")chooseCat(opts[rand(opts.length)]);});}
 function chooseCat(k){const c=cur;if(!c||c.phase!=="cat"||!c.opts.includes(k))return;c.phase="picked";stopClock();sfx.blip();myTurn(c.team,k);}
 function myTurn(i,cat){const rt=roundType();if(rt==="rapid")return rapidTurn(i,cat);if(rt==="hilo")return hiloTurn(i,cat);
- const q=draw("turn",null,cat),m=mult(),seq=q.kind==="seq";
+ const q=draw("turn",null,cat,i),m=mult(),seq=q.kind==="seq";
  const c={team:i,q,pts:(seq?300:200)*m,done:false,dur:seq?35:20,sec:99};cur=c;
  ticketsUpd();
  let body;
@@ -680,10 +704,10 @@ function myTurn(i,cat){const rt=roundType();if(rt==="rapid")return rapidTurn(i,c
   body=`<h2 class="q">${esc(q.q)}</h2><p class="tip">Tap them from first to last. Tap one again to take it back.</p><div class="ch one seq">${it.map((t,k)=>`<button data-a="seqp" data-v="${k}" style="--d:${k}"><span class="k"></span><span>${esc(t)}</span></button>`).join("")}</div>`;}
  else{c.ch=shuffle([q.a,...q.w]);
   body=`<h2 class="q">${esc(q.q)}</h2><div class="ch">${c.ch.map((t,k)=>`<button data-a="pick" data-v="${k}" style="--d:${k}"><span class="k">${"ABCD"[k]}</span><span>${esc(t)}</span></button>`).join("")}</div>`;}
- setScreen(qhead(q,DLAB[q.d]+" "+(seq?"put it in order":q.kind==="odd"?"odd one out":"trivia")+" for "+S.teams[i].name,c.pts,m)+`<div class="barw"><div class="bar" id="bar"><i id="bi"></i></div><span class="secs" id="secs">${c.dur}</span></div>`+body+`<div class="res" id="res" role="status" hidden></div>`);
+ setScreen(qhead(q,DLAB[q.d]+" "+(seq?"put it in order":q.kind==="odd"?"odd one out":"trivia")+" for "+S.teams[i].name,c.pts,m)+`<div class="barw"><div class="bar" id="bar"><i id="bi"></i></div><span class="secs" id="secs">${c.dur}</span></div><div class="lifes" id="lifes"></div>`+body+`<div class="res" id="res" role="status" hidden></div>`);
  sync();
- later(()=>{if(cur!==c||c.done)return;c.started=true;startClock(c.dur,el=>{const left=c.dur-el;setBar(left/c.dur,left);const s=Math.ceil(left);if(s<=5&&s<c.sec&&s>0)sfx.tick();c.sec=s;if(left<=4&&!c.shut){c.shut=true;ticketsUpd();}},()=>turnEnd(seq?false:null));ticketsUpd();sync();},650);}
-function turnEnd(v,w){const c=cur;if(!c||c.done||(!c.ch&&!c.items))return;const tl=c.started?(clk?Math.max(0,clk.dur-clk.el):0):c.dur;c.done=true;stopClock();sabClose();ticketsUpd();
+ later(()=>{if(cur!==c||c.done)return;c.started=true;startClock(c.dur,el=>{const left=c.dur-el;setBar(left/c.dur,left);const s=Math.ceil(left);if(s<=5&&s<c.sec&&s>0)sfx.tick();c.sec=s;if(left<=4&&!c.shut){c.shut=true;ticketsUpd();}if(left<=1&&!c.lshut){c.lshut=true;lifeUpd();}},()=>turnEnd(seq?false:null));ticketsUpd();lifeUpd();sync();},650);}
+function turnEnd(v,w){const c=cur;if(!c||c.done||(!c.ch&&!c.items))return;const tl=c.started?(clk?Math.max(0,clk.dur-clk.el):0):c.dur;c.done=true;stopClock();sabClose();ticketsUpd();lifeUpd();
  if(c.scr){c.scr=false;paintQ(c);}
  const q=c.q,nm=S.teams[c.team].name,name=esc(nm),hv={t:nm,a:q.a};let ok,msg,plain,h;
  const tally=(ok,guessed)=>{if(guessed){const x=st(actor(c.team,w));if(ok)x.right++;else x.wrong++;}if(!ok&&c.sab)st(c.sab.who).sabHit++;};
@@ -706,6 +730,19 @@ function turnEnd(v,w){const c=cur;if(!c||c.done||(!c.ch&&!c.items))return;const 
  if(ok){award(c.team,c.pts);sfx.good();}else{sfx.bad();shake();}
  showRes(msg,ok,h);}
 
+/* ---------- lifelines ---------- */
+// Once per game, each team can use a 50/50 and +10 seconds on its own classic question.
+function lifeOpen(i,k){const c=cur,L=S.life&&S.life[i];return !!(S.lifeOn&&L&&L[k]&&c&&c.team===i&&c.started&&!c.done&&!c.phase&&(k==="half"?c.ch&&!c.halfOut:(c.ch||c.items))&&clk&&clk.dur-clk.el>1);}
+function lifeUpd(){const box=$("#lifes");if(!box)return;const c=cur,i=c&&c.team;if(!c||c.done||i==null||!S.lifeOn){box.innerHTML="";return;}
+ box.innerHTML=[["half","50/50","5"],["time","+10 seconds","0"]].filter(([k])=>S.life[i]&&S.life[i][k]&&(k!=="half"||c.ch)).map(([k,l,key])=>`<button class="life" data-a="life" data-v="${k}"${lifeOpen(i,k)?"":" disabled"}><span>${l}</span><kbd>${key}</kbd></button>`).join("");}
+function useLife(i,k,w){const c=cur;if(!lifeOpen(i,k))return;S.life[i][k]=false;
+ if(k==="half"){const wrong=c.ch.map((t,j)=>j).filter(j=>c.ch[j]!==c.q.a);c.halfOut=shuffle(wrong).slice(0,2);
+  $$("#screen .ch button").forEach(b=>{const j=+b.dataset.v;if(c.halfOut.includes(j)){b.disabled=true;b.classList.add("gone");}});}
+ else{if(clk)clk.dur+=10;c.dur+=10;c.lifeT=(c.lifeT||0)+1;c.sec=99;c.lshut=false;if(c.shut&&clk&&clk.dur-clk.el>4)c.shut=false;}
+ const h=quip(k==="half"?"lifeHalf":"lifeTime"),tag=document.createElement("div");tag.className="sabtag lifetag";tag.style.setProperty("--c","#12854f");
+ tag.innerHTML=`<b>${k==="half"?"50/50!":"+10 seconds!"}</b>${h?`<span>${esc(h)}</span>`:""}`;const old=$("#screen .lifetag");if(old)old.remove();
+ const qh=$("#screen .qh");if(qh)qh.after(tag);speak(h);sfx.good();flash("#12854f");lifeUpd();ticketsUpd();sync();}
+
 /* ---------- rapid fire ---------- */
 // 30 seconds of two-answer questions: +50 right, -50 wrong (the turn can't go below zero).
 function rapidTurn(i,cat){const m=mult(),c={team:i,kind:"rapid",cat,phase:"rlive",right:0,wrong:0,per:50*m,qid:0,dur:30,sec:99,done:false};cur=c;ticketsUpd();
@@ -714,7 +751,7 @@ function rapidTurn(i,cat){const m=mult(),c={team:i,kind:"rapid",cat,phase:"rlive
  <div id="rq"></div><p class="rtally" id="rt">Answer with a tap, a click, or 1 and 2.</p><div class="res" id="res" role="status" hidden></div>`);
  rapidNext(c);
  later(()=>{if(cur!==c||c.phase!=="rlive")return;startClock(c.dur,el=>{const l=c.dur-el;setBar(l/c.dur,l);const s=Math.ceil(l);if(s<=5&&s<c.sec&&s>0)sfx.tick();c.sec=s;},()=>rapidEnd(c));},300);}
-function rapidNext(c){if(cur!==c||c.phase!=="rlive")return;const q=draw("turn","mc",c.cat);c.q=q;c.qid++;c.lock=false;c.rch=shuffle([q.a,q.w[rand(q.w.length)]]);
+function rapidNext(c){if(cur!==c||c.phase!=="rlive")return;const q=draw("turn","mc",c.cat,c.team);c.q=q;c.qid++;c.lock=false;c.rch=shuffle([q.a,q.w[rand(q.w.length)]]);
  const cc=CATS[q.cat];
  $("#rq").innerHTML=`<div class="rcard"><span class="chip" style="--c:${cc.c}">${ico(cc.i)}${esc(cc.n)}</span><h2 class="q">${esc(q.q)}</h2><div class="ch">${c.rch.map((t,k)=>`<button data-a="rpick" data-v="${k}" style="--d:${k}"><span class="k">${"AB"[k]}</span><span>${esc(t)}</span></button>`).join("")}</div></div>`;
  sync();}
@@ -764,6 +801,25 @@ function hiloEnd(c,perfect,timeout){if(cur!==c||c.done)return;c.phase="hdone";c.
  if(tot)award(c.team,tot);
  showRes(`${lead} ${c.got} of ${c.chain.length-1} right. ${tot?`<b>+${tot}</b> for ${esc(nm)}.`:`No points for ${esc(nm)}.`}`,tot>0,h);}
 
+/* ---------- reported questions ---------- */
+// Players flag questions that look wrong. The list lives on this device until it's sent or cleared.
+function findQ(id){return POOL.turn.find(q=>q.id===id)||POOL.all.find(q=>q.id===id);}
+function qText(q){return q.q||(q.kind==="scr"?`Scramble: ${q.a} (hint: ${q.hint})`:q.kind==="who"?`Who am I? ${q.clues.join(" / ")}`:q.kind==="emo"?`Emoji: ${q.e.join(" ")}`:"");}
+function addReport(q,by,note){const list=store.get("fs-reports",[]);if(list.some(r=>r.id===q.id&&r.note===note))return;
+ list.push({id:q.id,cat:q.cat,kind:q.kind,q:qText(q),a:q.items?q.items.join(" → "):q.a,by,note,at:Date.now()});store.set("fs-reports",list.slice(-200));}
+const KN={mc:"trivia",odd:"odd one out",seq:"put it in order",scr:"scramble",who:"Who am I?",emo:"emoji puzzle"};
+const repLine=r=>`[${r.id}] ${(CATS[r.cat]||{}).n||r.cat}, ${KN[r.kind]||r.kind}: ${r.q} | Answer: ${r.a}${r.note?` | Note: ${r.note}`:""} | Reported by ${r.by}`;
+function reports(){reset("reports");const list=store.get("fs-reports",[]);
+ setScreen(`<div class="wiz"><div class="shead"><h2>Reported questions</h2><p>${list.length?`${list.length} question${list.length>1?"s":""} flagged during games. Send the list so they can be fixed.`:"Nothing reported yet. Players can flag a question from the results screen or their phone."}</p></div>
+ <div class="replist">${list.slice().reverse().map(r=>`<div class="repi"><span class="chip" style="--c:${(CATS[r.cat]||{c:"#7a0d1e"}).c}">${esc((CATS[r.cat]||{}).n||r.cat)}</span><p><b>${esc(r.q)}</b><br>Answer: ${esc(r.a)}${r.note?`<br><i>“${esc(r.note)}”</i>`:""}</p><small>${esc(r.by)}</small></div>`).join("")}</div>
+ <div class="snav"><button class="ghost" data-a="intro">Back</button><span class="sum">${list.length?`<button class="mini" data-a="repClear">Clear the list</button>`:""}</span>${list.length?`<button class="ghost" data-a="repCopy">Copy the list</button><button class="next" data-a="repIssue" data-primary>Send as a GitHub issue</button>`:""}</div></div>`,"full fwd");}
+function repText(){return store.get("fs-reports",[]).map(repLine).join("\n");}
+function repCopy(){const t=repText();const done=()=>toast("Copied. Paste it wherever you like.");
+ try{navigator.clipboard.writeText(t).then(done,()=>fallback());}catch(e){fallback();}
+ function fallback(){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done();}catch(e){toast("Couldn’t copy here");}ta.remove();}}
+function repIssue(){const body=("Questions reported during game nights:\n\n"+repText()).slice(0,6000);
+ window.open("https://github.com/matthewsleclair-hue/fandomonium/issues/new?title="+encodeURIComponent("Reported questions")+"&body="+encodeURIComponent(body),"_blank","noopener");}
+
 /* ---------- who did what, for the awards ---------- */
 // An actor is a phone player ("p:<id>") or, for keyboard and on-screen play, a team ("t:<n>").
 const actor=(i,w)=>w||"t:"+i;
@@ -778,11 +834,11 @@ function startSteal(v,pre,h){const c=cur;c.phase="steal";c.own=v;c.locked=new Se
 function stealBuzz(i,phone,w){const c=cur;if(!c||c.phase!=="steal"||c.locked.has(i)||i>=S.teams.length)return;
  stopClock();c.phase="stealing";c.stealer=i;c.stealWho=actor(i,w);c.viaPhone=!!phone;sfx.buzz();flash(S.teams[i].color);buzzUpd();
  const b=$("#bz"+i);if(b){b.classList.add("hit");setTimeout(()=>b.classList.remove("hit"),300);}
- $$(".ch button").forEach((x,k)=>{x.disabled=k===c.own;});
+ $$(".ch button").forEach((x,k)=>{x.disabled=k===c.own||(c.halfOut||[]).includes(k);});
  $("#res").innerHTML=`<p><b>${esc(S.teams[i].name)}</b> is stealing for ${c.half}! ${phone?"Pick on your phone, or tap here.":"Pick an answer."}</p>`;
  sync();
  startClock(12,el=>setBar(1-el/12,12-el),()=>{if(cur===c&&c.phase==="stealing")finishSteal(i,null);});}
-function stealPick(k){const c=cur;if(!c||c.phase!=="stealing"||k===c.own||!(k>=0&&k<4))return;finishSteal(c.stealer,k);}
+function stealPick(k){const c=cur;if(!c||c.phase!=="stealing"||k===c.own||(c.halfOut||[]).includes(k)||!(k>=0&&k<4))return;finishSteal(c.stealer,k);}
 function finishSteal(i,k){const c=cur;if(!c||(c.phase!=="steal"&&c.phase!=="stealing"))return;stopClock();c.phase="over";buzzUpd();$("#buzzers").hidden=true;
  const q=c.q,ok=i!=null&&k!=null&&c.ch[k]===q.a,nm=i!=null?S.teams[i].name:"";
  if(i!=null&&k!=null){const x=st(c.stealWho||actor(i));if(ok){x.right++;x.steals++;}else x.wrong++;}
@@ -1043,6 +1099,8 @@ function onPhone(m){if(!m||!m.pid)return;NET.log("from phone",m.t);const pid=Str
   case "ready":if(pid===PH.vip&&c){if(c.phase==="ready")apGo();else if(c.phase==="gintro")gStart();}break;
   case "dod":if(c&&c.phase==="glive"&&Number(m.k)===c.k&&validTeam(p.team))gPick(p.team,Number(m.s),"p:"+pid);break;
   case "sab":if(validTeam(p.team))sabotage(p.team,m.k==="rush"?"rush":"scr","p:"+pid);break;
+  case "life":if(validTeam(p.team))useLife(p.team,m.k==="time"?"time":"half","p:"+pid);break;
+  case "report":{const q=findQ(String(m.id||""));if(q)addReport(q,p.name,String(m.note||"").slice(0,200));break;}
   case "rpick":if(c&&c.kind==="rapid"&&mine&&Number(m.q)===c.qid)rapidPick(Number(m.i),"p:"+pid);break;
   case "hpick":if(c&&c.kind==="hilo"&&mine&&Number(m.k)===c.k)hiloPick(Number(m.x)===1?1:0,"p:"+pid);break;
   case "next":if(pid===PH.vip){const r=$("#res");if(r&&!r.hidden){const n=r.querySelector(".next");if(n)n.click();}}break;
@@ -1066,15 +1124,15 @@ function view(pid){const p=PH.players[pid],teams=S.teams||[];
   if(c.phase==="glive")return V({v:"dod",id:"g"+c.k,a:g.a,b:g.b,item:it[0],k:c.k,n:G_N,secs:left(),done:c.ans[p.team]!=null});
   if(c.phase==="grev"){const a=c.ans[p.team];return V({v:"dodres",item:it[0],right:it[1]?g.b:g.a,ok:a==null?null:a===it[1],k:c.k,n:G_N});}
   const t=c.tot[p.team]||0;return V({v:"res",mine:true,ok:t>0,text:`Your team went ${c.hits[p.team]||0} for ${G_N} in the Gauntlet: ${t>0?"+":t<0?"−":""}${Math.abs(t)}.`,host:(c.result||{}).host||""});}
- const res=()=>{const r=c.result||{};return V({v:"res",mine:r.team===p.team,ok:r.team===p.team&&!!r.ok,text:r.text||"",host:r.host||""});};
+ const res=()=>{const r=c.result||{};return V({v:"res",mine:r.team===p.team,ok:r.team===p.team&&!!r.ok,text:r.text||"",host:r.host||"",qid:c.q&&c.q.id||""});};
  const sabi=()=>c.sab?{sabBy:tn(c.sab.by),sabK:c.sab.k}:{},qq=()=>c.scr?c.sq:c.q.q;
  if(c.kind==="rapid"){if(c.done)return res();return mine?V({v:"rapid",id:"r"+c.qid,qn:c.qid,q:c.q.q,ch:c.rch,cat:CATS[c.q.cat].n,right:c.right,wrong:c.wrong,secs:left()}):V({v:"wait",msg:tn(c.team)+" is in Rapid Fire",sub:`${c.right} right, ${c.wrong} wrong so far.`});}
  if(c.kind==="hilo"){if(c.done)return res();const [pt,py]=c.chain[c.k-1];
   return mine?V({v:"hilo",id:"h"+c.k,k:c.k,n:c.chain.length-1,prev:`${pt} (${py})`,item:c.chain[c.k][0],lock:c.phase!=="hlive",secs:left()}):V({v:"wait",msg:tn(c.team)+" is playing Higher or Lower",sub:`Streak: ${c.got}`});}
  if(c.phase==="steal")return mine?V({v:"wait",msg:"Other teams can steal it",sub:"Fingers crossed nobody knows."}):V({v:"buzz",steal:true,locked:false,val:c.half});
- if(c.phase==="stealing")return c.stealer===p.team?V({v:"mc",id:c.q.id+"s",q:"Steal! "+c.q.q,ch:c.ch,struck:c.own!=null?[c.own]:[],secs:left(),pts:c.half}):V({v:"wait",msg:tn(c.stealer)+" is stealing",sub:c.q.q});
- if(c.team!=null&&c.ch){if(c.done)return res();return mine?V({v:"mc",id:c.q.id,q:qq(),ch:c.scr?c.sch:c.ch,secs:left(),pts:c.pts,...sabi()}):V({v:"wait",msg:tn(c.team)+" is answering",sub:qq(),sab:sabOpen(p.team),victim:tn(c.team)});}
- if(c.team!=null&&c.items){if(c.done)return res();return mine?V({v:"seq",id:c.q.id,q:qq(),items:c.scr?c.sitems:c.items,secs:left(),pts:c.pts,...sabi()}):V({v:"wait",msg:tn(c.team)+" is putting things in order",sub:qq(),sab:sabOpen(p.team),victim:tn(c.team)});}
+ if(c.phase==="stealing")return c.stealer===p.team?V({v:"mc",id:c.q.id+"s",q:"Steal! "+c.q.q,ch:c.ch,struck:[...(c.own!=null?[c.own]:[]),...(c.halfOut||[])],secs:left(),pts:c.half}):V({v:"wait",msg:tn(c.stealer)+" is stealing",sub:c.q.q});
+ if(c.team!=null&&c.ch){if(c.done)return res();return mine?V({v:"mc",id:c.q.id,q:qq(),ch:c.scr?c.sch:c.ch,secs:left(),pts:c.pts,struck:c.halfOut||[],life:{half:lifeOpen(c.team,"half"),time:lifeOpen(c.team,"time")},lifeT:c.lifeT||0,...sabi()}):V({v:"wait",msg:tn(c.team)+" is answering",sub:qq(),sab:sabOpen(p.team),victim:tn(c.team)});}
+ if(c.team!=null&&c.items){if(c.done)return res();return mine?V({v:"seq",id:c.q.id,q:qq(),items:c.scr?c.sitems:c.items,secs:left(),pts:c.pts,life:{time:lifeOpen(c.team,"time")},lifeT:c.lifeT||0,...sabi()}):V({v:"wait",msg:tn(c.team)+" is putting things in order",sub:qq(),sab:sabOpen(p.team),victim:tn(c.team)});}
  if(c.phase==="ready"||c.phase==="count")return V({v:"ready",msg:"All play!",sub:"Thumbs on the buzzer."});
  if(c.phase==="live")return V({v:"buzz",locked:c.locked.has(p.team),val:c.val});
  if(c.phase==="buzz"||c.phase==="judge"){const secs=Math.max(0,(c.bzT-Date.now())/1000);
@@ -1109,9 +1167,10 @@ const ACT={
  cat:v=>{const i=set.cats.indexOf(v);if(i>-1)set.cats.splice(i,1);else set.cats.push(v);saveSet();drawSetup();},
  len:v=>{set.rounds=+v;saveSet();drawSetup();},
  diff:v=>{set.diff=String(v);saveSet();drawSetup();},
+ tdiff:v=>{const [i,d]=String(v).split(":");set.tdiff[+i]=d;saveSet();drawSetup();},
  ph:()=>{set.phones=!set.phones;saveSet();drawSetup();},
  go:()=>{if(!set.cats.length){toast("Pick at least one fandom");setup(1);return;}unlock();const plan=PLANS[set.rounds]||Array.from({length:set.rounds},(_,r)=>["classic","rapid","classic","hilo"][r%4]);
-  S={screen:set.phones?"lobby":"play",teams:set.teams.map((n,i)=>({name:String(n).trim()||"Team "+(i+1),color:COLORS[i],score:0,shown:0})),rounds:set.rounds,round:0,step:0,cats:set.cats.slice(),diff:String(set.diff),steals:!!set.steals,host:!!set.host,voice:!!set.voice,special:set.special!==false,plan,sabOn:!!set.sab,sab:set.teams.map(()=>true)};hist=[];cur=null;
+  S={screen:set.phones?"lobby":"play",teams:set.teams.map((n,i)=>({name:String(n).trim()||"Team "+(i+1),color:COLORS[i],score:0,shown:0})),rounds:set.rounds,round:0,step:0,cats:set.cats.slice(),diff:String(set.diff),tdiff:set.tdiff.slice(),steals:!!set.steals,lifeOn:set.life!==false,life:set.teams.map(()=>({half:true,time:true})),host:!!set.host,voice:!!set.voice,special:set.special!==false,plan,sabOn:!!set.sab,sab:set.teams.map(()=>true)};hist=[];cur=null;
   if(set.phones)lobby();else{phonesStop();ticketsBuild();play();}},
  lobbyGo:()=>{if(S.screen!=="lobby")return;S.screen="play";Object.values(PH.players).forEach(p=>{if(!validTeam(p.team))p.team=emptiest();});ticketsBuild();play();},
  retry:()=>{PH.status="off";phonesStart();},
@@ -1133,6 +1192,13 @@ const ACT={
  st:()=>{set.steals=!set.steals;saveSet();drawSetup();},
  sabT:()=>{set.sab=!set.sab;saveSet();drawSetup();},
  hostT:()=>{set.host=!set.host;saveSet();drawSetup();},
+ lifeT:()=>{set.life=set.life===false;saveSet();drawSetup();},
+ life:v=>{if(cur&&cur.team!=null)useLife(cur.team,v==="time"?"time":"half");},
+ report:(v,b)=>{const q=cur&&cur.q;if(!q)return;addReport(q,"TV","");if(b){b.disabled=true;b.textContent="Reported";}toast("Saved. It’s listed under Reported questions on the title screen.");},
+ reports:()=>reports(),
+ repCopy:()=>repCopy(),
+ repIssue:()=>repIssue(),
+ repClear:()=>{store.set("fs-reports",[]);reports();},
  spT:()=>{set.special=set.special===false;saveSet();drawSetup();},
  rpick:v=>rapidPick(+v),
  hpick:v=>hiloPick(+v),
@@ -1165,6 +1231,7 @@ document.addEventListener("keydown",e=>{
  if(S.screen==="play"&&cur){
   if(cur.phase==="glive"){for(let i=0;i<S.teams.length;i++){const x=GKEYS[i].indexOf(k);if(x>-1){e.preventDefault();unlock();gPick(i,x);return;}}return;}
   const bi=KEYS.indexOf(k);if(bi>-1&&bi<S.teams.length&&(cur.phase==="live"||cur.phase==="steal")){e.preventDefault();unlock();if(cur.phase==="steal")stealBuzz(bi,false);else buzz(bi,false);return;}
+  if((k==="5"||k==="0")&&cur.team!=null&&!cur.kind){e.preventDefault();useLife(cur.team,k==="5"?"half":"time");return;}
   if(cur.kind==="hilo"&&(k==="ArrowLeft"||k==="ArrowRight")){e.preventDefault();hiloPick(k==="ArrowLeft"?0:1);return;}
   let n="1234".indexOf(k);if(n<0)n="ABCD".indexOf(k);
   if(n>-1){const bs=$$("#screen .ch button, #screen .catpick button");if(bs[n]&&!bs[n].disabled){e.preventDefault();bs[n].click();}return;}

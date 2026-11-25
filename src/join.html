@@ -98,6 +98,14 @@ input{width:100%;min-height:56px;padding:0 14px;border-radius:12px;border:2px so
 .sbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #7d1322}
 .sbtn:disabled{opacity:.45}
 .ribbon{padding:8px 12px;border-radius:12px;background:repeating-linear-gradient(-45deg,var(--no) 0 12px,#9e1a2d 12px 24px);color:#fff;font-family:var(--disp);font-size:16px;text-align:center;text-shadow:0 2px 0 rgba(0,0,0,.35);animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+.lifes{display:flex;gap:8px}
+.lbtn{flex:1;min-height:48px;border-radius:12px;border:2px solid var(--ok);background:#dcf3e6;color:#0a5533;font-weight:700;font-size:15px}
+.lbtn:disabled{opacity:.4}
+.repbox{width:100%;margin-top:8px;color:var(--mut);font-size:14px;text-align:left}
+.repbox summary{cursor:pointer;text-align:center;min-height:32px}
+.repbox div{display:flex;gap:8px;margin-top:8px}
+.repbox input{min-height:44px;font-size:16px}
+.repbox button{flex:none;min-height:44px;padding:0 14px;border-radius:10px;border:0;background:var(--ink);color:var(--but);font-weight:700}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -176,6 +184,7 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 /* ---------- views ---------- */
 function timer(secs){P.dur=Math.max(1,secs||0);P.deadline=Date.now()+P.dur*1000;return `<div class="timer"><div class="tb"><i id="ti"></i></div><span class="tm" id="tm">${Math.ceil(P.dur)}</span></div>`;}
 setInterval(()=>{const i=$("#ti");if(!i)return;const left=Math.max(0,(P.deadline-Date.now())/1000);i.style.transform=`scaleX(${(left/P.dur).toFixed(3)})`;const t=$("#tm");if(t)t.textContent=Math.ceil(left);},200);
+const lifes=v=>{const l=v.life||{};const b=[["half","50/50"],["time","+10 seconds"]].filter(([k])=>l[k]);return b.length?`<div class="lifes">${b.map(([k,t])=>`<button class="lbtn" data-a="life" data-v="${k}">${t}</button>`).join("")}</div>`:"";};
 const mx=h=>h?`<p class="mx"><b>Max</b><span>${esc(h)}</span></p>`:"";
 const rib=v=>v.sabBy?`<div class="ribbon">${v.sabK==="rush"?"Timer slashed":"Scrambled"} by ${esc(v.sabBy)}!</div>`:"";
 function render(){const v=P.v;if(!v)return;const K=v.v+(v.q||v.msg||v.item||"");const card_=card;const card2=h=>card_(h,K);
@@ -188,8 +197,8 @@ function render(){const v=P.v;if(!v)return;const K=v.v+(v.q||v.msg||v.item||"");
   case "wait":card2(`<div class="center"><h2>${esc(v.msg)}</h2>${v.sub?`<p class="sub">${esc(v.sub)}</p>`:""}</div>${v.sab?`<div class="sabbox"><h3>Screw your neighbour</h3><p class="hint">One use per game. Mess with ${esc(v.victim)}:</p><div><button class="sbtn" data-a="sab" data-v="scr">Scramble their question</button><button class="sbtn" data-a="sab" data-v="rush">Slash their timer</button></div></div>`:""}`);break;
   case "ready":card2(`<div class="center"><h2>${esc(v.msg)}</h2><p class="sub">${esc(v.sub||"")}</p>${vip?`<button class="big" data-a="ready">Start the round</button>`:`<p class="hint">The VIP starts the round.</p>`}</div>`);break;
   case "cat":card2(`<h2>Pick a fandom</h2>${timer(v.secs)}<div class="cats">${v.opts.map(o=>`<button class="cbtn" style="--c:${o.c}" data-a="cat" data-v="${esc(o.k)}"><i></i>${esc(o.n)}</button>`).join("")}</div>`);break;
-  case "mc":{const st=v.struck||[];card2(`${rib(v)}<p class="qtext">${esc(v.q)}</p>${timer(v.secs)}<div class="ans" id="ans">${v.ch.map((t,i)=>`<button class="abtn" data-a="pick" data-v="${i}"${st.includes(i)?" disabled":""}><b>${"ABCD"[i]}</b><span>${esc(t)}</span></button>`).join("")}</div><p class="hint" id="note">Worth ${esc(v.pts)} points.</p>`);break;}
-  case "seq":{const o=P.local.order||(P.local.order=[]);card2(`${rib(v)}<p class="qtext">${esc(v.q)}</p>${timer(v.secs)}<p class="hint">Tap from first to last. Tap again to undo.</p><div class="ans seq" id="ans">${v.items.map((t,i)=>{const p=o.indexOf(i);return `<button class="abtn${p<0?" un":""}" data-a="seq" data-v="${i}"${P.local.sent?" disabled":""}><b>${p<0?"":p+1}</b><span>${esc(t)}</span></button>`;}).join("")}</div>`);break;}
+  case "mc":{const st=v.struck||[];card2(`${rib(v)}<p class="qtext">${esc(v.q)}</p>${timer(v.secs)}<div class="ans" id="ans">${v.ch.map((t,i)=>`<button class="abtn" data-a="pick" data-v="${i}"${st.includes(i)?" disabled":""}><b>${"ABCD"[i]}</b><span>${esc(t)}</span></button>`).join("")}</div>${lifes(v)}<p class="hint" id="note">Worth ${esc(v.pts)} points.</p>`);break;}
+  case "seq":{const o=P.local.order||(P.local.order=[]);card2(`${rib(v)}<p class="qtext">${esc(v.q)}</p>${timer(v.secs)}<p class="hint">Tap from first to last. Tap again to undo.</p><div class="ans seq" id="ans">${v.items.map((t,i)=>{const p=o.indexOf(i);return `<button class="abtn${p<0?" un":""}" data-a="seq" data-v="${i}"${P.local.sent?" disabled":""}><b>${p<0?"":p+1}</b><span>${esc(t)}</span></button>`;}).join("")}</div>${lifes(v)}`);break;}
   case "rapid":{const lk=P.local.sent;card2(`<p class="hint" style="text-align:center">Rapid Fire · ${esc(v.cat)} · ${esc(v.right)} right, ${esc(v.wrong)} wrong</p><p class="qtext">${esc(v.q)}</p>${timer(v.secs)}<div class="ans" id="ans">${v.ch.map((t,i)=>`<button class="abtn${P.local.pick===i?" sel":""}" data-a="rpick" data-v="${i}"${lk?" disabled":""}><b>${"AB"[i]}</b><span>${esc(t)}</span></button>`).join("")}</div>`);break;}
   case "hilo":{const lk=v.lock||P.local.sent;card2(`<p class="hint" style="text-align:center">Higher or Lower · call ${v.k} of ${v.n}</p><p class="ditem">${esc(v.item)}</p><p class="sub" style="text-align:center">Earlier or later than ${esc(v.prev)}?</p>${timer(v.secs)}<div class="dod">${["Earlier","Later"].map((t,i)=>`<button class="dbtn${P.local.pick===i?" sel":""}" data-a="hpick" data-v="${i}"${lk?" disabled":""}>${i?"Later →":"← Earlier"}</button>`).join("")}</div>`);break;}
   case "dod":{const lk=v.done||P.local.sent;card2(`<p class="hint" style="text-align:center">Final Gauntlet · ${v.k+1} of ${v.n}</p><p class="ditem">${esc(v.item)}</p>${timer(v.secs)}<div class="dod">${[v.a,v.b].map((t,i)=>`<button class="dbtn${P.local.pick===i?" sel":""}" data-a="dod" data-v="${i}"${lk?" disabled":""}>${esc(t)}</button>`).join("")}</div><p class="hint" id="note" style="text-align:center">${lk?"Locked in. Eyes on the TV!":"+100 if you’re right, −50 if you’re wrong."}</p>`);break;}
@@ -197,7 +206,7 @@ function render(){const v=P.v;if(!v)return;const K=v.v+(v.q||v.msg||v.item||"");
   case "buzz":card2(`<div class="buzzwrap">${v.steal?`<div class="center" style="flex:0;padding:0"><h2>Steal it!</h2><p class="sub">Buzz first to steal for ${esc(v.val)}.</p></div>`:""}<button class="buzzer" id="bz" data-a="buzz"${v.locked?" disabled":""}>${v.locked?"Locked":v.steal?"Steal":"Buzz"}</button><p class="sub">${v.locked?"You’re locked out of this one.":v.steal?"Only if you know it: a wrong steal scores nothing.":"Buzz the second you know it."}</p></div>`);break;
   case "type":card2(`<h2>You buzzed in!</h2><p class="sub">${esc(v.hint)}: type your answer.</p><div class="blanks">${(v.words||[]).map(n=>`<span>${"<i></i>".repeat(n)}</span>`).join("")}</div>${timer(v.secs)}<form id="tf" class="teams" autocomplete="off"><input id="ta" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="Your answer"><button class="big" type="submit">Send</button></form>`);
    $("#tf").addEventListener("submit",e=>{e.preventDefault();const t=$("#ta").value.trim();if(!t)return;send({t:"type",text:t});card2(`<div class="center"><h2>Sent!</h2><p class="sub">Look at the TV.</p></div>`);});$("#ta").focus();break;
-  case "res":card2(`<div class="center">${v.mine?`<div class="mark${v.ok?" ok":" bad"}">${v.ok?"✓":"✗"}</div><h2>${v.ok?"Nice!":"Not this time"}</h2><p class="sub">${esc(v.text)}</p>`:`<h2>${esc(v.text)}</h2>`}${mx(v.host)}${vip?`<button class="big" data-a="next">Next</button>`:`<p class="hint">The VIP moves things along.</p>`}</div>`);if(v.ok&&navigator.vibrate)navigator.vibrate([40,40,80]);break;
+  case "res":card2(`<div class="center">${v.mine?`<div class="mark${v.ok?" ok":" bad"}">${v.ok?"✓":"✗"}</div><h2>${v.ok?"Nice!":"Not this time"}</h2><p class="sub">${esc(v.text)}</p>`:`<h2>${esc(v.text)}</h2>`}${mx(v.host)}${vip?`<button class="big" data-a="next">Next</button>`:`<p class="hint">The VIP moves things along.</p>`}${v.qid?(P.local.rep?`<p class="hint">Thanks! Reported.</p>`:`<details class="repbox"><summary>Something wrong with this question?</summary><div><input id="repn" maxlength="200" placeholder="What’s wrong? (optional)"><button data-a="report">Report</button></div></details>`):""}</div>`);if(v.ok&&navigator.vibrate)navigator.vibrate([40,40,80]);break;
   case "end":card2(`<div class="center"><p class="sub">You finished</p><div class="place">${esc(v.place)}</div><p class="sub">with ${esc(v.score)} points</p><h2>${esc(v.winner)} win${/ and /.test(v.winner)?"":"s"}!</h2>${mx(v.host)}</div>`);break;
   default:card2(`<div class="center"><h2>Eyes on the screen</h2></div>`);
  }}
@@ -214,6 +223,8 @@ const A={
  seq:(v,b)=>{const o=P.local.order||(P.local.order=[]),k=+v,at=o.indexOf(k);if(P.local.sent)return;if(at>-1)o.splice(at);else o.push(k);
   document.querySelectorAll(".seq .abtn").forEach(x=>{const j=+x.dataset.v,p=o.indexOf(j);x.classList.toggle("un",p<0);x.querySelector("b").textContent=p>-1?p+1:"";});
   if(o.length===P.v.items.length){P.local.sent=true;send({t:"seq",order:o});document.querySelectorAll(".seq .abtn").forEach(x=>x.disabled=true);}},
+ life:(v,b)=>{send({t:"life",k:v});document.querySelectorAll(".lbtn").forEach(x=>x.disabled=true);},
+ report:()=>{const n=$("#repn");send({t:"report",id:P.v.qid,note:n?n.value.trim():""});P.local.rep=true;render();},
  rpick:(v,b)=>{if(P.local.sent)return;P.local.sent=true;P.local.pick=+v;send({t:"rpick",q:P.v.qn,i:+v});document.querySelectorAll("#ans .abtn").forEach(x=>x.disabled=x!==b);b.classList.add("sel");},
  hpick:(v,b)=>{if(P.local.sent)return;P.local.sent=true;P.local.pick=+v;send({t:"hpick",k:P.v.k,x:+v});document.querySelectorAll(".dbtn").forEach(x=>x.disabled=true);b.classList.add("sel");},
  dod:(v,b)=>{if(P.local.sent)return;P.local.sent=true;P.local.pick=+v;send({t:"dod",k:P.v.k,s:+v});document.querySelectorAll(".dbtn").forEach(x=>x.disabled=true);b.classList.add("sel");const n=$("#note");if(n)n.textContent="Locked in. Eyes on the TV!";if(navigator.vibrate)navigator.vibrate(30);},

@@ -70,6 +70,8 @@ def view(page):
 slow_seq_done = []
 slow_mc_done = []
 sab_done = []
+life_done = []
+rep_done = []
 awards_seen = []
 held = set()
 
@@ -94,6 +96,11 @@ def act(tv, phones, vs, i, p, v, buzzed):
             held.add(q)
             p.wait_for_timeout(1500)
             return buzzed
+        if not life_done and p.query_selector('.lbtn:not([disabled])'):
+            life_done.append(1)
+            p.click('.lbtn >> nth=0', timeout=3000)
+            p.wait_for_timeout(1200)
+            log.append('lifeline from a phone: ' + str(len(p.query_selector_all('.abtn[disabled]'))) + ' answers greyed out')
         b = p.query_selector_all('.abtn:not([disabled])')
         if b:
             random.choice(b).click(timeout=3000)
@@ -111,6 +118,13 @@ def act(tv, phones, vs, i, p, v, buzzed):
             items = p.query_selector_all('.seq .abtn.un')
         for b in items:
             b.click(timeout=3000)
+    elif v == 'next' and not rep_done and p.query_selector('.repbox'):
+        rep_done.append(1)
+        p.click('.repbox summary', timeout=3000)
+        p.fill('#repn', 'test report from a phone', timeout=3000)
+        p.click('.repbox button', timeout=3000)
+        tv.wait_for_timeout(800)
+        log.append('report from a phone saved on the TV: ' + str(tv.evaluate("JSON.parse(localStorage.getItem('fs-reports')||'[]').some(r=>r.note==='test report from a phone')")))
     elif v in ('ready', 'next', 'lobby-vip') and i == 0:
         p.click('[data-a=ready], [data-a=next], [data-a=start]', timeout=3000)
     elif v in ('buzz', 'steal') and not buzzed:

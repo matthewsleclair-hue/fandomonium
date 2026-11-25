@@ -27,6 +27,8 @@ const HOST={
  gNone:["Nobody survived the Gauntlet. Impressive, in its own way.","That Gauntlet won. You all lost."],
  win:[["{t} wins! Bragging rights expire at midnight.","We have a winner! Bragging rights expire at midnight."],["{t} takes the crown. Everyone else: there’s always a rematch.","The crown is theirs. Everyone else: there’s always a rematch."],["Congratulations, {t}. You’ve peaked. It’s all downhill from here.","Congratulations. You’ve peaked. It’s all downhill from here."]],
  tie:["A tie. How diplomatic. How boring.","A tie! Settle it with a rematch, not a fistfight."],
+ lifeHalf:["Fifty-fifty. Coward’s way out. Smart, though.","Two wrong answers, gone. Don’t blow it now."],
+ lifeTime:["Ten more seconds. Use them wisely. Or don’t.","Extra time. Thinking isn’t your strong suit, huh?"],
  rapidIntro:["Rapid Fire. Think fast, or don’t think at all.","Thirty seconds. Two answers. No pressure."],
  hiloIntro:["Higher or Lower. Let’s see who knows when anything came out.","Earlier or later? Try to keep the streak alive."],
  rapidHigh:["Speed and brains. Disgusting.","That was fast. Somebody’s been studying."],

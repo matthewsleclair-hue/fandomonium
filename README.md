@@ -38,6 +38,8 @@ Space or Enter goes to the next screen and Esc goes back. Your choices are remem
 
 Every question is tagged 1 (easy), 2 (medium) or 3 (hard). Pick **Easy**, **Medium** or **Hard**, or **Mixed**, which starts easy and gets harder each round. When a level runs out of fresh questions, the game borrows from the nearest level before repeating anything.
 
+Pick **Per team** to give each team its own level, so kids can play on Easy against adults on Hard. Each team's own questions use its level, and the shared All play puzzles use the average.
+
 ## How a game runs
 
 Each round, every team gets its own question on the clock:
@@ -53,6 +55,8 @@ Then comes **All play**. A puzzle reveals itself bit by bit while its value drop
 - **Emoji movie**: a film spelled out in emoji
 
 A wrong pick locks that team out of the puzzle. The last round is worth double.
+
+**Lifelines** (on by default): once per game, each team can use a **50/50** (two wrong answers disappear) and **+10 seconds** on its own question. Press 5 or 0, tap the buttons under the timer, or use your phone.
 
 **Special rounds** (on by default) replace the usual questions for a whole round, so every team plays the same thing:
 
@@ -97,6 +101,10 @@ node tools/voice.js --check                                # what's left to reco
 
 Lines that mention a team name or a number are written as `["shown text", "spoken text"]` in `src/show.js`, so the recording works for any team.
 
+## Reporting a question
+
+If a question looks wrong, tap **Report this question** on the results panel, or open **Something wrong with this question?** on a phone and add a note. Reports are saved on the computer running the game. The title screen then shows **Reported questions**, where you can copy the list or send it as a GitHub issue.
+
 ## Controls
 
 | Key | What it does |
@@ -106,6 +114,7 @@ Lines that mention a team name or a number are written as `["shown text", "spoke
 | 1–4 or A–D | Pick an answer |
 | Space or Enter | Next question or setup screen, or skip the curtain |
 | Esc | Back a setup screen |
+| 5 / 0 | Lifelines: 50/50 / +10 seconds |
 | F11 | Full screen (Windows app) |
 
 On a touchscreen, tap the buzzers and answers instead.
