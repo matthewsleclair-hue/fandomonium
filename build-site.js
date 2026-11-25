@@ -32,7 +32,7 @@ copy('node_modules/@fontsource/bungee/files/bungee-latin-400-normal.woff2', 'sit
 copy('node_modules/@fontsource-variable/rubik/files/rubik-latin-wght-normal.woff2', 'site/fonts/rubik.woff2');
 for (const f of fs.readdirSync(R('docs/screenshots'))) copy(`docs/screenshots/${f}`, `site/img/${f}`);
 
-let html = fs.readFileSync(R('site-src/index.html'), 'utf8').replaceAll('{{TOTAL}}', String(total));
+let html = fs.readFileSync(R('site-src/index.html'), 'utf8').replaceAll('{{TOTAL}}', total.toLocaleString('en-US'));
 for (const [k, n] of Object.entries(counts)) html = html.replaceAll(`{{N_${k}}}`, String(n));
 html = html.replaceAll('{{HARD}}', String(hard));
 const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');

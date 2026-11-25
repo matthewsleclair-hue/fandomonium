@@ -9,12 +9,19 @@ lotr:{n:"Lord of the Rings",c:"#2f7d3a",i:"ring",g:"Movies"},
 dis:{n:"Disney & Pixar",c:"#6b3fc4",i:"castle",g:"Movies"},
 hg:{n:"Hunger Games",c:"#a63d17",i:"arrow",g:"Movies"},
 jp:{n:"Jurassic Park",c:"#5a6e12",i:"track",g:"Movies"},
+bttf:{n:"Back to the Future",c:"#0369a1",i:"clock",g:"Movies"},
+ghibli:{n:"Studio Ghibli",c:"#4d7c0f",i:"leaf",g:"Movies"},
+potc:{n:"Pirates of the Caribbean",c:"#78350f",i:"compass",g:"Movies"},
 fr:{n:"Friends",c:"#8e2c7a",i:"cup",g:"TV"},
 off:{n:"The Office",c:"#4a5568",i:"paper",g:"TV"},
+st:{n:"Stranger Things",c:"#be123c",i:"bulb",g:"TV"},
+got:{n:"Game of Thrones",c:"#3f3f46",i:"sword",g:"TV"},
 pkmn:{n:"Pokémon",c:"#b45309",i:"paw",g:"Anime and games"},
 op:{n:"One Piece",c:"#0e7c86",i:"anchor",g:"Anime and games"},
 nar:{n:"Naruto",c:"#d9480f",i:"shuriken",g:"Anime and games"},
-aot:{n:"Attack on Titan",c:"#6d4c41",i:"wall",g:"Anime and games"}
+aot:{n:"Attack on Titan",c:"#6d4c41",i:"wall",g:"Anime and games"},
+mario:{n:"Mario",c:"#d62828",i:"mushroom",g:"Anime and games"},
+zelda:{n:"Zelda",c:"#047857",i:"shield",g:"Anime and games"}
 };
 const FICON={
 bolt:'<path d="M13.5 2 5 13.5h5.5L9.5 22 19 10h-5.8z" fill="currentColor"/>',
@@ -30,5 +37,12 @@ paper:'<path d="M6 2.5h8.5L19 7v14.5H6z" fill="none" stroke="currentColor" strok
 paw:'<circle cx="5" cy="10.5" r="2.2" fill="currentColor"/><circle cx="9" cy="6" r="2.2" fill="currentColor"/><circle cx="15" cy="6" r="2.2" fill="currentColor"/><circle cx="19" cy="10.5" r="2.2" fill="currentColor"/><path d="M12 11c-3.3 0-6.5 3.8-6.5 6.6 0 2 1.6 2.9 3.4 2.9 1.2 0 2-.6 3.1-.6s1.9.6 3.1.6c1.8 0 3.4-.9 3.4-2.9 0-2.8-3.2-6.6-6.5-6.6z" fill="currentColor"/>',
 anchor:'<circle cx="12" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.2V21M8 11h8M4.5 14.5c.8 3.8 3.9 6.5 7.5 6.5s6.7-2.7 7.5-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
 shuriken:'<path fill-rule="evenodd" d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2zM10.4 12a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z" fill="currentColor"/>',
-wall:'<path d="M3 5h18v14H3z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 9.7h18M3 14.3h18M9 5v4.7M15 5v4.7M6 9.7v4.6M12 9.7v4.6M18 9.7v4.6M9 14.3V19M15 14.3V19" stroke="currentColor" stroke-width="1.8"/>'
+wall:'<path d="M3 5h18v14H3z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 9.7h18M3 14.3h18M9 5v4.7M15 5v4.7M6 9.7v4.6M12 9.7v4.6M18 9.7v4.6M9 14.3V19M15 14.3V19" stroke="currentColor" stroke-width="1.8"/>',
+clock:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 6.5V12l3.8 2.4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+leaf:'<path d="M20.5 3.5C11 3.5 4.5 8.5 4.5 15c0 1.9.5 3.6 1.4 5.1C7.6 13 12 9.8 16.5 8.3c-4 2.2-7.6 6-9.4 12.2 1.3.6 2.8.9 4.4.9 6.6 0 9-7 9-17.9z" fill="currentColor"/>',
+compass:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.8 8.2-2.3 5.3-5.3 2.3 2.3-5.3z" fill="currentColor"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+bulb:'<path d="M12 2.5a6.8 6.8 0 0 0-4 12.3c.7.5 1 1.2 1 2V18h6v-1.2c0-.8.3-1.5 1-2a6.8 6.8 0 0 0-4-12.3z" fill="currentColor"/><path d="M9.5 20.5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+sword:'<path d="M20.5 2.5 21.5 3.5 10.5 14.5 9.5 13.5z M18.5 2.5h3v3" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6.5 11.5l6 6M8 16l-4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+mushroom:'<path fill-rule="evenodd" d="M12 3C6.8 3 2.5 6.6 2.5 11.2c0 1.2.9 1.8 2 1.8h15c1.1 0 2-.6 2-1.8C21.5 6.6 17.2 3 12 3zM12 5.2a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 1 0 0-3.8zM6.4 8.4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3zM17.6 8.4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3z" fill="currentColor"/><path d="M8 14h8l-.6 5.2a2 2 0 0 1-2 1.8h-2.8a2 2 0 0 1-2-1.8z" fill="currentColor"/>',
+shield:'<path fill-rule="evenodd" d="M12 2 20 5v6.2c0 5-3.4 9-8 10.8-4.6-1.8-8-5.8-8-10.8V5zM12 6.5l-4 1.6v3.3c0 2.9 1.7 5.3 4 6.6 2.3-1.3 4-3.7 4-6.6V8.1z" fill="currentColor"/>'
 };

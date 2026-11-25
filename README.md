@@ -1,10 +1,10 @@
 # Fandomonium
 
-Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers and a host with opinions. 741 questions across 14 fandoms, each rated Easy, Medium or Hard:
+Movie, TV and anime trivia for 2 to 4 teams around one screen, with phones as controllers and a host with opinions. 1,058 questions across 21 fandoms, each rated Easy, Medium or Hard:
 
-- **Movies:** Harry Potter, Marvel, DC, Star Wars, Lord of the Rings, Disney & Pixar, Hunger Games, Jurassic Park
-- **TV:** Friends, The Office
-- **Anime and games:** Pokémon, One Piece, Naruto, Attack on Titan
+- **Movies:** Harry Potter, Marvel, DC, Star Wars, Lord of the Rings, Disney & Pixar, Hunger Games, Jurassic Park, Back to the Future, Studio Ghibli, Pirates of the Caribbean
+- **TV:** Friends, The Office, Stranger Things, Game of Thrones
+- **Anime and games:** Pokémon, One Piece, Naruto, Attack on Titan, Mario, Zelda
 
 **[Play in your browser](https://matthewsleclair-hue.github.io/fandomonium/play/)** · **[Download for Windows](https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe)** · **[Website](https://matthewsleclair-hue.github.io/fandomonium/)**
 

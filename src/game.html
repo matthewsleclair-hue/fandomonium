@@ -300,7 +300,14 @@ h3{font-size:15px;font-weight:700;margin:0 0 10px;color:var(--mut)}
 .tlist .trow input{min-height:52px;font-size:20px}
 .fanbox{width:min(1100px,100%)}
 .fanbox .fh{margin-bottom:0}
-.fanbox .cats{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.fanbox{width:min(1180px,100%)}
+.fanbox .cats{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.fanbox .grp{margin:8px 0 6px}
+.fanbox .cat{min-height:50px;padding:6px 8px;gap:8px;font-size:15px;line-height:1.2;border-radius:12px}
+.fanbox .cat .ic{width:30px;height:30px;border-radius:8px}
+.fanbox .cat .ic svg{width:18px;height:18px}
+.fanbox .ck{width:20px;height:20px}
+.fanbox .ck svg{width:12px;height:12px}
 .gopts{width:min(900px,100%);display:grid;gap:26px}
 .gopts h3{font-size:16px}
 .gopts .seg button{min-height:clamp(64px,10vh,96px);font-size:clamp(18px,.5vw + 1vh,22px);border-radius:16px}
@@ -513,8 +520,10 @@ const later=(fn,ms)=>{timers.push(setTimeout(fn,ms));};
 const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
 
 /* ---------- state ---------- */
-const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5,diff:"2",phones:false,steals:true,host:true,sab:true,voice:true,catsV:2},store.get("fs-set",{}));
-if(set.catsV!==2){Object.keys(CATS).forEach(k=>{if(!["hp","mcu","sw","dis","lotr"].includes(k)&&!set.cats.includes(k))set.cats.push(k);});set.catsV=2;}
+const set=Object.assign({teams:DEF_NAMES.slice(0,3),cats:Object.keys(CATS),rounds:5,diff:"2",phones:false,steals:true,host:true,sab:true,voice:true,catsV:3},store.get("fs-set",{}));
+if((set.catsV||1)<2){Object.keys(CATS).forEach(k=>{if(!["hp","mcu","sw","dis","lotr"].includes(k)&&!set.cats.includes(k))set.cats.push(k);});set.catsV=2;}
+// Fandoms added in 1.6 start switched on for people who already have saved settings.
+if(set.catsV<3){["st","got","mario","zelda","bttf","ghibli","potc"].forEach(k=>{if(CATS[k]&&!set.cats.includes(k))set.cats.push(k);});set.catsV=3;}
 set.cats=set.cats.filter(k=>CATS[k]);if(set.steals===undefined)set.steals=true;
 let S={screen:"setup",cats:set.cats};
 let cur=null,hist=[],cseq=null,bseq=null,lastLow=null,lastSec=null;
@@ -585,7 +594,7 @@ function intro(){reset("intro");const nq=POOL.turn.length+POOL.all.length,nf=Obj
  <div class="fanrow" aria-hidden="true">${FANS()}</div>
  ${mxh(h)}
  <div class="introb"><button class="go" data-a="toSetup" data-primary>Let’s play</button><button class="ghost" data-a="howto">How to play</button></div>
- <p class="facts"><span>${nq} questions</span><span>${nf} fandoms</span><span>Phones as buzzers</span><span class="kb">Press Space to start</span></p></div>`,"full");}
+ <p class="facts"><span>${nq.toLocaleString("en-US")} questions</span><span>${nf} fandoms</span><span>Phones as buzzers</span><span class="kb">Press Space to start</span></p></div>`,"full");}
 const HOWTO=[["Your question","Each round, every team gets its own question: trivia, odd one out, or put it in order. Answer before the timer runs out. The last round is worth double."],
  ["Steals","Miss your question and the other teams can buzz in to steal it for half the points. A wrong steal scores nothing."],
  ["All play","A puzzle reveals itself bit by bit while its value drops from 500 to 100. Buzz with your key or your phone. A wrong answer locks your team out."],

@@ -1,9 +1,15 @@
-Movie, TV and anime trivia for 2 to 4 teams around one screen: 741 questions across 14 fandoms, with phones as controllers.
+Movie, TV, anime and video game trivia for 2 to 4 teams around one screen: 1,058 questions across 21 fandoms, with phones as controllers.
 
-**New in 1.5: the last download you'll need**
-- **The app updates itself.** It now plays the latest version of the game from the website, so new questions and features show up the next time you open it. No more downloading a new `.exe`. Without internet, it plays the version built into the app.
-- **The awards.** Before the winner is announced, Max hands out up to five awards: Big brain, Fastest finger, Master thief, Agent of chaos, Gauntlet guru, Bold guesser and Punching bag. Playing with phones? Awards go to the person who earned them, and their phone tells them.
-- Max has new lines for every award.
+**New in 1.6: seven new fandoms**
+- **Movies:** Back to the Future, Studio Ghibli and Pirates of the Caribbean
+- **TV:** Stranger Things and Game of Thrones
+- **Games:** Mario and Zelda
+
+That's 317 new questions across every round type, from trivia to emoji puzzles, at every difficulty. There are three new Final Gauntlet showdowns too: Stark or Lannister?, Mario or Zelda?, and Studio Ghibli or Disney Animation? And Max has fresh roasts for every new fandom, all voiced.
+
+New fandoms start switched on, and you can turn any of them off on the Fandoms screen.
+
+Already have the app from 1.5? It updates itself, so there's nothing to download. Otherwise:
 
 **Download `Fandomonium.exe` below**, then double-click it to play. Nothing to install.
 

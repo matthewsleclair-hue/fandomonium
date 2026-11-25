@@ -753,5 +753,364 @@ emo:[
 [1,"The Survey Corps","🐎 🗺️ ⚔️",["The Garrison","The Military Police","The Training Corps"],"Military branch"],
 [2,"Sasha Blouse","🥔 🏹",["Connie Springer","Ymir","Annie Leonhart"],"Character"],
 [3,"The Rumbling","🧱 👣 🌍",["The fall of Shiganshina","The Battle of Trost","The Reckoning"],"Event"]]
+},
+st:{
+mc:[
+[1,"What is the name of the Indiana town where Stranger Things is set?","Hawkins","Derry","Riverdale","Sunnydale"],
+[1,"What number is tattooed on Eleven’s wrist?","011","001","008","110"],
+[1,"What is Eleven’s favourite food?","Eggo waffles","Pancakes","Pizza","Chocolate pudding"],
+[1,"What tabletop game do Mike, Dustin, Lucas and Will play?","Dungeons & Dragons","Warhammer","Magic: The Gathering","Monopoly"],
+[1,"What do the kids call the dark mirror version of Hawkins?","The Upside Down","The Underworld","The Other Side","The Void"],
+[1,"Who goes missing in the very first episode?","Will Byers","Mike Wheeler","Barb Holland","Eleven"],
+[1,"How does Joyce talk to Will while he’s trapped in season 1?","Christmas lights","A walkie-talkie","A Ouija board","A CB radio"],
+[1,"Which decade is Stranger Things set in?","The 1980s","The 1970s","The 1990s","The 1960s"],
+[1,"Which kid has curly hair, a trucker cap and missing front teeth?","Dustin","Lucas","Mike","Will"],
+[2,"What is the name of the new mall in Hawkins in season 3?","Starcourt Mall","Hawkins Plaza","Lakeside Mall","Westfield Mall"],
+[2,"Where does Steve work in season 3?","Scoops Ahoy","Family Video","Benny’s Burgers","The Palace Arcade"],
+[2,"What is the name of Dustin’s girlfriend, who lives in Utah?","Suzie","Erica","Vickie","Heather"],
+[2,"What do the kids name the monster from season 1, after a D&D villain?","The Demogorgon","The Mind Flayer","Vecna","The Shadow Monster"],
+[2,"Who is the villain who curses his victims in season 4?","Vecna","The Demogorgon","Dr. Brenner","Billy Hargrove"],
+[2,"Which song saves Max from Vecna in season 4?","Running Up That Hill","Should I Stay or Should I Go","Take On Me","Every Breath You Take"],
+[2,"What is the Hawkins police chief’s name?","Jim Hopper","Phil Callahan","Murray Bauman","Bob Newby"],
+[2,"What does Dr. Brenner make Eleven call him?","Papa","Father","Doc","Sir"],
+[2,"What does Dustin name the creature he finds in his trash can in season 2?","Dart","Mews","Gizmo","Spike"],
+[2,"What is the name of the club Eddie Munson runs at Hawkins High?","The Hellfire Club","The Dragon Club","The Dungeon Club","The Midnight Club"],
+[2,"What is the name of Max’s stepbrother?","Billy","Steve","Jason","Tommy"],
+[3,"Will sings Should I Stay or Should I Go to himself. Which band made it?","The Clash","The Police","Queen","Toto"],
+[3,"Where is Hopper held prisoner in season 4?","Kamchatka, Russia","Siberia, Russia","Berlin, Germany","Alaska, USA"],
+[3,"What is Eleven’s real first name?","Jane","Terry","Kali","Becky"],
+[3,"What is the name of the Hawkins High basketball star who hunts Eddie in season 4?","Jason Carver","Tommy Hagan","Andy Conway","Patrick McKinney"],
+[3,"What is Henry Creel’s other name, as the first child at Hawkins Lab?","One","Zero","Eight","Prime"]
+],
+odd:[
+[1,"Which of these is NOT one of the original four boys?","Steve","Mike","Lucas","Dustin"],
+[1,"Which of these is NOT a Byers?","Nancy","Joyce","Jonathan","Will"],
+[2,"Which of these is NOT a monster from the Upside Down?","The Gorn","The Demogorgon","The Mind Flayer","Demodogs"],
+[3,"Which of these is NOT a Hawkins hangout in the show?","The Peach Pit","Starcourt Mall","Benny’s Burgers","The Palace Arcade"]
+],
+seq:[
+[2,"Put these in the order of the seasons they happen in",["Will goes missing","Dustin raises Dart","The battle at Starcourt Mall","Vecna’s curse"]],
+[3,"Put these characters in the order they first appear",["Barb","Max","Robin","Eddie"]]
+],
+scr:[[1,"HAWKINS","Town"],[1,"ELEVEN","Hero"],[2,"DEMOGORGON","Monster"],[2,"UPSIDE DOWN","Place"],[3,"HELLFIRE CLUB","Club"],[3,"STARCOURT","Mall"]],
+who:[
+[1,"Eleven",["I escaped from Hawkins Lab.","I can move things with my mind.","I get nosebleeds when I use my powers.","I love Eggo waffles."],["Max Mayfield","Kali","Robin Buckley"]],
+[2,"Jim Hopper",["I was held prisoner in Russia.","I believe mornings are for coffee and contemplation.","I adopted a girl with powers.","I’m the chief of police in Hawkins."],["Murray Bauman","Bob Newby","Dr. Owens"]],
+[2,"Steve Harrington",["I used to date Nancy Wheeler.","I scooped ice cream at the mall.","I fight monsters with a nail-studded bat.","I became the kids’ favourite babysitter."],["Jonathan Byers","Billy Hargrove","Eddie Munson"]],
+[3,"Eddie Munson",["I played guitar on a trailer roof in the Upside Down.","I was blamed for a cheerleader’s death.","I’ve been a senior for a few years now.","I run the Hellfire Club."],["Argyle","Jason Carver","Steve Harrington"]]
+],
+emo:[
+[1,"Eleven","🧇 👧 🩸",["Max Mayfield","Robin Buckley","Erica Sinclair"],"Character"],
+[2,"The Demogorgon","👹 🌸 🦷",["The Mind Flayer","Vecna","A Demodog"],"Monster"],
+[2,"Christmas lights","🎄 💡 🔤",["Walkie-talkies","Eggo waffles","A compass"],"How Joyce talks to Will"],
+[3,"Scoops Ahoy","🍦 ⚓ 🧢",["Family Video","Starcourt Mall","Hawkins Lab"],"Place"]]
+},
+got:{
+mc:[
+[1,"What are the words of House Stark?","Winter Is Coming","Fire and Blood","Hear Me Roar","Ours Is the Fury"],
+[1,"Which order of sworn brothers guards the Wall?","The Night’s Watch","The Kingsguard","The Gold Cloaks","The Unsullied"],
+[1,"How many dragons does Daenerys hatch?","Three","Two","Four","Five"],
+[1,"What is the name of Jon Snow’s direwolf?","Ghost","Summer","Nymeria","Grey Wind"],
+[1,"What is the capital city of the Seven Kingdoms?","King’s Landing","Winterfell","Dragonstone","Braavos"],
+[1,"What is the Stark family’s home castle?","Winterfell","Riverrun","Casterly Rock","The Eyrie"],
+[1,"Who is the oldest of Ned and Catelyn Stark’s children?","Robb","Sansa","Arya","Bran"],
+[2,"What does Arya Stark call her sword?","Needle","Longclaw","Ice","Oathkeeper"],
+[2,"Which house has a golden lion on its banner?","Lannister","Baratheon","Tyrell","Tully"],
+[2,"What is Jon Snow’s Valyrian steel sword called?","Longclaw","Needle","Heartsbane","Widow’s Wail"],
+[2,"Who is known as the Kingslayer?","Jaime Lannister","Tyrion Lannister","Sandor Clegane","Ned Stark"],
+[2,"What is the Hound’s real name?","Sandor Clegane","Gregor Clegane","Bronn","Jorah Mormont"],
+[2,"Who leads the army of the dead?","The Night King","The Mad King","The Three-Eyed Raven","The Lord of Light"],
+[2,"Who holds the door so Bran can escape the dead?","Hodor","Meera Reed","Jojen Reed","Osha"],
+[2,"Which house rules the Iron Islands?","Greyjoy","Martell","Arryn","Frey"],
+[2,"Which city is home to the Iron Bank?","Braavos","Meereen","Qarth","Pentos"],
+[2,"What army of freed soldiers fights for Daenerys?","The Unsullied","The Second Sons","The Golden Company","The Brotherhood"],
+[2,"What job does Tyrion take on for Daenerys?","Hand of the Queen","Master of Coin","Lord Commander","Master of Whisperers"],
+[3,"Besides Valyrian steel, what can kill a White Walker?","Dragonglass","Silver","Gold","Wildfire"],
+[3,"What green substance destroys the Great Sept of Baelor?","Wildfire","Dragonfire","Greek fire","Sea fire"],
+[3,"Who is Jon Snow’s real mother?","Lyanna Stark","Catelyn Stark","Ashara Dayne","Wylla"],
+[3,"Who gives Arya the iron coin that leads her to Braavos?","Jaqen H’ghar","Syrio Forel","Gendry","The Hound"],
+[3,"Which is Daenerys’s biggest dragon?","Drogon","Rhaegal","Viserion","Balerion"],
+[3,"Who ends up ruling the Six Kingdoms at the very end?","Bran Stark","Sansa Stark","Jon Snow","Arya Stark"],
+[3,"What is Melisandre often called?","The Red Woman","The Grey Lady","The White Witch","The Night Queen"]
+],
+odd:[
+[1,"Which of these is NOT a Stark child?","Theon","Sansa","Arya","Rickon"],
+[2,"Which of these is NOT one of Daenerys’s dragons?","Balerion","Drogon","Rhaegal","Viserion"],
+[2,"Which of these places is NOT in Westeros?","Braavos","Winterfell","King’s Landing","Highgarden"],
+[3,"Which of these swords is NOT made of Valyrian steel?","Needle","Longclaw","Oathkeeper","Heartsbane"]
+],
+seq:[
+[1,"Put the Stark children in age order, oldest first",["Robb","Sansa","Arya","Bran"]],
+[2,"Put these Hands of the King in the order they served",["Jon Arryn","Ned Stark","Tyrion Lannister","Tywin Lannister"]],
+[3,"Put these rulers in the order they sat on the Iron Throne",["Robert Baratheon","Joffrey Baratheon","Tommen Baratheon","Cersei Lannister"]]
+],
+scr:[[1,"WINTERFELL","Castle"],[1,"HODOR","Character"],[2,"DIREWOLF","Animal"],[2,"DRAGONGLASS","Weapon"],[3,"DRAGONSTONE","Island"],[3,"VALAR MORGHULIS","Saying"]],
+who:[
+[1,"Daenerys Targaryen",["I walked into a fire and came out unharmed.","I freed the slaves of Slaver’s Bay.","I married a Dothraki warlord.","They call me the Mother of Dragons."],["Cersei Lannister","Missandei","Margaery Tyrell"]],
+[2,"Tyrion Lannister",["I won a battle with wildfire on the Blackwater.","I was put on trial for my nephew’s death.","I became Hand to a dragon queen.","My father and sister never liked me much."],["Jaime Lannister","Varys","Petyr Baelish"]],
+[2,"Arya Stark",["I trained with the Faceless Men.","I kept a list of names to cross off.","A Braavosi dancing master taught me to fight.","My sword is called Needle."],["Sansa Stark","Brienne of Tarth","Ygritte"]],
+[3,"Brienne of Tarth",["Jaime Lannister knighted me.","I swore to protect Catelyn Stark’s daughters.","I carry the sword Oathkeeper.","I’m a towering warrior from an island house."],["Yara Greyjoy","Lyanna Mormont","Meera Reed"]]
+],
+emo:[
+[1,"The Iron Throne","⚔️ 💺 👑",["The Wall","Winterfell","The Red Keep"],"Seat of power"],
+[2,"White Walkers","❄️ 💀 👁️",["The Night’s Watch","Wildlings","The Unsullied"],"Group"],
+[2,"Daenerys Targaryen","🐉 🐉 🐉 👸",["Cersei Lannister","Sansa Stark","Margaery Tyrell"],"Character"],
+[3,"The Red Wedding","🔴 💒 🗡️",["The Purple Wedding","The Battle of the Bastards","The Battle of the Blackwater"],"Event"]]
+},
+mario:{
+mc:[
+[1,"What is the name of Mario’s brother?","Luigi","Wario","Toad","Yoshi"],
+[1,"What colour is Luigi’s hat?","Green","Red","Blue","Yellow"],
+[1,"What is Mario’s job?","Plumber","Carpenter","Chef","Mechanic"],
+[1,"Who keeps kidnapping Princess Peach?","Bowser","Wario","King Boo","Kamek"],
+[1,"What does a Super Mushroom do to Mario?","Makes him bigger","Makes him invincible","Lets him fly","Lets him throw fireballs"],
+[1,"What kingdom does Princess Peach rule?","The Mushroom Kingdom","The Flower Kingdom","The Koopa Kingdom","Sarasaland"],
+[1,"What green dinosaur does Mario ride?","Yoshi","Birdo","Rex","Dino"],
+[1,"What do you collect 100 of to earn an extra life?","Coins","Stars","Mushrooms","Flowers"],
+[2,"Which item makes Mario invincible for a short time?","Super Star","Fire Flower","1-Up Mushroom","Super Leaf"],
+[2,"What are the walking mushroom enemies called?","Goombas","Koopas","Shy Guys","Bob-ombs"],
+[2,"What are Bowser’s turtle foot soldiers called?","Koopa Troopas","Chain Chomps","Boos","Piranha Plants"],
+[2,"What does the Super Leaf turn Mario into in Super Mario Bros. 3?","Raccoon Mario","Cat Mario","Bee Mario","Cape Mario"],
+[2,"Who is Mario’s greedy rival in yellow and purple?","Wario","Waluigi","Shadow Mario","Dry Bones"],
+[2,"What was Mario called in the original Donkey Kong arcade game?","Jumpman","Plumber Boy","Barrel Man","Super Guy"],
+[2,"Which city are Mario and Luigi from in The Super Mario Bros. Movie?","Brooklyn","Queens","Boston","Chicago"],
+[2,"Who is Bowser’s son who causes trouble in Super Mario Sunshine?","Bowser Jr.","Ludwig","Larry","Kamek"],
+[2,"Which Mario Kart item chases down whoever is in first place?","Spiny Shell","Red Shell","Bullet Bill","Lightning"],
+[3,"Who is the king of the ghosts in Luigi’s Mansion?","King Boo","Big Boo","Boolossus","Lord Boo"],
+[3,"What is Mario’s talking hat called in Super Mario Odyssey?","Cappy","Tiara","Hatsy","F.L.U.D.D."],
+[3,"What is the water pack Mario wears in Super Mario Sunshine?","F.L.U.D.D.","Poltergust","Cappy","Hover Pack"],
+[3,"What is Luigi’s ghost-catching vacuum called?","Poltergust","Ghost Grabber","Boo Sucker","Vacu-Luigi"],
+[3,"Where is Super Mario World set?","Dinosaur Land","Isle Delfino","Sarasaland","Subcon"],
+[3,"Which princess does Mario rescue in Super Mario Land?","Princess Daisy","Princess Peach","Rosalina","Pauline"],
+[3,"What are Rosalina’s little star companions called?","Lumas","Sprixies","Starmen","Toadettes"],
+[3,"Who was the woman Jumpman rescued in the original Donkey Kong?","Pauline","Peach","Daisy","Rosalina"]
+],
+odd:[
+[1,"Which of these is NOT a Mario power-up?","Poké Ball","Fire Flower","Super Mushroom","Super Star"],
+[2,"Which of these is NOT one of Bowser’s Koopalings?","Waluigi","Ludwig","Lemmy","Wendy"],
+[2,"Which of these is NOT a Mario enemy?","Octorok","Goomba","Boo","Piranha Plant"],
+[3,"Which of these is NOT a 3D Mario game?","Super Mario World","Super Mario 64","Super Mario Sunshine","Super Mario Odyssey"]
+],
+seq:[
+[1,"Put these from smallest Mario to biggest Mario",["Mini Mushroom Mario","Small Mario","Super Mario","Mega Mushroom Mario"]],
+[2,"Put these Mario games in release order",["Super Mario Bros.","Super Mario 64","Super Mario Galaxy","Super Mario Odyssey"]],
+[3,"Put these Mario games in release order",["Super Mario Bros. 3","Super Mario World","Super Mario Sunshine","Super Mario Bros. Wonder"]]
+],
+scr:[[1,"LUIGI","Brother"],[1,"MUSHROOM KINGDOM","Place"],[2,"GOOMBA","Enemy"],[2,"BOWSER","Villain"],[3,"KOOPA TROOPA","Enemy"],[3,"ROSALINA","Princess"]],
+who:[
+[1,"Yoshi",["I come in lots of colours.","I can lay eggs and throw them.","I gobble enemies with my long tongue.","Mario rides on my back."],["Birdo","Toad","Donkey Kong"]],
+[2,"Princess Peach",["I starred in my own game called Showtime!","I can float in the air for a moment.","I rule the Mushroom Kingdom.","Bowser keeps kidnapping me."],["Princess Daisy","Rosalina","Pauline"]],
+[2,"Donkey Kong",["I wear a red tie with my initials on it.","I live on an island named after me.","My best buddy is Diddy.","I’m a big ape who loves bananas."],["Diddy Kong","Funky Kong","Cranky Kong"]],
+[3,"Waluigi",["I’ve never had a main game of my own.","I’m Wario’s partner in crime.","My hat has an upside-down L on it.","I’m tall, thin and purple."],["Wario","Luigi","Dry Bones"]]
+],
+emo:[
+[1,"Fire Flower","🔥 🌸",["Ice Flower","Super Leaf","Super Star"],"Power-up"],
+[2,"Mario Kart","👨‍🔧 🏎️ 🍌",["Mario Party","Mario Tennis","Super Mario Run"],"Game"],
+[2,"Luigi’s Mansion","👻 🏚️ 🔦",["Super Mario Sunshine","Paper Mario","Mario Party"],"Game"],
+[3,"Super Mario Galaxy","🌌 ⭐ 🚀",["Super Mario Odyssey","Super Mario Sunshine","Super Mario 3D World"],"Game"]]
+},
+zelda:{
+mc:[
+[1,"What is the name of the hero you play as?","Link","Zelda","Ganon","Navi"],
+[1,"What kingdom are most of the games set in?","Hyrule","Termina","Koholint","Lorule"],
+[1,"Who is the series’ main villain?","Ganon","Vaati","Zant","Ghirahim"],
+[1,"What colour tunic does Link usually wear?","Green","Red","Blue","Purple"],
+[1,"What is the legendary blade that evil can’t touch?","The Master Sword","The Biggoron Sword","The Kokiri Sword","The Gilded Sword"],
+[1,"What is the money in Hyrule called?","Rupees","Coins","Gold","Gems"],
+[1,"What shape are the three pieces of the Triforce?","Triangles","Circles","Stars","Squares"],
+[2,"What is the name of the fairy who guides Link in Ocarina of Time?","Navi","Tatl","Midna","Fi"],
+[2,"Which rock-eating people live on Death Mountain?","The Gorons","The Zoras","The Rito","The Gerudo"],
+[2,"Which race is made up of fish people who live by the water?","The Zoras","The Gorons","The Rito","The Sheikah"],
+[2,"What tiny forest spirits hide all over Hyrule in Breath of the Wild?","Koroks","Kokiri","Minish","Deku Scrubs"],
+[2,"What is Link’s horse called in Ocarina of Time?","Epona","Saria","Malon","Agro"],
+[2,"What does Link sail the Great Sea in, in The Wind Waker?","A talking boat","A dragon","A raft","A whale"],
+[2,"Who is Link’s companion with an imp form in Twilight Princess?","Midna","Navi","Fi","Tatl"],
+[2,"What does Link turn into in the Twilight in Twilight Princess?","A wolf","A fox","A deer","A Deku Scrub"],
+[2,"What are the three parts of the Triforce?","Power, Wisdom and Courage","Fire, Water and Wind","Light, Shadow and Time","Strength, Speed and Spirit"],
+[3,"What are the four giant machines in Breath of the Wild called?","Divine Beasts","Guardians","Titans","Colossi"],
+[3,"What will the moon do in three days in Majora’s Mask?","Crash into Termina","Freeze Hyrule","Swallow the sun","Flood Clock Town"],
+[3,"Who wears Majora’s Mask?","Skull Kid","Tingle","Kafei","Ganondorf"],
+[3,"What is the talking boat in The Wind Waker called?","The King of Red Lions","The Red Lion","The Sea King","The Pirate Prince"],
+[3,"What is Zelda’s secret identity in Ocarina of Time?","Sheik","Tetra","Impa","Nabooru"],
+[3,"In Breath of the Wild, what do you trade at statues for more hearts or stamina?","Spirit Orbs","Korok seeds","Rupees","Moon shards"],
+[3,"What is the name of the sword spirit in Skyward Sword?","Fi","Navi","Midna","Ezlo"],
+[3,"What is the sequel to Breath of the Wild called?","Tears of the Kingdom","Echoes of Wisdom","Age of Calamity","A Link Between Worlds"],
+[3,"Which game finally lets you play as Zelda herself?","Echoes of Wisdom","Spirit Tracks","Phantom Hourglass","A Link Between Worlds"]
+],
+odd:[
+[1,"Which of these is NOT a Zelda game?","Super Mario Galaxy","Ocarina of Time","Breath of the Wild","Majora’s Mask"],
+[2,"Which of these is NOT one of Link’s companions?","Cappy","Navi","Midna","Fi"],
+[2,"Which of these is NOT a Zelda enemy?","Goomba","Moblin","Bokoblin","Lynel"],
+[3,"Which of these is NOT one of the Champions in Breath of the Wild?","Impa","Mipha","Daruk","Revali"]
+],
+seq:[
+[2,"Put these Zelda games in release order",["The Legend of Zelda","A Link to the Past","Ocarina of Time","Breath of the Wild"]],
+[3,"Put these Zelda games in release order",["Majora’s Mask","The Wind Waker","Twilight Princess","Skyward Sword"]]
+],
+scr:[[1,"HYRULE","Kingdom"],[1,"RUPEE","Money"],[2,"MASTER SWORD","Weapon"],[2,"GANONDORF","Villain"],[3,"KOROK SEED","Collectible"],[3,"EPONA","Horse"]],
+who:[
+[1,"Link",["I hardly ever say a word.","I’ve worn a lot of green tunics.","I pulled a legendary sword from a pedestal.","I’m the hero, even though the series isn’t named after me."],["Sheik","Zelda","Ganondorf"]],
+[2,"Princess Zelda",["I’ve been a ninja and a pirate captain.","I hold the Triforce of Wisdom.","I’m royalty in Hyrule.","The series is named after me."],["Impa","Midna","Malon"]],
+[2,"Ganondorf",["I’m king of the Gerudo.","I hold the Triforce of Power.","I sometimes turn into a giant beast.","I want to rule Hyrule."],["Zant","Vaati","Ghirahim"]],
+[3,"Tingle",["I’m a grown man who dresses like a fairy.","I sell maps.","I float around with a red balloon.","My catchphrase is Kooloo-Limpah!"],["Skull Kid","Beedle","Groose"]]
+],
+emo:[
+[1,"Master Sword","⚔️ ✨ 🌲",["Biggoron Sword","Kokiri Sword","Hylian Shield"],"Weapon"],
+[2,"Breath of the Wild","🌬️ 🏞️ 🏹",["Ocarina of Time","The Wind Waker","Twilight Princess"],"Game"],
+[2,"Ocarina of Time","🎵 ⏳",["Majora’s Mask","Spirit Tracks","Skyward Sword"],"Game"],
+[3,"The Wind Waker","💨 🌊 ⛵",["Spirit Tracks","Phantom Hourglass","Link’s Awakening"],"Game"]]
+},
+bttf:{
+mc:[
+[1,"What car does Doc Brown turn into a time machine?","A DeLorean","A Mustang","A Corvette","A Camaro"],
+[1,"How fast does the time machine have to go to travel in time?","88 miles per hour","100 miles per hour","55 miles per hour","121 miles per hour"],
+[1,"Who plays Marty McFly?","Michael J. Fox","Matthew Broderick","Tom Cruise","John Cusack"],
+[1,"What year does Marty travel back to in the first movie?","1955","1965","1945","1885"],
+[1,"Who plays Doc Brown?","Christopher Lloyd","Gene Wilder","Robin Williams","Jeff Goldblum"],
+[1,"What does Doc Brown shout when he’s surprised?","Great Scott!","Holy cow!","Jumping jiminy!","Good grief!"],
+[1,"What does Marty ride in 2015 instead of a skateboard?","A hoverboard","Rollerblades","A jetpack","A flying scooter"],
+[1,"What strikes the clock tower and sends Marty home?","Lightning","A meteor","A train","A firework"],
+[2,"How much power does the time machine need?","1.21 gigawatts","88 gigawatts","2.88 gigawatts","10 gigawatts"],
+[2,"What fuels the time machine before Doc gets Mr. Fusion?","Plutonium","Lightning","Gasoline","Uranium"],
+[2,"Which part makes time travel possible?","The flux capacitor","The warp drive","The time circuits","The chrono coil"],
+[2,"Who is the bully who picks on George McFly?","Biff Tannen","Buford Tannen","Griff Tannen","Mr. Strickland"],
+[2,"What instrument does Marty play?","Guitar","Drums","Bass","Saxophone"],
+[2,"What is Doc Brown’s dog called in 1985?","Einstein","Copernicus","Newton","Tesla"],
+[2,"What year does Marty visit in Back to the Future Part II?","2015","2025","2000","2010"],
+[2,"Where is Back to the Future Part III mostly set?","The Old West","Ancient Rome","Medieval England","The year 3000"],
+[2,"What town does Marty live in?","Hill Valley","Hawkins","Twin Peaks","Springfield"],
+[2,"Who accidentally falls for Marty in 1955?","His mother, Lorraine","Jennifer Parker","Doc’s neighbour","The school principal’s daughter"],
+[3,"What is Doc’s dog called in 1955?","Copernicus","Einstein","Galileo","Edison"],
+[3,"Which Chuck Berry song does Marty play at the school dance?","Johnny B. Goode","Maybellene","Roll Over Beethoven","Sweet Little Sixteen"],
+[3,"What sports book does Biff use to get rich?","Grays Sports Almanac","Sports Illustrated","The Racing Form","The Hill Valley Record"],
+[3,"What name do people call Marty in 1955, because it’s on his underwear?","Calvin Klein","Ralph Lauren","Tommy Hilfiger","Hugo Boss"],
+[3,"What date do Marty and Doc travel to in Part II?","October 21, 2015","November 5, 2015","July 4, 2015","January 1, 2015"],
+[3,"On what date in 1955 did Doc slip, hit his head and dream up the flux capacitor?","November 5","November 12","October 26","July 4"],
+[3,"Who does Doc fall in love with in 1885?","Clara Clayton","Maggie McFly","Lorraine Baines","Jennifer Parker"]
+],
+odd:[
+[1,"Which of these is NOT a McFly?","Biff","George","Seamus","Dave"],
+[2,"Which of these is NOT a Tannen?","George","Biff","Griff","Buford"],
+[2,"Which of these does NOT show up in Part II’s 2015?","Teleporters","Hoverboards","Self-lacing shoes","Flying cars"],
+[3,"Which of these years does Marty NOT visit in the trilogy?","1975","1955","1885","2015"]
+],
+seq:[
+[2,"Put these in the order they happen across the trilogy",["Marty meets his parents as teenagers","Marty rides a hoverboard","Marty finds Biff rich and powerful","Marty meets his great-great-grandparents"]],
+[3,"Put these first-movie moments in order",["Doc shows Marty the DeLorean","Marty is hit by Lorraine’s father’s car","Marty plays at the school dance","Lightning strikes the clock tower"]]
+],
+scr:[[1,"DELOREAN","Car"],[1,"HILL VALLEY","Town"],[2,"FLUX CAPACITOR","Gadget"],[2,"HOVERBOARD","Ride"],[3,"GIGAWATTS","Power"],[3,"CLOCK TOWER","Landmark"]],
+who:[
+[1,"Doc Brown",["I dreamed up time travel after hitting my head.","My dogs are named after great scientists.","I say Great Scott! a lot.","I turned a DeLorean into a time machine."],["Marty McFly","George McFly","Mr. Strickland"]],
+[2,"George McFly",["I write science fiction stories.","I finally stood up to Biff at the dance.","I fell in love at the Enchantment Under the Sea dance.","I’m Marty’s dad."],["Biff Tannen","Doc Brown","Mr. Strickland"]],
+[2,"Biff Tannen",["I got rich using a sports almanac from the future.","I’ve ended up covered in manure more than once.","I bullied George McFly in high school.","I tell people to make like a tree."],["Griff Tannen","Mr. Strickland","Needles"]],
+[3,"Lorraine Baines",["My father hit a boy with his car and brought him home.","I fell for a boy in a puffy vest.","I married George McFly.","I’m Marty’s mom."],["Jennifer Parker","Clara Clayton","Linda McFly"]]
+],
+emo:[
+[1,"The DeLorean","🚗 ⚡ ⏰",["The hoverboard","The flux capacitor","The clock tower"],"Vehicle"],
+[2,"Hoverboard","🛹 ☁️",["DeLorean","Flux capacitor","Mr. Fusion"],"Ride"],
+[2,"The clock tower","🕰️ ⚡ 🏛️",["Twin Pines Mall","Lou’s Cafe","Hill Valley High"],"Landmark"],
+[3,"Enchantment Under the Sea","💃 🌊 🐠",["Twin Pines Mall","Lou’s Cafe","Café 80’s"],"Event"]]
+},
+ghibli:{
+mc:[
+[1,"In My Neighbor Totoro, what does Totoro travel on?","A Catbus","A dragon","A broom","A flying ship"],
+[1,"What is Kiki’s job in Kiki’s Delivery Service?","She delivers things on her broom","She bakes bread","She sells flowers","She teaches magic"],
+[1,"Who directed most of Studio Ghibli’s best-known films?","Hayao Miyazaki","Makoto Shinkai","Satoshi Kon","Mamoru Hosoda"],
+[1,"What is the name of Kiki’s black cat?","Jiji","Luna","Salem","Kuro"],
+[1,"Which country is Studio Ghibli from?","Japan","South Korea","China","France"],
+[1,"What is Totoro?","A forest spirit","A cat","A rabbit","A bear"],
+[1,"Which of these Ghibli films won the Oscar for Best Animated Feature?","Spirited Away","Princess Mononoke","Howl’s Moving Castle","Ponyo"],
+[2,"In Spirited Away, what happens to Chihiro’s parents?","They turn into pigs","They turn into frogs","They fall asleep","They turn invisible"],
+[2,"Who runs the bathhouse in Spirited Away?","Yubaba","Zeniba","Lin","Kamaji"],
+[2,"What name does Yubaba give Chihiro?","Sen","Lin","Haku","Boh"],
+[2,"What is Haku really?","A river spirit","A fox spirit","A ghost","A wizard"],
+[2,"Who is the masked spirit that follows Chihiro around?","No-Face","The Radish Spirit","Kamaji","Boh"],
+[2,"Who keeps Howl’s castle moving?","Calcifer, a fire demon","A giant turtle","Steam engines","Wind spirits"],
+[2,"What curse is put on Sophie in Howl’s Moving Castle?","She’s turned into an old woman","She’s turned into a cat","She loses her voice","She’s frozen in time"],
+[2,"What is Ponyo at the start of her movie?","A goldfish","A mermaid","A frog","A jellyfish"],
+[2,"What is the boy who finds Ponyo called?","Sosuke","Pazu","Ashitaka","Seiji"],
+[2,"What are the little black dust creatures in Totoro and Spirited Away called?","Soot sprites","Dust bunnies","Coal imps","Ash spirits"],
+[2,"What animal does Porco Rosso look like?","A pig","A wolf","A cat","A fox"],
+[2,"What are the two sisters called in My Neighbor Totoro?","Satsuki and Mei","Sophie and Lettie","Kiki and Ursula","Chihiro and Lin"],
+[3,"Who raised San in Princess Mononoke?","Wolves","Bears","Boars","Apes"],
+[3,"What is the young prince who leaves his village called in Princess Mononoke?","Ashitaka","Haku","Pazu","Seiji"],
+[3,"What is the floating castle called in Castle in the Sky?","Laputa","Avalon","Valhalla","Atlantis"],
+[3,"Which 2023 Ghibli film won an Oscar?","The Boy and the Heron","The Wind Rises","When Marnie Was There","Earwig and the Witch"],
+[3,"What does Kiki lose for a while in Kiki’s Delivery Service?","Her ability to fly","Her broom forever","Her cat Jiji","Her red bow"],
+[3,"Who is the deer-like god whose head is taken in Princess Mononoke?","The Forest Spirit","Moro","Okkoto","Totoro"]
+],
+odd:[
+[1,"Which of these is NOT a Studio Ghibli film?","Your Name","Spirited Away","Ponyo","My Neighbor Totoro"],
+[2,"Which of these films did Studio Ghibli NOT make?","Akira","Princess Mononoke","Howl’s Moving Castle","Porco Rosso"],
+[2,"Which of these is NOT a character in Spirited Away?","Calcifer","Haku","Yubaba","No-Face"],
+[3,"Which of these films was NOT directed by Hayao Miyazaki?","Grave of the Fireflies","Spirited Away","Porco Rosso","The Wind Rises"]
+],
+seq:[
+[2,"Put these Ghibli films in release order",["My Neighbor Totoro","Princess Mononoke","Spirited Away","Ponyo"]],
+[3,"Put these Ghibli films in release order",["Castle in the Sky","Kiki’s Delivery Service","Howl’s Moving Castle","The Boy and the Heron"]]
+],
+scr:[[1,"TOTORO","Spirit"],[1,"CATBUS","Ride"],[2,"NO FACE","Spirit"],[2,"CALCIFER","Fire demon"],[3,"LAPUTA","Castle"],[3,"SOOT SPRITES","Creatures"]],
+who:[
+[1,"Totoro",["I live in a giant camphor tree.","I waited at a bus stop in the rain.","My friend is a bus shaped like a cat.","I’m a big, fluffy forest spirit."],["The Catbus","Jiji","Moro"]],
+[2,"Chihiro",["My parents ate food that wasn’t theirs.","I worked in a bathhouse for spirits.","My name was taken and I was called Sen.","I’m ten years old and moving house."],["Kiki","Sophie","Mei"]],
+[2,"Howl",["I threw a tantrum when my hair dye went wrong.","I can turn into a bird-like creature.","A fire demon keeps my home running.","I’m a wizard who lives in a walking castle."],["Haku","Ashitaka","Seiji"]],
+[3,"San",["I was raised by a wolf goddess.","I wear a red-painted mask.","I fight against Iron Town.","People call me Princess Mononoke."],["Lady Eboshi","Moro","Kiki"]]
+],
+emo:[
+[1,"My Neighbor Totoro","🌳 🐾 ☔",["Ponyo","Kiki’s Delivery Service","Spirited Away"],"Film"],
+[2,"Kiki’s Delivery Service","🧹 🐈 📦",["Howl’s Moving Castle","Spirited Away","Ponyo"],"Film"],
+[2,"Spirited Away","🐷 🛁 🐉",["Ponyo","Princess Mononoke","Castle in the Sky"],"Film"],
+[3,"Howl’s Moving Castle","🏰 🚶 🔥",["Castle in the Sky","Spirited Away","The Wind Rises"],"Film"]]
+},
+potc:{
+mc:[
+[1,"Who plays Captain Jack Sparrow?","Johnny Depp","Orlando Bloom","Geoffrey Rush","Brad Pitt"],
+[1,"What is the name of Jack Sparrow’s ship?","The Black Pearl","The Flying Dutchman","Queen Anne’s Revenge","The Interceptor"],
+[1,"What title does Jack Sparrow always insist on?","Captain","Admiral","Commodore","Lord"],
+[1,"Which theme park ride are the movies based on?","Pirates of the Caribbean","Jungle Cruise","Splash Mountain","Peter Pan’s Flight"],
+[1,"What is Jack Sparrow’s favourite drink?","Rum","Tea","Lemonade","Milk"],
+[1,"What does Davy Jones’ face look like?","An octopus, with tentacles","A skeleton","A shark","A crab"],
+[2,"What does Jack Sparrow’s compass point to?","What you want most","True north","Buried treasure","The nearest ship"],
+[2,"Who captains the cursed Black Pearl in the first movie?","Captain Barbossa","Davy Jones","Blackbeard","Captain Teague"],
+[2,"What happens to Barbossa’s cursed crew in the moonlight?","They become skeletons","They become ghosts","They turn invisible","They turn into fish"],
+[2,"Who captains the Flying Dutchman in Dead Man’s Chest?","Davy Jones","Captain Barbossa","Blackbeard","Lord Beckett"],
+[2,"Which sea monster does Davy Jones command?","The Kraken","Leviathan","Scylla","Moby Dick"],
+[2,"Who plays Will Turner?","Orlando Bloom","Johnny Depp","Jude Law","Heath Ledger"],
+[2,"What is Will Turner’s job at the start of the first movie?","Blacksmith","Fisherman","Navy officer","Ship’s cook"],
+[2,"Who plays Elizabeth Swann?","Keira Knightley","Natalie Portman","Kate Winslet","Emma Watson"],
+[2,"What is locked inside the Dead Man’s Chest?","Davy Jones’ heart","Aztec gold","A treasure map","Jack’s compass"],
+[2,"Which famous pirate captain is the villain in On Stranger Tides?","Blackbeard","Davy Jones","Captain Teague","Captain Salazar"],
+[2,"What is the subtitle of the first movie?","The Curse of the Black Pearl","Dead Man’s Chest","At World’s End","On Stranger Tides"],
+[3,"What is the name of Barbossa’s pet monkey?","Jack","Davy","Abu","Marcel"],
+[3,"What cursed the crew of the Black Pearl?","Aztec gold","The Heart of Davy Jones","The Trident of Poseidon","Water from the Fountain of Youth"],
+[3,"What legendary place do they hunt for in On Stranger Tides?","The Fountain of Youth","Atlantis","El Dorado","Davy Jones’ Locker"],
+[3,"Who plays Jack Sparrow’s father, Captain Teague?","Keith Richards","Mick Jagger","Paul McCartney","Ozzy Osbourne"],
+[3,"Which company does Lord Cutler Beckett work for?","The East India Trading Company","The Royal Navy","The Brethren Court","The Hudson’s Bay Company"],
+[3,"What rank is James Norrington promoted to at the start of the first movie?","Commodore","Admiral","Captain","Lieutenant"],
+[3,"Who becomes captain of the Flying Dutchman at the end of At World’s End?","Will Turner","Jack Sparrow","Captain Barbossa","Bootstrap Bill"],
+[3,"What is Will Turner’s father known as?","Bootstrap Bill","Barnacle Bill","Captain Teague","Old Pintel"]
+],
+odd:[
+[1,"Which of these is NOT a Pirates of the Caribbean movie?","Treasure Planet","Dead Man’s Chest","At World’s End","On Stranger Tides"],
+[2,"Which of these ships is NOT in the movies?","The Nautilus","The Black Pearl","The Flying Dutchman","Queen Anne’s Revenge"],
+[2,"Which of these characters is NOT a pirate?","Lord Cutler Beckett","Hector Barbossa","Joshamee Gibbs","Pintel"],
+[3,"Which of these actors was NOT in the movies?","Russell Crowe","Penélope Cruz","Javier Bardem","Geoffrey Rush"]
+],
+seq:[
+[1,"Put the movies in release order",["The Curse of the Black Pearl","Dead Man’s Chest","At World’s End","On Stranger Tides"]],
+[3,"Put these villains in the order of the movies they’re in",["Barbossa’s cursed crew","Davy Jones","Blackbeard","Captain Salazar"]]
+],
+scr:[[1,"BLACK PEARL","Ship"],[1,"KRAKEN","Monster"],[2,"TORTUGA","Port"],[2,"DAVY JONES","Captain"],[3,"BARBOSSA","Captain"],[3,"FLYING DUTCHMAN","Ship"]],
+who:[
+[1,"Jack Sparrow",["I say I escaped an island on a raft of sea turtles.","My compass doesn’t point north.","I always want my ship back.","Make sure you call me Captain."],["Hector Barbossa","Will Turner","Joshamee Gibbs"]],
+[2,"Davy Jones",["I keep my heart locked in a chest.","I play a giant pipe organ.","I command the Kraken.","My face is covered in tentacles."],["Captain Salazar","Blackbeard","Bootstrap Bill"]],
+[2,"Elizabeth Swann",["I was named Pirate King.","I burned the rum to signal a ship.","I kept a gold medallion from a boy I rescued.","I’m the governor’s daughter."],["Angelica","Tia Dalma","Anamaria"]],
+[3,"Hector Barbossa",["I lost a leg to Blackbeard.","I’m fond of green apples.","I led a mutiny against Jack Sparrow.","My crew was cursed by Aztec gold."],["Davy Jones","Blackbeard","Captain Teague"]]
+],
+emo:[
+[1,"Jack Sparrow","🏴‍☠️ 🧭 🍾",["Hector Barbossa","Will Turner","Davy Jones"],"Character"],
+[2,"Davy Jones","🐙 ❤️ 📦",["The Kraken","Blackbeard","Bootstrap Bill"],"Character"],
+[2,"The Black Pearl","⚫ 🦪 ⛵",["The Flying Dutchman","Queen Anne’s Revenge","The Interceptor"],"Ship"],
+[3,"The Kraken","🦑 🌊 ⚓",["Leviathan","Calypso","Davy Jones"],"Monster"]]
 }
 };
