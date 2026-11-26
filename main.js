@@ -54,7 +54,17 @@ function createWindow() {
     },
   });
 
-  Menu.setApplicationMenu(null);
+  // Windows: no menu bar. Mac: a small standard menu, so Cmd+Q, copy and paste, and full screen work.
+  if (process.platform === 'darwin') {
+    Menu.setApplicationMenu(Menu.buildFromTemplate([
+      { role: 'appMenu' },
+      { role: 'editMenu' },
+      { label: 'View', submenu: [{ role: 'togglefullscreen' }, { type: 'separator' }, { role: 'resetZoom' }, { role: 'zoomIn' }, { role: 'zoomOut' }] },
+      { role: 'windowMenu' },
+    ]));
+  } else {
+    Menu.setApplicationMenu(null);
+  }
   // The game only ever needs full screen.
   session.defaultSession.setPermissionRequestHandler((wc, permission, cb) => cb(permission === 'fullscreen'));
 
@@ -63,7 +73,7 @@ function createWindow() {
     win.show();
   });
 
-  // F11 toggles full screen; Esc leaves it.
+  // F11 toggles full screen (on a Mac, also Control+Command+F from the View menu); Esc leaves it.
   win.webContents.on('before-input-event', (event, input) => {
     if (input.type !== 'keyDown') return;
     if (input.key === 'F11') {

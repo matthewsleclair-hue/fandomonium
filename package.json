@@ -8,7 +8,8 @@
     "site": "node build-site.js",
     "start": "node build-web.js && electron .",
     "dist": "node build-web.js && electron-builder --win portable --x64 --publish never",
-    "test": "node build-site.js && python3 test/e2e.py"
+    "test": "node build-site.js && python3 test/e2e.py",
+    "dist:mac": "node build-web.js && electron-builder --mac dmg --universal --publish never"
   },
   "keywords": [],
   "author": "Matthew",
@@ -53,6 +54,43 @@
     },
     "portable": {
       "artifactName": "Fandomonium.exe"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "icon": "build/icon-mac.png",
+      "category": "public.app-category.trivia-games",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "darkModeSupport": false,
+      "minimumSystemVersion": "13.0"
+    },
+    "dmg": {
+      "artifactName": "Fandomonium.dmg",
+      "title": "Fandomonium",
+      "iconSize": 110,
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 140,
+          "y": 190
+        },
+        {
+          "x": 400,
+          "y": 190,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     }
   },
   "repository": {

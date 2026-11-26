@@ -1,19 +1,23 @@
-name: Windows build
+name: Windows and Mac build
 
 # Publish a release on GitHub (Releases > Draft a new release, tag like v1.1.0)
-# and this builds Fandomonium.exe on Windows and attaches it to that release.
-# If a release ever ends up without its .exe, run this by hand (Actions > Windows build > Run workflow) with its tag.
+# and this builds Fandomonium.exe on Windows and Fandomonium.dmg on a Mac, and attaches both to that release.
+# If a release ever ends up without its files, run this by hand (Actions > Windows and Mac build > Run workflow) with its tag.
+# Run it by hand with no tag to just build and test both apps; the files are kept with the run instead.
 on:
   release:
     types: [published]
   workflow_dispatch:
     inputs:
       tag:
-        description: Release tag to build and attach the .exe to (for example v1.4.0)
-        required: true
+        description: Release tag to build and attach the files to (for example v1.4.0). Leave empty to just build and test.
+        required: false
 
 permissions:
   contents: write
+
+env:
+  TAG: ${{ github.event.release.tag_name || inputs.tag }}
 
 jobs:
   exe:
@@ -21,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.release.tag_name || inputs.tag }}
+          ref: ${{ env.TAG }}
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -29,12 +33,69 @@ jobs:
       - run: npm ci
       - run: npm run dist
       - name: Attach to release
+        if: env.TAG != ''
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.release.tag_name || inputs.tag }}
         run: |
           gh release upload "$TAG" release/Fandomonium.exe --clobber
           if [ -z "$(gh release view "$TAG" --json body -q .body)" ]; then
             gh release edit "$TAG" --notes-file .github/release-notes.md
           fi
+      - name: Keep the test build
+        if: env.TAG == ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: Fandomonium-windows
+          path: release/Fandomonium.exe
+
+  dmg:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # One .dmg for every Mac: Apple silicon and Intel. Signed ad hoc (no Apple developer account),
+      # so Macs show the "can't verify" warning the first time, never "damaged".
+      - run: npm run dist:mac
+      - name: Check the Mac app opens
+        timeout-minutes: 4
+        run: |
+          set -x
+          hdiutil attach release/Fandomonium.dmg -mountpoint /tmp/fdm -nobrowse
+          ls /tmp/fdm
+          cp -R /tmp/fdm/Fandomonium.app /tmp/Fandomonium.app
+          hdiutil detach /tmp/fdm
+          lipo -archs /tmp/Fandomonium.app/Contents/MacOS/Fandomonium
+          codesign --verify --deep --strict --verbose=2 /tmp/Fandomonium.app
+          codesign -dv /tmp/Fandomonium.app 2>&1 | grep -E 'Signature|Identifier|Format'
+          mkdir -p smoke
+          CLIP=$(ls web/voice | head -1)
+          FS_SMOKE=$PWD/smoke/mac-builtin.png FS_SMOKE_AUDIO=$CLIP /tmp/Fandomonium.app/Contents/MacOS/Fandomonium 2>&1 | grep -E '^(LOAD|SMOKE)' | tee smoke/builtin.txt
+          FS_SMOKE=$PWD/smoke/mac-live.png FS_URL=https://matthewsleclair-hue.github.io/fandomonium/play/ /tmp/Fandomonium.app/Contents/MacOS/Fandomonium 2>&1 | grep -E '^(LOAD|SMOKE)' | tee smoke/live.txt
+          grep -q '"intro":true' smoke/builtin.txt
+          grep -q '"errs":\[\]' smoke/builtin.txt
+          grep -q '"audio":"ok' smoke/builtin.txt
+          grep -q 'LOAD live' smoke/live.txt
+          grep -q '"intro":true' smoke/live.txt
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: mac-check
+          path: smoke
+      - name: Attach to release
+        if: env.TAG != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" release/Fandomonium.dmg --clobber
+      - name: Keep the test build
+        if: env.TAG == ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: Fandomonium-mac
+          path: release/Fandomonium.dmg
