@@ -6,7 +6,7 @@ Movie, TV and anime trivia for 2 to 4 teams (or up to 8 players, each for themse
 - **TV:** Friends, The Office, Stranger Things, Game of Thrones
 - **Anime and games:** Pokémon, One Piece, Naruto, Attack on Titan, Mario, Zelda
 
-**[Play in your browser](https://matthewsleclair-hue.github.io/fandomonium/play/)** · **[Download for Windows](https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe)** · **[Website](https://matthewsleclair-hue.github.io/fandomonium/)**
+**[Play in your browser](https://matthewsleclair-hue.github.io/fandomonium/play/)** · **[Download for Windows](https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.exe)** · **[Download for Mac](https://github.com/matthewsleclair-hue/fandomonium/releases/latest/download/Fandomonium.dmg)** · **[Website](https://matthewsleclair-hue.github.io/fandomonium/)**
 
 ![A Harry Potter question answered correctly for 200 points](docs/screenshots/answered.webp)
 
@@ -125,7 +125,7 @@ If a question looks wrong, tap **Report this question** on the results panel, or
 | Space or Enter | Next question or setup screen, or skip the curtain |
 | Esc | Back a setup screen |
 | 5 / 0 | Lifelines: 50/50 / +10 seconds |
-| F11 | Full screen (Windows app) |
+| F11 | Full screen (Windows app; Control+Command+F on a Mac) |
 
 On a touchscreen, tap the buzzers and answers instead.
 
@@ -163,6 +163,7 @@ Needs [Node.js](https://nodejs.org) 20 or newer.
 npm install
 npm start        # play it in a window
 npm run dist     # build release/Fandomonium.exe
+npm run dist:mac # build release/Fandomonium.dmg (on a Mac)
 npm run site     # build the website into site/
 ```
 
@@ -178,17 +179,21 @@ To test phones without the internet, run a local relay with `node test/broker.js
 | `src/join.html` | The phone controller |
 | `src/net.js` | The realtime relay connection shared by the TV and phones |
 | `site-src/index.html` | The website's landing page |
-| `main.js` | The Electron window for the Windows app |
+| `main.js` | The Electron window for the Windows and Mac apps |
 | `build-web.js`, `build-site.js` | Inline the fonts, questions and show content, assemble the site |
 
-Pushing to `main` rebuilds and deploys the website and runs the phone test over the real relays. Publishing a release on GitHub (Releases, then Draft a new release, with a tag like `v1.1.0`) builds `Fandomonium.exe` on Windows and attaches it to that release.
+Pushing to `main` rebuilds and deploys the website and runs the phone test over the real relays. Publishing a release on GitHub (Releases, then Draft a new release, with a tag like `v1.1.0`) builds `Fandomonium.exe` on Windows and `Fandomonium.dmg` on a Mac and attaches both to that release. Running that workflow by hand without a tag just builds and tests both apps, including opening the Mac app on a real Mac.
 
-## The Windows app
+## The Windows and Mac apps
 
-The app plays the latest version of the game from the website, so every change pushed to GitHub reaches it the next time it opens, with no new download. Without internet, or if the website can't be reached, it plays the copy built into the app and says so. A new `.exe` is only needed when the app itself changes (`main.js`).
+The Mac download is one `.dmg` that runs on Apple silicon and Intel Macs with macOS 13 Ventura or later. Open it and drag Fandomonium into Applications.
+
+Both apps play the latest version of the game from the website, so every change pushed to GitHub reaches it the next time it opens, with no new download. Without internet, or if the website can't be reached, it plays the copy built into the app and says so. A new download is only needed when the app itself changes (`main.js`).
 
 ## Notes
 
 The Windows app isn't code-signed, so Windows may show "Windows protected your PC" the first time. Click **More info**, then **Run anyway**.
+
+The Mac app isn't notarized by Apple, so the first time you open it the Mac says it can't verify it. Click **Done**, then open **System Settings**, go to **Privacy & Security**, scroll down and click **Open Anyway**, then confirm with your password. After that it opens normally.
 
 Fandomonium is fan-made trivia and isn't affiliated with or endorsed by any of the studios, publishers or companies behind these franchises. Titles and character names belong to their owners.
