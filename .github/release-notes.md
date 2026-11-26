@@ -1,6 +1,7 @@
 Movie, TV, anime and video game trivia for 2 to 4 teams, or up to 8 players each for themselves, around one screen: 1,108 questions across 22 fandoms, with phones as controllers.
 
 **1.8.1: fixes from a full check of every feature**
+- **Phones can't get stuck.** If a screen update got lost on the way to a phone (it happens on busy Wi-Fi), that phone could sit on an old screen until someone tapped the TV. Phones now notice within 10 seconds and catch up by themselves.
 - **Fits smaller screens.** On a laptop, or a TV with Windows set to 150%, the whole show now shrinks to fit, so nothing needs scrolling.
 - A sabotage and a lifeline on the same question now sit side by side instead of pushing the answers off screen.
 - Five awards fit on one row.

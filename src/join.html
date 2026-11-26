@@ -132,6 +132,8 @@ const qs=new URLSearchParams(location.search);
 P.room=clean(qs.get("r")||location.hash.slice(1));
 P.name=store.get("fdm-name","");
 const T=s=>NET.prefix+P.room+"/"+s;
+// The keep-alive carries a fingerprint of the screen this phone shows, so the TV can resend it if a message got lost.
+const hashK=k=>{let h=5381;for(let i=0;i<k.length;i++)h=(h*33+k.charCodeAt(i))|0;return h;};
 function urls(){const o=NET.override();if(o)return [o];const l=NET.brokers.slice(),b=Number(qs.get("b"));if(b>=0&&b<l.length){const [x]=l.splice(b,1);l.unshift(x);}return l;}
 let lastKind="";
 function card(html,kind){const v=$("#view");kind=kind||html.slice(0,40);if(kind!==lastKind){v.style.animation="none";void v.offsetWidth;v.style.animation="";lastKind=kind;}v.innerHTML=html;}
@@ -177,7 +179,7 @@ function attach(c){P.c=c;$("#roomline").hidden=false;$("#roomcode").textContent=
  c.subscribe(T("p/"+P.pid),{qos:1});
  c.on("connect",()=>{dot("up");P.key="";send({t:"ping",need:true});});
  c.on("offline",()=>dot("down"));c.on("reconnect",()=>dot(""));
- sendJoin();clearInterval(P.ping);P.ping=setInterval(()=>send({t:"ping"}),10000);
+ sendJoin();clearInterval(P.ping);P.ping=setInterval(()=>send({t:"ping",h:hashK(P.key)}),10000);
  card(`<div class="center"><h2>Joining…</h2></div>`);wake();}
 function sendJoin(){send({t:"join",name:P.name,team:store.get("fdm-team-"+P.room,null)});}
 function ended(){clearInterval(P.ping);P.v=null;$("#me").hidden=true;dot("down");

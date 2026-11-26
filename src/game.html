@@ -1193,7 +1193,8 @@ function onPhone(m){if(!m||!m.pid)return;NET.log("from phone",m.t);const pid=Str
  if(!p){if(PH.c)PH.c.publish(TP("p/"+pid),JSON.stringify({v:"rejoin"}),{qos:1});return;}
  p.seen=Date.now();const c=cur,mine=c&&c.team===p.team;
  switch(m.t){
-  case "ping":sendView(pid,!!m.need);break;
+  // A phone whose screen doesn't match the last one sent (a lost message) gets it again.
+  case "ping":sendView(pid,!!m.need||(m.h!=null&&!!PH.sent[pid]&&m.h!==hashK(PH.sent[pid])));break;
   case "probe":sendView(pid,true);break;
   case "diff":if(S.screen==="lobby"&&S.ffa&&["1","2","3"].includes(String(m.d))){p.diff=String(m.d);sendView(pid);}break;
   case "team":{const t=Number(m.team);if(S.screen==="lobby"&&!S.ffa&&validTeam(t)){p.team=t;lobbyUpd();sync();}break;}
@@ -1254,6 +1255,7 @@ function view(pid){const p=PH.players[pid],teams=S.teams||[];
 // Only resend when something other than the countdown changed, so phones never lose a half-entered answer.
 function sendView(pid,force){if(!PH.c||PH.status!=="up"||!PH.players[pid])return;const v=view(pid),key=JSON.stringify(Object.assign({},v,{secs:0}));if(!force&&PH.sent[pid]===key)return;PH.sent[pid]=key;PH.c.publish(TP("p/"+pid),JSON.stringify(v),{qos:1});}
 function sync(){if(PH.c)Object.keys(PH.players).forEach(sendView);}
+const hashK=k=>{let h=5381;for(let i=0;i<k.length;i++)h=(h*33+k.charCodeAt(i))|0;return h;};
 
 /* ---------- lobby ---------- */
 function lobby(){S.screen="lobby";cur=null;stopClock();music("show");$("#buzzers").hidden=true;ticketsUpd();
